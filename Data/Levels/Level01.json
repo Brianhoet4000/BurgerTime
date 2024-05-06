@@ -1,0 +1,93 @@
+{
+    "player_spawnpoint": [
+        [288,470],
+        [288,374]
+    ],
+    "stairs": [
+        [0, 39, 96],
+        [0, 231, 240],
+        [72,135, 240],
+        [144, 39, 432],
+        [216, 39, 144],
+        [288, 39, 432],
+        [360, 135, 144],
+        [432, 39, 432],
+        [504, 231, 240],
+        [576, 39, 192],
+        [576, 327, 144]
+    ],
+    "bun_top": {
+        "texturePath": "Burger/BunTop/",
+        "position": [
+            [48, 141],
+            [192, 45],
+            [336, 45],
+            [480, 45]
+        ]
+    },
+    "lettuce": {
+        "texturePath": "Burger/Lettuce/",
+        "position": [
+            [48, 237],
+            [192, 189],
+            [336, 141],
+            [480, 141]
+        ]
+    },
+    "tomato": {
+        "texturePath": "Burger/Tomato/",
+        "position": [
+        ]
+    },
+    "cheese": {
+        "texturePath": "Burger/Cheese/",
+        "position": [
+        ]
+    },
+    "patty": {
+        "texturePath": "Burger/Patty/",
+        "position": [
+            [48, 381],
+            [192, 381],
+            [336, 285],
+            [480, 237]
+        ]
+    },
+    "bun_bottom": {
+        "texturePath": "Burger/BunBottom/",
+        "position": [
+            [48, 477],
+            [192, 477],
+            [336, 477],
+            [480, 333]
+        ]
+    },
+    "plates": [
+        [51, 593], 
+        [195, 593],
+        [339, 593],
+        [483, 593]
+    ],
+    "enemy_spawnpoint": [
+        {
+            "loop": 1,
+            "data" : [    
+                [-48, 470, ["HotDog"]],
+                [624, 470, ["Egg"]],
+                [-48, 38, ["HotDog"]],
+                [624, 38, ["HotDog"]]
+            ]
+        },        
+        {
+            "loop": 2,
+            "data" : [    
+                [-48, 470, ["Egg","HotDog"]],
+                [624, 470, ["Pickle"]],
+                [-48, 38, ["HotDog"]],
+                [624, 38, ["Pickle","Egg"]]
+            ]
+        }
+
+    ],
+    "item_spawnpoint": [288,188]
+}

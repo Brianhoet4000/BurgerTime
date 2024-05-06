@@ -1,0 +1,105 @@
+{
+    "levelTexturePath": "Levels/Level02.png",
+    "player_spawnpoint": [
+        [288,518],
+        [288,422]
+    ],
+    "floors": [
+        [0,39,624],
+        [0,87,336],
+        [0,135,192],
+        [288,135,336],
+        [144,183,192],
+        [432,183,192],
+        [0,231,624],
+        [288,279,192],
+        [144,327,192],
+        [288,375,192],
+        [144,423,336]
+    ],
+    "stairs": [
+        [0,39,191],
+        [72,39,191],
+        [144,39,191],
+        [216,39,384],
+        [288,39,480],
+        [360,39,384],
+        [432,39,191],
+        [504,39,191],
+        [576,39,191]
+    ],
+    "bun_top": {
+        "texturePath": "Burger/BunTop/",
+        "position": [
+            [48, 45],
+            [192, 45],
+            [336, 45],
+            [480, 45]
+        ]
+    },
+    "lettuce": {
+        "texturePath": "Burger/Lettuce/",
+        "position": [
+            [48, 93],
+            [192, 189],
+            [336, 381],
+            [480, 141]
+        ]
+    },
+    "tomato": {
+        "texturePath": "Burger/Tomato/",
+        "position": [
+        ]
+    },
+    "cheese": {
+        "texturePath": "Burger/Cheese/",
+        "position": [
+            [48,141],
+            [192,93],
+            [336,285],
+            [480,189]
+        ]
+    },
+    "patty": {
+        "texturePath": "Burger/Patty/",
+        "position": [
+        ]
+    },
+    "bun_bottom": {
+        "texturePath": "Burger/BunBottom/",
+        "position": [
+            [48,237],
+            [192,429],
+            [336,429],
+            [480,237]
+        ]
+    },
+    "plates": [
+        [51, 449], 
+        [195, 593],
+        [339, 593],
+        [483, 449]
+    ],
+    "enemy_spawnpoint": [
+        {
+            "loop": 1,
+            "data" : [   
+                [-48, 38, ["HotDog"]],
+                [624, 38, ["HotDog"]],
+                [-48, 230, ["HotDog"]],
+                [624, 230, ["Egg"]]
+            ]
+        },
+        {
+            "loop": 2,
+            "data" : [   
+                [-48, 38, ["Pickle"]],
+                [624, 38, ["HotDog"]],
+                [-48, 230, ["Egg","HotDog"]],
+                [624, 230, ["Pickle","Egg"]]
+            ]
+        }
+
+    ],
+    "item_spawnpoint" : [288,284]
+}

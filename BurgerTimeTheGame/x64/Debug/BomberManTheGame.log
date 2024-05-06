@@ -1,0 +1,42 @@
+﻿  AIMovementComponent.cpp
+  BulletComponent.cpp
+  BulletTimerComponent.cpp
+  BurgerTimeTheGame.cpp
+  ConditionVersusComponent.cpp
+  EnemyPrefab.cpp
+  GameCollisionComponent.cpp
+  GameCollisionMngr.cpp
+  ConditionSingleCoopComponent.cpp
+  HealthComponent.cpp
+  HighscoreComponent.cpp
+  HobbinComponent.cpp
+  HobbinState.cpp
+  NobbinState.cpp
+  PlayerManager.cpp
+  PlayerOne.cpp
+  PlayerTwo.cpp
+  GameCommands.cpp
+  PointComponent.cpp
+  SpawnTimerComponent.cpp
+  Generating Code...
+  Compiling...
+  LevelPrefab.cpp
+  ScreenManager.cpp
+  Generating Code...
+  BomberManTheGame.vcxproj -> D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\x64\Debug\BurgerTimeTheGame.exe
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2\lib\x64\SDL2.dll
+  1 File(s) copied
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_image\lib\x64\SDL2_image.dll
+  1 File(s) copied
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_ttf\lib\x64\SDL2_ttf.dll
+  1 File(s) copied
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libFLAC-8.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libmodplug-1.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libmpg123-0.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libogg-0.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libopus-0.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libopusfile-0.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libvorbis-0.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\libvorbisfile-3.dll
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_mixer-2.0.4\lib\x64\SDL2_mixer.dll
+  9 File(s) copied

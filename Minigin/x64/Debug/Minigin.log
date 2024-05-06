@@ -1,0 +1,41 @@
+﻿  BaseComponent.cpp
+  CollisionBoxComponent.cpp
+  CollisionBoxManager.cpp
+  Commands.cpp
+  Counter.cpp
+  Font.cpp
+  FPSCounterComponent.cpp
+  GameObject.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_opengl2.cpp
+  imgui_impl_sdl.cpp
+  imgui_plot.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  InputManager.cpp
+  Minigin.cpp
+  Renderer.cpp
+  ResourceManager.cpp
+  Generating Code...
+  Compiling...
+  RotationComponent.cpp
+  Scene.cpp
+  SceneManager.cpp
+  SoundSystem.cpp
+  Subject.cpp
+  TextComponent.cpp
+  Texture2D.cpp
+  TextureComponent.cpp
+  Transform.cpp
+  Controller.cpp
+  Generating Code...
+opengl32.lib(OPENGL32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in xinput.lib(XINPUT1_4.dll); second definition ignored
+  Minigin.vcxproj -> D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\x64\Debug\Minigin.lib
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2\lib\x64\SDL2.dll
+  1 File(s) copied
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_image\lib\x64\SDL2_image.dll
+  1 File(s) copied
+  D:\Programming4\2DAE09_Hoet_Brian_exam\BurgerTime\BurgerTime\3rdParty\SDL2_ttf\lib\x64\SDL2_ttf.dll
+  1 File(s) copied
