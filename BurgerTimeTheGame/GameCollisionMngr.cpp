@@ -246,18 +246,24 @@ namespace dae
 
     bool GameCollisionMngr::CheckOverlapWithStairs() const
     {
+        // Define offset values
+        constexpr int offsetX = 2; // Adjust as needed
+        constexpr int offsetY = 2; // Adjust as needed
+
         for (const auto& stairs : m_pStairsBoxes)
         {
-            if (stairs == nullptr) return false;
+            if (stairs == nullptr)
+                return false;
 
             for (const auto& player : PlayerManager::GetInstance().GetPlayers())
             {
                 const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
 
-                if (PlayerBox->GetCollisionRect().x < stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
-                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w > stairs->GetCollisionRect().x &&
-                    PlayerBox->GetCollisionRect().y < stairs->GetCollisionRect().y + stairs->GetCollisionRect().h &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h > stairs->GetCollisionRect().y)
+                // Adjust the comparison with the offset
+                if (PlayerBox->GetCollisionRect().x + offsetX >= stairs->GetCollisionRect().x &&
+                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w - offsetX <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
+                    PlayerBox->GetCollisionRect().y + offsetY >= stairs->GetCollisionRect().y &&
+                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h - offsetY <= stairs->GetCollisionRect().y + stairs->GetCollisionRect().h)
                 {
                     return true;
                 }
@@ -265,6 +271,7 @@ namespace dae
         }
         return false;
     }
+
 
     bool GameCollisionMngr::CheckOverlapWithEnemies(const GameCollisionComponent* box) const
     {
