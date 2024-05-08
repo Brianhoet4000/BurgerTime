@@ -10,7 +10,7 @@
 #include "ResourceManager.h"
 #include "ShootingDirComponent.h"
 
-dae::PlayerOne::PlayerOne(dae::Scene& scene, dae::LevelPrefab& level)
+dae::PlayerOne::PlayerOne(dae::Scene& scene, dae::LevelPrefab&)
 {
 	m_pPlayerOne = std::make_shared<dae::GameObject>("Player_01");
 
@@ -20,10 +20,21 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene, dae::LevelPrefab& level)
 	m_pPlayerOne->AddComponent(pTexture);
 
 	//Collision
-	const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), level.GetSpawnPosition()[0], pTexture->GetSize().x, pTexture->GetSize().y, true, true, false);
-	m_pPlayerOne->AddComponent(pCollider);
-	pCollider->SetCollisionRectOffset(5.f);
-	pCollider->SetRenderCollisionBox(true);
+	//const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(), pTexture->GetSize().x,
+	//	pTexture->GetSize().y, true, true, false);
+	//m_pPlayerOne->AddComponent(pCollider);
+	//pCollider->SetCollisionRectOffset(2.f);
+	//pCollider->SetDebugColor("green");
+	//pCollider->SetRenderCollisionBox(true);
+
+	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(),
+		pTexture->GetSize().x, 4.f, true, true, false); // Use positive height
+	m_pPlayerOne->AddComponent(pFootCollider);
+	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 4.f, true); // Position below the texture
+	pFootCollider->SetDebugColor("red");
+	pFootCollider->SetRenderCollisionBox(true);
+
+
 
 	//BulletTimer
 	const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerOne.get());

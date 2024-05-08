@@ -28,6 +28,7 @@ namespace dae
 
 		std::vector<GameCollisionComponent*> GetAllWall();
 		std::vector<GameCollisionComponent*> GetAllStairs();
+		std::vector<GameCollisionComponent*> GetAllFloors();
 		std::vector<GameCollisionComponent*> GetAllEnemies();
 		GameCollisionComponent* GetFirstPlayer() const { return m_pFirstPlayer; }
 		GameCollisionComponent* GetSecondPlayer() const { return m_pSecondPlayer; }
@@ -41,6 +42,7 @@ namespace dae
 		GameCollisionComponent* CheckOverlapWithPlayers(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithStairs() const;
+		bool CheckOverlapWithFloors() const;
 		
 		bool CheckForCollision(const GameCollisionComponent* box) const;
 		bool CheckForOverlapWall(const dae::GameCollisionComponent* box) const;
@@ -60,6 +62,7 @@ namespace dae
 		std::vector<GameCollisionComponent*> m_pCollisonBoxes;
 		std::vector<GameCollisionComponent*> m_pWallBoxes;
 		std::vector<GameCollisionComponent*> m_pStairsBoxes;
+		std::vector<GameCollisionComponent*> m_pFloorBoxes;
 		std::vector<GameCollisionComponent*> m_pBulletBoxes;
 		std::vector<GameCollisionComponent*> m_pEnemies;
 		GameCollisionComponent* m_pFirstPlayer{nullptr};

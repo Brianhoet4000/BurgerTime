@@ -40,6 +40,8 @@ void GameCommands::DiggerMovement::Execute(float deltaTime)
     if (!dae::GameCollisionMngr::GetInstance().Raycast(m_pGameObject->GetRelativePosition(), m_Dir, m_pCollision))
         return;
 
+
+    if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors())
     pos.x += m_Dir.x * deltaTime;
 
     if(dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs())

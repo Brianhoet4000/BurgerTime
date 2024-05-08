@@ -20,9 +20,13 @@ namespace dae
             {
                 m_pWallBoxes.push_back(box);
             }
-            else if(owner->GetTag() == "Stair")
+            else if (owner->GetTag() == "Stair")
             {
                 m_pStairsBoxes.push_back(box);
+            }
+            else if (owner->GetTag() == "Floor")
+            {
+                m_pFloorBoxes.push_back(box);
             }
             else if (owner->GetTag() == "Bullet")
             {
@@ -73,6 +77,7 @@ namespace dae
         m_pCollisonBoxes.clear();
         m_pWallBoxes.clear();
         m_pStairsBoxes.clear();
+        m_pFloorBoxes.clear();
         m_pBulletBoxes.clear();
         m_pEnemies.clear();
         m_pFirstPlayer = nullptr;
@@ -86,6 +91,10 @@ namespace dae
     std::vector<dae::GameCollisionComponent*> dae::GameCollisionMngr::GetAllStairs()
     {
         return m_pStairsBoxes;
+    }
+    std::vector<dae::GameCollisionComponent*> dae::GameCollisionMngr::GetAllFloors()
+    {
+        return m_pFloorBoxes;
     }
     std::vector<dae::GameCollisionComponent*> GameCollisionMngr::GetAllEnemies()
     {
@@ -264,6 +273,34 @@ namespace dae
                     PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w - offsetX <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
                     PlayerBox->GetCollisionRect().y + offsetY >= stairs->GetCollisionRect().y &&
                     PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h - offsetY <= stairs->GetCollisionRect().y + stairs->GetCollisionRect().h)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool GameCollisionMngr::CheckOverlapWithFloors() const
+    {
+        // Define offset values
+        constexpr int offsetX = 2; // Adjust as needed
+        constexpr int offsetY = 2; // Adjust as needed
+
+        for (const auto& floors : m_pFloorBoxes)
+        {
+            if (floors == nullptr)
+                return false;
+
+            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            {
+                const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
+
+                // Adjust the comparison with the offset
+                if (PlayerBox->GetCollisionRect().x + offsetX >= floors->GetCollisionRect().x &&
+                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w - offsetX <= floors->GetCollisionRect().x + floors->GetCollisionRect().w &&
+                    PlayerBox->GetCollisionRect().y + offsetY >= floors->GetCollisionRect().y &&
+                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h - offsetY <= floors->GetCollisionRect().y + floors->GetCollisionRect().h)
                 {
                     return true;
                 }
