@@ -42,12 +42,34 @@ void GameCommands::DiggerMovement::Execute(float deltaTime)
 
 
     if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors())
-    pos.x += m_Dir.x * deltaTime;
+    {
+        pos.x += m_Dir.x * deltaTime;
+        m_pGameObject->SetRelativePosition(pos);
+    }
 
-    if(dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs())
-    pos.y += m_Dir.y * deltaTime;
-    
-    m_pGameObject->SetRelativePosition(pos);
+
+    //if (dae::GameCollisionMngr::GetInstance().CheckForInStairsX())
+    //{
+    if(m_Dir.y > 0.2f || m_Dir.y < -0.2f)
+        if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs())
+        {
+            pos.y = m_pGameObject->GetRelativePosition().y - 3.f;
+            m_pGameObject->SetRelativePosition(pos);
+            return;
+        }
+        else if (dae::GameCollisionMngr::GetInstance().MovePlayerUpStairs())
+        {
+            pos.y = m_pGameObject->GetRelativePosition().y + 3.f;
+            m_pGameObject->SetRelativePosition(pos);
+            return;
+        }
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs(m_Dir))
+        {
+            pos.y += m_Dir.y * deltaTime;
+            m_pGameObject->SetRelativePosition(pos);
+            return;
+        }
+    //}
 }
 
 GameCommands::SwitchGameMode::SwitchGameMode(std::shared_ptr<dae::GameObject> owner, dae::GameObject* text, dae::ScreenManager::GameMode& currentScreen, dae::ScreenManager* screen)
