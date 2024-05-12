@@ -34,25 +34,31 @@ void EnemyMovement::Update(float deltaTime)
 
 void EnemyMovement::OnExit()
 {
+	std::cout << "stopped update\n";
 	m_update = false;
 }
 
-EnemyStunned::EnemyStunned(dae::GameObject* owner)
+EnemyStunned::EnemyStunned(dae::GameObject* owner, dae::BulletTimerComponent* timer)
 	:m_pOwner(owner)
 {
-	m_pStunTimer = std::make_unique<dae::BulletTimerComponent>(owner);
+	m_pStunTimer = timer;
 }
 
 void EnemyStunned::OnEnter()
 {
+	m_update = true;
+	m_pStunTimer->SetHasShot(true);
 }
 
-void EnemyStunned::Update(float)
+void EnemyStunned::Update(float deltaTime)
 {
 	if (!m_update) return;
+
+	m_pStunTimer->Update(deltaTime);
+
 	if (m_pStunTimer->ReturnHasShot()) return;
 
-	m_pStunTimer->SetHasShot(true);
+	
 	std::cout << "Stunned\n";
 
 	if (m_pStunTimer->ReturnCompleted())
@@ -64,4 +70,6 @@ void EnemyStunned::Update(float)
 
 void EnemyStunned::OnExit()
 {
+	m_update = false;
+	m_pStunTimer->ReturnCompleted();
 }

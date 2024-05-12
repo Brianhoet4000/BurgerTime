@@ -32,7 +32,7 @@ private:
 class EnemyStunned :public dae::State
 {
 public:
-	EnemyStunned(dae::GameObject* owner);
+	EnemyStunned(dae::GameObject* owner, dae::BulletTimerComponent* timer);
 
 	void OnEnter() override;
 	void Update(float deltaTime) override;
@@ -46,5 +46,5 @@ private:
 
 	dae::GameObject* m_pOwner;
 
-	std::shared_ptr<dae::BulletTimerComponent> m_pStunTimer{};
+	dae::BulletTimerComponent* m_pStunTimer{};
 };

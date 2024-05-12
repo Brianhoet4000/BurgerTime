@@ -1,4 +1,6 @@
 #include "GameCommands.h"
+
+#include "AIMovementComponent.h"
 #include "CollisionBoxManager.h"
 #include "GameCollisionMngr.h"
 #include "InputManager.h"
@@ -99,7 +101,16 @@ void GameCommands::Stun::Execute(float)
         std::cout << "stunned left\n";
     }
 
-
+    dae::SceneManager* Scenemanager;
+    for (auto element : Scenemanager->GetInstance().GetActiveScene()->GetGameObjects())
+    {
+		if(element->GetTag() == "Enemy")
+		{
+            std::cout << "Found\n";
+            element->GetComponent<dae::AIMovementComponent>()->Stunned();
+		}
+    }
+    
 
     m_pBulletTimer->SetHasShot(true);
     SetKeyPressed(true);

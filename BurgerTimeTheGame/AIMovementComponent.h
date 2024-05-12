@@ -26,31 +26,17 @@ namespace dae
 		void GetClosestPlayer();
 
 		bool ReturnStunned() const { return m_pEnemyStunned->DoneStun(); }
+		void Stunned() const { m_pEnemyMovement->OnExit(); m_pEnemyStunned->OnEnter(); }
 
 	private:
 		float m_Speed{40.f};
 		GameCollisionComponent* m_pCollision;
-		glm::vec2 m_Dir;
-		glm::vec2 m_DirLeft{-1,0};
-		glm::vec2 m_DirRight{1, 0};
-		glm::vec2 m_DirUp{0, -1};
-		glm::vec2 m_DirDown{0, 1};
-
-		glm::vec2 m_LeftOfStartPos;
-		glm::vec2 m_RightOfStartPos;
-
-		bool m_Horizontal = true;
-		bool m_Vertical = false;
-
-		bool m_CheckLeft = false;
-		bool m_CheckRight = false;
-		bool m_CheckUp = false;
-		bool m_CheckDown = false;
-
+		std::shared_ptr<dae::BulletTimerComponent> m_pStunTimer{};
 		GameObject* m_pClosestPlayer{};
 
 		std::unique_ptr<EnemyMovement> m_pEnemyMovement;
 		std::unique_ptr<EnemyStunned> m_pEnemyStunned;
+		
 	};
 
 }

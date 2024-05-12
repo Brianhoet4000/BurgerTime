@@ -11,13 +11,12 @@ dae::AIMovementComponent::AIMovementComponent(dae::GameObject* owner, glm::vec2 
 	:BaseComponent(owner)
 {
 	m_pCollision = owner->GetComponent<dae::GameCollisionComponent>();
-	//m_LeftOfStartPos = glm::vec2{ startPos.x - 25, startPos.y };
-	//m_RightOfStartPos = glm::vec2{ startPos.x + 25, startPos.y };
+	m_pStunTimer = std::make_unique<dae::BulletTimerComponent>(owner);
 
 	m_pEnemyMovement = std::make_unique<EnemyMovement>(m_pOwner, startPos);
-	m_pEnemyStunned = std::make_unique<EnemyStunned>(m_pOwner);
-
-	m_Dir = m_DirRight;
+	m_pEnemyStunned = std::make_unique<EnemyStunned>(m_pOwner, m_pStunTimer.get());
+	
+	m_pEnemyMovement->OnEnter();
 }
 
 void dae::AIMovementComponent::Update(float deltaTime)
@@ -32,7 +31,14 @@ void dae::AIMovementComponent::Update(float deltaTime)
 		return;
 	}
 
-	m_pEnemyMovement->OnEnter();
+	if(m_pEnemyStunned->DoneStun() || !m_pStunTimer->ReturnHasShot())
+	{
+		m_pEnemyStunned->OnExit();
+		m_pStunTimer->ResetComplete();
+		m_pEnemyMovement->OnEnter();
+	}
+
+	
 
 	m_pEnemyMovement->Update(deltaTime);
 	m_pEnemyStunned->Update(deltaTime);

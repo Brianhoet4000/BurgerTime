@@ -17,6 +17,7 @@ namespace dae
 
 		void Update(float deltaTime) override;
 		bool ReturnHasShot() const { return m_HasShot; }
+		void ResetComplete() { m_Completed = false; }
 		bool ReturnCompleted() const { return m_Completed; }
 		void SetHasShot(bool hasShot) { m_HasShot = hasShot; }
 
