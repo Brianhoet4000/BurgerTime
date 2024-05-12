@@ -1,6 +1,8 @@
 #pragma once
+#include <memory>
 #include <glm/vec2.hpp>
 #include "BaseComponent.h"
+#include "EnemyStates.h"
 #include "GameCollisionComponent.h"
 
 
@@ -11,7 +13,7 @@ namespace dae
 	{
 	public:
 
-		AIMovementComponent(dae::GameObject* owner);
+		AIMovementComponent(dae::GameObject* owner, glm::vec2 startPos);
 		virtual ~AIMovementComponent() override = default;
 		AIMovementComponent(const AIMovementComponent& other) = delete;
 		AIMovementComponent(AIMovementComponent&& other) = delete;
@@ -26,10 +28,14 @@ namespace dae
 	private:
 		float m_Speed{40.f};
 		GameCollisionComponent* m_pCollision;
+		glm::vec2 m_Dir;
 		glm::vec2 m_DirLeft{-1,0};
 		glm::vec2 m_DirRight{1, 0};
 		glm::vec2 m_DirUp{0, -1};
 		glm::vec2 m_DirDown{0, 1};
+
+		glm::vec2 m_LeftOfStartPos;
+		glm::vec2 m_RightOfStartPos;
 
 		bool m_Horizontal = true;
 		bool m_Vertical = false;
@@ -40,6 +46,9 @@ namespace dae
 		bool m_CheckDown = false;
 
 		GameObject* m_pClosestPlayer{};
+
+		std::unique_ptr<EnemyMovement> m_pEnemyMovement;
+		std::unique_ptr<EnemyStunned> m_pEnemyStunned;
 	};
 
 }

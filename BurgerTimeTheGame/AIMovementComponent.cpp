@@ -7,10 +7,17 @@
 #include "PointComponent.h"
 #include "ScreenManager.h"
 
-dae::AIMovementComponent::AIMovementComponent(dae::GameObject* owner)
+dae::AIMovementComponent::AIMovementComponent(dae::GameObject* owner, glm::vec2 startPos)
 	:BaseComponent(owner)
 {
 	m_pCollision = owner->GetComponent<dae::GameCollisionComponent>();
+	m_LeftOfStartPos = glm::vec2{ startPos.x - 25, startPos.y };
+	m_RightOfStartPos = glm::vec2{ startPos.x + 25, startPos.y };
+
+	m_pEnemyMovement = std::make_unique<EnemyMovement>();
+	m_pEnemyStunned = std::make_unique<EnemyStunned>();
+
+	m_Dir = m_DirRight;
 }
 
 void dae::AIMovementComponent::Update(float deltaTime)
@@ -20,15 +27,27 @@ void dae::AIMovementComponent::Update(float deltaTime)
 	const auto& pPlayerCollision = dae::GameCollisionMngr::GetInstance().CheckOverlapWithPlayers(m_pOwner->GetComponent<dae::GameCollisionComponent>());
 	if (pPlayerCollision != nullptr)
 	{
-		dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(pPlayerCollision);
-
+		//dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(pPlayerCollision);
+		std::cout << "Died\n";
 		return;
 	}
 
-	const auto& pHobbincomp = m_pOwner->GetComponent<dae::HobbinComponent>();
+	MoveAI(deltaTime, m_Dir);
 
-	if (pHobbincomp->ReturnCharacterState() == HobbinComponent::Nobbin)
+	if(m_pOwner->GetRelativePosition().x < m_LeftOfStartPos.x)
 	{
+		m_Dir = m_DirRight;
+	}
+	else if(m_pOwner->GetRelativePosition().x > m_RightOfStartPos.x)
+	{
+		m_Dir = m_DirLeft;
+	}
+
+	/*
+	//const auto& pHobbincomp = m_pOwner->GetComponent<dae::HobbinComponent>();
+
+	//if (pHobbincomp->ReturnCharacterState() == HobbinComponent::Nobbin)
+	//{
 		if (m_Horizontal)
 		{
 			bool left = dae::GameCollisionMngr::GetInstance().AIRaycast(m_pOwner->GetRelativePosition(), m_DirLeft, m_pCollision);
@@ -96,9 +115,9 @@ void dae::AIMovementComponent::Update(float deltaTime)
 			m_CheckUp = false;
 			m_CheckDown = false;
 		}
-	}
-	else
-	{
+	//}
+	//else
+	//{
 		GetClosestPlayer();
 
 		const float offset{ 0.3f };
@@ -141,7 +160,8 @@ void dae::AIMovementComponent::Update(float deltaTime)
 				m_Horizontal = true;
 			}
 		}
-	}
+	//}
+	*/
 }
 
 void dae::AIMovementComponent::MoveAI(float deltaTime, glm::vec2 dir) const

@@ -235,6 +235,8 @@ namespace dae
 				//const auto& pWinLose = std::make_shared<dae::ConditionSingleCoopComponent>(pLevel->returnLevelObj().get(), pSpawner->getSpawnObj());
 				//pLevel->returnLevelObj()->AddComponent();
 
+				std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 });
+
 				//CreateUI(scene, player, false);
 			}
 

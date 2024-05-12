@@ -45,15 +45,17 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene, dae::LevelPrefab&)
 	m_pPlayerOne->AddComponent(pShootingDir);
 
 	//Movement
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandUp = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerOne, m_Up);
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandDown = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerOne, m_Down);
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandLeft = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerOne, m_Left);
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandRight = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerOne, m_Right);
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerOne, m_Up);
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerOne, m_Down);
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandLeft = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerOne, m_Left);
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandRight = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerOne, m_Right);
+	std::shared_ptr<GameCommands::Stun> stunCommand = std::make_shared<GameCommands::Stun>(m_pPlayerOne);
 
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, stunCommand);
 
 	if (dae::ScreenManager::GetInstance().GetCurrentEnum() != dae::ScreenManager::SinglePlayer)
 		m_Controller1Index = 1;

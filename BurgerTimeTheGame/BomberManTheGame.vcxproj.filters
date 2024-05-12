@@ -27,6 +27,9 @@
     <Filter Include="Level">
       <UniqueIdentifier>{917c0d2c-66ba-46ae-a374-74f7624df1d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State">
+      <UniqueIdentifier>{579f485e-f169-44b5-ac7e-f08b4c05891f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpawnTimerComponent.cpp">
@@ -94,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="LevelPrefab.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStates.cpp">
+      <Filter>State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="LevelPrefab.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStates.h">
+      <Filter>State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

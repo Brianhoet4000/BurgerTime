@@ -8,13 +8,24 @@
 namespace GameCommands
 {
 
-	class DiggerMovement : public dae::Command
+	class PlayerMovement : public dae::Command
 	{
 	private:
 		glm::vec2 m_Dir{};
 		dae::GameCollisionComponent* m_pCollision;
 	public:
-		DiggerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir);
+		PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir);
+		virtual void Execute(float deltaTime) override;
+	};
+
+	class Stun : public dae::Command
+	{
+	private:
+		glm::vec2 m_Dir{};
+		dae::BulletTimerComponent* m_pBulletTimer{};
+
+	public:
+		Stun(std::shared_ptr<dae::GameObject> owner);
 		virtual void Execute(float deltaTime) override;
 	};
 

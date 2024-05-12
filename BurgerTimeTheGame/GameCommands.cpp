@@ -5,34 +5,31 @@
 #include "ServiceLocator.h"
 #include "ShootingDirComponent.h"
 
-GameCommands::DiggerMovement::DiggerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir)
+GameCommands::PlayerMovement::PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir)
 {
 	m_pGameObject = owner;
 	m_Dir = dir;
     m_pCollision = m_pGameObject->GetComponent<dae::GameCollisionComponent>();
 }
 
-void GameCommands::DiggerMovement::Execute(float deltaTime)
+void GameCommands::PlayerMovement::Execute(float deltaTime)
 {
     if (m_pGameObject->ReturnDeleting()) return;
 
     glm::vec2 pos = m_pGameObject->GetRelativePosition();
 
     
-	//ShootingDir
+    auto shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
+
+    if (shootingstate == nullptr) return;
+
+    if (m_Dir.x > 0)
     {
-        auto shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
-
-        if (shootingstate == nullptr) return;
-
-        if (m_Dir.x > 0)
-        {
-            shootingstate->SetFaceState(dae::ShootingDirComponent::Right);
-        }
-        if (m_Dir.x < 0)
-        {
-            shootingstate->SetFaceState(dae::ShootingDirComponent::Left);
-        }
+        shootingstate->SetFaceState(dae::ShootingDirComponent::Right);
+    }
+    if (m_Dir.x < 0)
+    {
+        shootingstate->SetFaceState(dae::ShootingDirComponent::Left);
     }
 
 	dae::GameCollisionMngr::GetInstance().PlayerLogicBox(m_pGameObject->GetComponent<dae::GameCollisionComponent>(), m_Dir);
@@ -70,6 +67,40 @@ void GameCommands::DiggerMovement::Execute(float deltaTime)
             return;
         }
     //}
+}
+
+GameCommands::Stun::Stun(std::shared_ptr<dae::GameObject> owner)
+{
+    m_pGameObject = owner;
+    m_pBulletTimer = owner->GetComponent<dae::BulletTimerComponent>();
+}
+
+void GameCommands::Stun::Execute(float)
+{
+    if (GetKeyPressed()) return;
+    if (m_pGameObject == nullptr) return;
+    if (m_pGameObject->ReturnDeleting()) return;
+    if (m_pBulletTimer->ReturnHasShot()) return;
+
+    
+
+    auto shootingState = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
+
+    if (shootingState == nullptr) return;
+
+    if (shootingState->returnFaceState() == dae::ShootingDirComponent::Right)
+    {
+        m_Dir = { 1,0 };
+        std::cout << "stunned right\n";
+    }
+    if (shootingState->returnFaceState() == dae::ShootingDirComponent::Left)
+    {
+        m_Dir = { -1,0 };
+        std::cout << "stunned left\n";
+    }
+
+    m_pBulletTimer->SetHasShot(true);
+    SetKeyPressed(true);
 }
 
 GameCommands::SwitchGameMode::SwitchGameMode(std::shared_ptr<dae::GameObject> owner, dae::GameObject* text, dae::ScreenManager::GameMode& currentScreen, dae::ScreenManager* screen)

@@ -15,10 +15,10 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 {
 	m_pPlayerTwo = std::make_shared<dae::GameObject>("Player_02");
 
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandUp;
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandDown;
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandLeft;
-	std::shared_ptr<GameCommands::DiggerMovement> moveCommandRight;
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandUp;
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandDown;
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandLeft;
+	std::shared_ptr<GameCommands::PlayerMovement> moveCommandRight;
 
 	const int controller1Index{ 0 };
 	dae::InputManager::GetInstance().AddController(controller1Index);
@@ -47,10 +47,10 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 		m_pPlayerTwo->AddComponent(pShootingDir);
 
 		//Movement
-		moveCommandUp = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Up);
-		moveCommandDown = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Down);
-		moveCommandLeft = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Left);
-		moveCommandRight = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Right);
+		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up);
+		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down);
+		moveCommandLeft = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Left);
+		moveCommandRight = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Right);
 
 	}
 	else
@@ -69,10 +69,10 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 		const auto& Hobbin = std::make_shared<dae::HobbinComponent>(m_pPlayerTwo.get());
 		m_pPlayerTwo->AddComponent(Hobbin);
 
-		moveCommandUp = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Up);
-		moveCommandDown = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Down);
-		moveCommandLeft = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Left);
-		moveCommandRight = std::make_shared<GameCommands::DiggerMovement>(m_pPlayerTwo, m_Right);
+		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up);
+		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down);
+		moveCommandLeft = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Left);
+		moveCommandRight = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Right);
 	}
 
 
