@@ -17,12 +17,14 @@ namespace dae
 
 		void Update(float deltaTime) override;
 		bool ReturnHasShot() const { return m_HasShot; }
+		bool ReturnCompleted() const { return m_Completed; }
 		void SetHasShot(bool hasShot) { m_HasShot = hasShot; }
 
 	private:
 		float m_StartValue;
 		float m_CurrentTime;
 		bool m_HasShot = false;
+		bool m_Completed = false;
 	};
 
 }

@@ -99,6 +99,8 @@ void GameCommands::Stun::Execute(float)
         std::cout << "stunned left\n";
     }
 
+
+
     m_pBulletTimer->SetHasShot(true);
     SetKeyPressed(true);
 }

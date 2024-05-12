@@ -25,6 +25,8 @@ namespace dae
 		void MoveAI(float deltaTime, glm::vec2 dir) const;
 		void GetClosestPlayer();
 
+		bool ReturnStunned() const { return m_pEnemyStunned->DoneStun(); }
+
 	private:
 		float m_Speed{40.f};
 		GameCollisionComponent* m_pCollision;

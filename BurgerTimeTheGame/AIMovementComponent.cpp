@@ -11,11 +11,11 @@ dae::AIMovementComponent::AIMovementComponent(dae::GameObject* owner, glm::vec2 
 	:BaseComponent(owner)
 {
 	m_pCollision = owner->GetComponent<dae::GameCollisionComponent>();
-	m_LeftOfStartPos = glm::vec2{ startPos.x - 25, startPos.y };
-	m_RightOfStartPos = glm::vec2{ startPos.x + 25, startPos.y };
+	//m_LeftOfStartPos = glm::vec2{ startPos.x - 25, startPos.y };
+	//m_RightOfStartPos = glm::vec2{ startPos.x + 25, startPos.y };
 
-	m_pEnemyMovement = std::make_unique<EnemyMovement>();
-	m_pEnemyStunned = std::make_unique<EnemyStunned>();
+	m_pEnemyMovement = std::make_unique<EnemyMovement>(m_pOwner, startPos);
+	m_pEnemyStunned = std::make_unique<EnemyStunned>(m_pOwner);
 
 	m_Dir = m_DirRight;
 }
@@ -32,16 +32,21 @@ void dae::AIMovementComponent::Update(float deltaTime)
 		return;
 	}
 
-	MoveAI(deltaTime, m_Dir);
+	m_pEnemyMovement->OnEnter();
 
-	if(m_pOwner->GetRelativePosition().x < m_LeftOfStartPos.x)
-	{
-		m_Dir = m_DirRight;
-	}
-	else if(m_pOwner->GetRelativePosition().x > m_RightOfStartPos.x)
-	{
-		m_Dir = m_DirLeft;
-	}
+	m_pEnemyMovement->Update(deltaTime);
+	m_pEnemyStunned->Update(deltaTime);
+
+	//MoveAI(deltaTime, m_Dir);
+	//
+	//if(m_pOwner->GetRelativePosition().x < m_LeftOfStartPos.x)
+	//{
+	//	m_Dir = m_DirRight;
+	//}
+	//else if(m_pOwner->GetRelativePosition().x > m_RightOfStartPos.x)
+	//{
+	//	m_Dir = m_DirLeft;
+	//}
 
 	/*
 	//const auto& pHobbincomp = m_pOwner->GetComponent<dae::HobbinComponent>();
