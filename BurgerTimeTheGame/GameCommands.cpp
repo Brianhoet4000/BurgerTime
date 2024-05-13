@@ -39,16 +39,28 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
     if (!dae::GameCollisionMngr::GetInstance().Raycast(m_pGameObject->GetRelativePosition(), m_Dir, m_pCollision))
         return;
 
-
-    if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors())
+    if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {
-        pos.x += m_Dir.x * deltaTime;
-        m_pGameObject->SetRelativePosition(pos);
+        if(dae::GameCollisionMngr::GetInstance().MovePlayerLeftFloors())
+        {
+            pos.x = m_pGameObject->GetRelativePosition().x + 3.f;
+            m_pGameObject->SetRelativePosition(pos);
+            return;
+        }
+        else if(dae::GameCollisionMngr::GetInstance().MovePlayerRightFloors())
+        {
+            pos.x = m_pGameObject->GetRelativePosition().x - 3.f;
+            m_pGameObject->SetRelativePosition(pos);
+            return;
+        }
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors())
+        {
+            pos.x += m_Dir.x * deltaTime;
+            m_pGameObject->SetRelativePosition(pos);
+        }
+        return;
     }
 
-
-    //if (dae::GameCollisionMngr::GetInstance().CheckForInStairsX())
-    //{
     if (m_Dir.y > 0.2f || m_Dir.y < -0.2f)
     {
         if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs())
@@ -63,14 +75,14 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs(m_Dir))
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs())
         {
             pos.y += m_Dir.y * deltaTime;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
+        return;
     }
-    //}
 }
 
 GameCommands::Stun::Stun(std::shared_ptr<dae::GameObject> owner)

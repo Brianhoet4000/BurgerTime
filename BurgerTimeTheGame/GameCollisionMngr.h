@@ -42,10 +42,12 @@ namespace dae
 		GameCollisionComponent* CheckOverlapWithPlayers(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
 		bool CheckForInStairsX() const;
-		bool CheckOverlapWithStairs(const glm::vec2& dir) const;
+		bool CheckOverlapWithStairs() const;
 		bool MovePlayerUpStairs() const;
 		bool MovePlayerDownStairs() const;
 		bool CheckOverlapWithFloors() const;
+		bool MovePlayerLeftFloors() const;
+		bool MovePlayerRightFloors() const;
 
 		
 		bool CheckForCollision(const GameCollisionComponent* box) const;

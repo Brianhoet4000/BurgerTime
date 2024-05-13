@@ -193,8 +193,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HighscoreComponent.cpp" />
     <ClCompile Include="HobbinComponent.cpp" />
-    <ClCompile Include="HobbinState.cpp" />
-    <ClCompile Include="NobbinState.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayerOne.cpp" />
     <ClCompile Include="PlayerTwo.cpp" />
@@ -218,8 +216,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="HighscoreComponent.h" />
     <ClInclude Include="HobbinComponent.h" />
-    <ClInclude Include="HobbinState.h" />
-    <ClInclude Include="NobbinState.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerTwo.h" />
     <ClInclude Include="GameCommands.h" />
