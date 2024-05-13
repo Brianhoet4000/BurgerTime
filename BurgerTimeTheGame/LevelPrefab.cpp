@@ -7,6 +7,9 @@
 #pragma warning(disable : 4996)
 #include <document.h>
 
+#include "Ingredient.h"
+#include "IngredientPart.h"
+
 dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 {
 	m_pLevelObj = std::make_shared<dae::GameObject>();
@@ -20,7 +23,7 @@ dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 	pTexture->SetTexture("../Data/Levels/" + LevelPath + ".png");
 	m_pLevelObj->AddComponent(pTexture);
 
-
+	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>("Patty", scene, glm::vec2{ 60, 70 });
 
 	std::string path = "../Data/Levels/" + LevelPath + ".json";
 

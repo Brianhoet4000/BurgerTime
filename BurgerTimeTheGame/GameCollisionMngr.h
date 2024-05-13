@@ -49,6 +49,8 @@ namespace dae
 		bool MovePlayerLeftFloors() const;
 		bool MovePlayerRightFloors() const;
 
+		GameCollisionComponent* CheckOverlapWithIngredient() const;
+
 		
 		bool CheckForCollision(const GameCollisionComponent* box) const;
 		bool CheckForOverlapWall(const dae::GameCollisionComponent* box) const;
@@ -69,7 +71,7 @@ namespace dae
 		std::vector<GameCollisionComponent*> m_pWallBoxes;
 		std::vector<GameCollisionComponent*> m_pStairsBoxes;
 		std::vector<GameCollisionComponent*> m_pFloorBoxes;
-		std::vector<GameCollisionComponent*> m_pBulletBoxes;
+		std::vector<GameCollisionComponent*> m_pIngredientBoxes;
 		std::vector<GameCollisionComponent*> m_pEnemies;
 		GameCollisionComponent* m_pFirstPlayer{nullptr};
 		GameCollisionComponent* m_pSecondPlayer{nullptr};

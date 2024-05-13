@@ -27,6 +27,9 @@
     <Filter Include="State">
       <UniqueIdentifier>{579f485e-f169-44b5-ac7e-f08b4c05891f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Ingredients">
+      <UniqueIdentifier>{c356be71-a05d-42f2-8ce1-dbad51ddbdf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpawnTimerComponent.cpp">
@@ -92,6 +95,12 @@
     <ClCompile Include="EnemyStates.cpp">
       <Filter>State</Filter>
     </ClCompile>
+    <ClCompile Include="IngredientPart.cpp">
+      <Filter>Ingredients</Filter>
+    </ClCompile>
+    <ClCompile Include="Ingredient.cpp">
+      <Filter>Ingredients</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerOne.h">
@@ -111,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="GameCollisionComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCollisionMngr.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ShootingDirComponent.h">
       <Filter>Components</Filter>
@@ -162,6 +168,15 @@
     </ClInclude>
     <ClInclude Include="EnemyStates.h">
       <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCollisionMngr.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IngredientPart.h">
+      <Filter>Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="Ingredient.h">
+      <Filter>Ingredients</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
