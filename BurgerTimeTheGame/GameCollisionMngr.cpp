@@ -315,7 +315,7 @@ namespace dae
                 // Adjusting for top-left origin by comparing top edge of player with bottom edge of stairs
                 if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
                     playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
-                    playerBox->GetCollisionRect().y <= stairs->GetCollisionRect().y) // Going up
+                    playerBox->GetCollisionRect().y < stairs->GetCollisionRect().y && playerBox->GetCollisionRect().y > stairs->GetCollisionRect().y - 10) // Going up
                 {
                     return true;
                 }
@@ -335,11 +335,11 @@ namespace dae
             for (const auto& player : PlayerManager::GetInstance().GetPlayers())
             {
                 const auto& playerBox = player->GetComponent<GameCollisionComponent>();
-                // Adjusting for top-left origin by comparing bottom edge of player with top edge of stairs
-                // Player is considered outside stairs if bottom edge is above or at the same level as the top edge of stairs
-                if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
+
+            	if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
                     playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
-                    playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h > stairs->GetCollisionRect().y + stairs->GetCollisionRect().h)
+                    playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h > stairs->GetCollisionRect().y + stairs->GetCollisionRect().h &&
+                    playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h < stairs->GetCollisionRect().y + stairs->GetCollisionRect().h + 10)
                 {
                     return true;
                 }
@@ -347,8 +347,6 @@ namespace dae
         }
         return false;
     }
-
-
 
     bool GameCollisionMngr::CheckOverlapWithFloors() const
     {

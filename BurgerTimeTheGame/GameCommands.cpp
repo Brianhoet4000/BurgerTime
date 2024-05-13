@@ -49,7 +49,8 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
 
     //if (dae::GameCollisionMngr::GetInstance().CheckForInStairsX())
     //{
-    if(m_Dir.y > 0.2f || m_Dir.y < -0.2f)
+    if (m_Dir.y > 0.2f || m_Dir.y < -0.2f)
+    {
         if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs())
         {
             pos.y = m_pGameObject->GetRelativePosition().y - 3.f;
@@ -68,6 +69,7 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
+    }
     //}
 }
 
