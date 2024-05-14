@@ -194,6 +194,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClCompile Include="HighscoreComponent.cpp" />
     <ClCompile Include="HobbinComponent.cpp" />
     <ClCompile Include="Ingredient.cpp" />
+    <ClCompile Include="IngredientComponent.cpp" />
     <ClCompile Include="IngredientPart.cpp" />
     <ClCompile Include="IngredientPartComponent.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -220,6 +221,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClInclude Include="HighscoreComponent.h" />
     <ClInclude Include="HobbinComponent.h" />
     <ClInclude Include="Ingredient.h" />
+    <ClInclude Include="IngredientComponent.h" />
     <ClInclude Include="IngredientPart.h" />
     <ClInclude Include="IngredientPartComponent.h" />
     <ClInclude Include="PlayerManager.h" />

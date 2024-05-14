@@ -2,6 +2,7 @@
 #include <string>
 #include <glm/vec2.hpp>
 
+#include "IngredientPart.h"
 #include "Scene.h"
 
 namespace dae
@@ -18,7 +19,8 @@ namespace dae
         Ingredient& operator=(Ingredient&&) = default;
 
     private:
-
+        std::shared_ptr<IngredientComponent> m_ingredientComponent;
+        std::shared_ptr<GameObject> m_pIngredient;
     };
 
 }

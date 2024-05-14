@@ -23,8 +23,13 @@ namespace dae
 		bool GetPushedDown() const { return m_PushedDown; }
 		void SetPushedDown(bool pushedDown)
 		{
-			std::cout << "changed value\n";
 			m_PushedDown = pushedDown;
+		}
+
+		bool GetCollided() const { return m_collided; }
+		void SetCollided(bool collided)
+		{
+			m_collided = collided;
 		}
 
 	private:
