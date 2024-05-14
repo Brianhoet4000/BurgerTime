@@ -15,7 +15,6 @@ void dae::IngredientPartComponent::Update(float)
 	if(!m_PushedDown && m_collided)
 	{
 		m_PushedDown = true;
-		std::cout << m_pOwner->GetTag() << '\n';
 		glm::vec2 pos = m_pOwner->GetRelativePosition();
 		pos.y += 3.f;
 		m_pOwner->SetRelativePosition(pos);

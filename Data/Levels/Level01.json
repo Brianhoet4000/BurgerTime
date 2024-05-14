@@ -29,7 +29,7 @@
         [0, 39, 624]
     ],
     "bun_top": {
-        "texturePath": "Burger/BunTop/",
+        "texturePath": "BunTop",
         "position": [
             [48, 141],
             [192, 45],
@@ -38,7 +38,7 @@
         ]
     },
     "lettuce": {
-        "texturePath": "Burger/Lettuce/",
+        "texturePath": "Lettuce",
         "position": [
             [48, 237],
             [192, 189],
@@ -47,17 +47,17 @@
         ]
     },
     "tomato": {
-        "texturePath": "Burger/Tomato/",
+        "texturePath": "Tomato",
         "position": [
         ]
     },
     "cheese": {
-        "texturePath": "Burger/Cheese/",
+        "texturePath": "Cheese",
         "position": [
         ]
     },
     "patty": {
-        "texturePath": "Burger/Patty/",
+        "texturePath": "Patty",
         "position": [
             [48, 381],
             [192, 381],
@@ -66,7 +66,7 @@
         ]
     },
     "bun_bottom": {
-        "texturePath": "Burger/BunBottom/",
+        "texturePath": "BunBottom",
         "position": [
             [48, 477],
             [192, 477],

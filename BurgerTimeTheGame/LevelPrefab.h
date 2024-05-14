@@ -4,6 +4,9 @@
 #include "GameObject.h"
 #include "Scene.h"
 
+#pragma warning(disable : 4996)
+#include <document.h>
+
 namespace dae
 {
 	class LevelPrefab final
@@ -29,6 +32,8 @@ namespace dae
 		glm::vec2 m_EnemySpawnPositions{};
 
 		std::shared_ptr<GameObject> m_pLevelObj;
+
+		void ParseIngredient(Scene& scene, const rapidjson::Document& document, const std::string& part);
 	};
 
 }

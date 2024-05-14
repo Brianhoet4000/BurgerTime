@@ -23,7 +23,7 @@ dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 	pTexture->SetTexture("../Data/Levels/" + LevelPath + ".png");
 	m_pLevelObj->AddComponent(pTexture);
 
-	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>("Patty", scene, glm::vec2{ 200,500 });
+	//std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>("Patty", scene, glm::vec2{ 200,500 });
 
 	std::string path = "../Data/Levels/" + LevelPath + ".json";
 
@@ -88,4 +88,24 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		scene.Add(floor);
 	}
 
+	// BUN_TOP
+	ParseIngredient(scene, document, "bun_top");
+	// LETTUCE
+	ParseIngredient(scene, document, "lettuce");
+	// TOMATO
+	ParseIngredient(scene, document, "tomato");
+	// CHEESE
+	ParseIngredient(scene, document, "cheese");
+	// PATTY
+	ParseIngredient(scene, document, "patty");
+	// BUN_BOTTOM
+	ParseIngredient(scene, document, "bun_bottom");
+}
+
+void dae::LevelPrefab::ParseIngredient(Scene& scene, const rapidjson::Document& document, const std::string& part)
+{
+	const rapidjson::Value& bunBottomValue = document[part.c_str()];
+	const std::string bunBottomTexturePath = bunBottomValue["texturePath"].GetString();
+	for (const auto& bunBottom : bunBottomValue["position"].GetArray())
+	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>(bunBottomTexturePath, scene, glm::vec2{ bunBottom[0].GetDouble() + 43.f,bunBottom[1].GetDouble() + 36.f });
 }

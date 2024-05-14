@@ -4,17 +4,17 @@
 #include "IngredientPartComponent.h"
 #include "TextureComponent.h"
 
-dae::IngredientPart::IngredientPart(GameObject* parent, std::string path, dae::Scene& scene, glm::vec2 pos)
+dae::IngredientPart::IngredientPart(GameObject*, std::string path, dae::Scene& scene, glm::vec2 pos)
 {
 	for (int i = 0; i < 4; ++i)
 	{
 		const auto& pIngredientPart = std::make_shared<dae::GameObject>("Ingredient");
 		const auto& pIngredientTexture = std::make_shared<dae::TextureComponent>(pIngredientPart.get());
-		glm::vec2 newPos;
+		glm::vec2 newPos = pos;
 
 		pIngredientTexture->SetTexture("Burger/" + path + "/" + path + "_0" + std::to_string(i + 1) + ".png");
 		pIngredientPart->AddComponent(pIngredientTexture);
-		newPos = glm::vec2{ pos.x + ((pIngredientTexture->GetSize().x + 2) * i), pos.y };
+		newPos = glm::vec2{ pos.x + (pIngredientTexture->GetSize().x * i), pos.y };
 		std::cout << newPos.x << ", " << newPos.y << '\n';
 
 		pIngredientPart->SetRelativePosition(newPos);
@@ -24,7 +24,7 @@ dae::IngredientPart::IngredientPart(GameObject* parent, std::string path, dae::S
 		const auto& pIngredientComponent = std::make_shared<IngredientPartComponent>(pIngredientPart.get());
 		pIngredientPart->AddComponent(pIngredientComponent);
 
-		parent->AddChild(pIngredientPart);
+		//parent->AddChild(pIngredientPart);
 		scene.Add(pIngredientPart);
 
 	}
