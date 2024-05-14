@@ -23,7 +23,7 @@ dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 	pTexture->SetTexture("../Data/Levels/" + LevelPath + ".png");
 	m_pLevelObj->AddComponent(pTexture);
 
-	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>("Patty", scene, glm::vec2{ 60, 70 });
+	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>("Patty", scene, glm::vec2{ 200,500 });
 
 	std::string path = "../Data/Levels/" + LevelPath + ".json";
 

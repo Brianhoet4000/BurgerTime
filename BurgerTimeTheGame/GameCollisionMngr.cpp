@@ -1,6 +1,10 @@
 #include "GameCollisionMngr.h"
+
+#include <SDL_syswm.h>
+
 #include "GameObject.h"
 #include "HobbinComponent.h"
+#include "IngredientPartComponent.h"
 #include "PlayerManager.h"
 #include "PointComponent.h"
 #include "ScreenManager.h"
@@ -253,6 +257,31 @@ namespace dae
         return false;
     }
 
+    bool GameCollisionMngr::CheckOverlapWithPlayersBoolIngredients(const GameCollisionComponent* box) const
+    {
+        for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+        {
+            if (player == nullptr) return false;
+            if (player->ReturnDeleting()) return false;
+
+            const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
+
+            int offsetX = 20; // Offset towards the center
+            int offsetY = 0; // Offset towards the center
+
+            if (box->GetCollisionRect().x < PlayerBox->GetCollisionRect().x + offsetX &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > PlayerBox->GetCollisionRect().x + offsetX &&
+                box->GetCollisionRect().y < PlayerBox->GetCollisionRect().y + offsetY &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > PlayerBox->GetCollisionRect().y + offsetY)
+            {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
     bool GameCollisionMngr::CheckForInStairsX() const
     {
         constexpr int offsetX = 1; // Adjust as needed
@@ -424,30 +453,35 @@ namespace dae
         return false;
     }
 
-    GameCollisionComponent* GameCollisionMngr::CheckOverlapWithIngredient() const
+    bool GameCollisionMngr::CheckOverlapWithIngredient() const
     {
         if (!m_pIngredientBoxes.empty())
         {
-            for (const auto& otherbox : m_pIngredientBoxes)
+            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
             {
-                for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+                for (const auto& otherbox : m_pIngredientBoxes)
                 {
                     const auto& box = player->GetComponent<GameCollisionComponent>();
-                    if (otherbox == box)
-                        continue;
 
-                    if (box->GetCollisionRect().x < otherbox->GetCollisionRect().x + otherbox->GetCollisionRect().w &&
-                        box->GetCollisionRect().x + box->GetCollisionRect().w > otherbox->GetCollisionRect().x &&
-                        box->GetCollisionRect().y < otherbox->GetCollisionRect().y + otherbox->GetCollisionRect().h &&
-                        box->GetCollisionRect().y + box->GetCollisionRect().h > otherbox->GetCollisionRect().y)
+                    float offsetX = 16; // Offset towards the center
+                    float offsetY = 0; // Offset towards the center
+
+                    if ((otherbox->GetCollisionRect().x <= box->GetCollisionRect().x + offsetX &&
+                        otherbox->GetCollisionRect().x + otherbox->GetCollisionRect().w >= box->GetCollisionRect().x + offsetX &&
+                        otherbox->GetCollisionRect().y <= box->GetCollisionRect().y + offsetY &&
+                        otherbox->GetCollisionRect().y + otherbox->GetCollisionRect().h >= box->GetCollisionRect().y + offsetY))
                     {
-                        return otherbox;
+                        std::cout << m_pIngredientBoxes.size() << '\n';
+                        std::cout << otherbox->GetOwner()->GetRelativePosition().x << ", " << otherbox->GetOwner()->GetRelativePosition().y << '\n';
+                        //otherbox->GetOwner()->GetComponent<IngredientPartComponent>()->SetPushedDown(true);
+                        return true;
                     }
                 }
             }
         }
-        return nullptr;
+        return false;
     }
+
 
     bool GameCollisionMngr::CheckOverlapWithEnemies(const GameCollisionComponent* box) const
     {
@@ -490,13 +524,13 @@ namespace dae
 
     void GameCollisionMngr::PlayerLogicBox(dae::GameCollisionComponent*, glm::vec2)
     {
-        const auto& overlappedbox = CheckOverlapWithIngredient();
-
-        if (overlappedbox == nullptr) return;
-
-        glm::vec2 pos = overlappedbox->GetOwner()->GetRelativePosition();
-        pos.y += 4;
-        overlappedbox->GetOwner()->SetRelativePosition(pos);
+        //const auto& overlappedbox = CheckOverlapWithIngredient();
+        //
+        //if (overlappedbox == nullptr) return;
+        //
+        //glm::vec2 pos = overlappedbox->GetOwner()->GetRelativePosition();
+        //pos.y += 4;
+        //overlappedbox->GetOwner()->SetRelativePosition(pos);
         
 
         //const GameCollisionComponent* OverlappedBox = nullptr;

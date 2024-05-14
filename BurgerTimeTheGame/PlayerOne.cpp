@@ -28,9 +28,9 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene, dae::LevelPrefab&)
 	//pCollider->SetRenderCollisionBox(true);
 
 	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(),
-		pTexture->GetSize().x, 4.f, true, true, false); // Use positive height
+		pTexture->GetSize().x, 4.f, true, true, false);
 	m_pPlayerOne->AddComponent(pFootCollider);
-	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 4.f, true); // Position below the texture
+	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 4.f, true);
 	pFootCollider->SetDebugColor("red");
 	pFootCollider->SetRenderCollisionBox(true);
 

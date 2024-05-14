@@ -101,6 +101,9 @@
     <ClCompile Include="Ingredient.cpp">
       <Filter>Ingredients</Filter>
     </ClCompile>
+    <ClCompile Include="IngredientPartComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerOne.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="Ingredient.h">
       <Filter>Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="IngredientPartComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

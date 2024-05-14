@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <vector>
 #include <glm/vec2.hpp>
 #include "GameCollisionComponent.h"
@@ -26,6 +27,8 @@ namespace dae
 		void RemoveEnemyBox(GameCollisionComponent* box);
 		void ClearAll();
 
+		void PrintIngredients() const { std::cout << m_pIngredientBoxes.size() << '\n'; }
+
 		std::vector<GameCollisionComponent*> GetAllWall();
 		std::vector<GameCollisionComponent*> GetAllStairs();
 		std::vector<GameCollisionComponent*> GetAllFloors();
@@ -41,6 +44,7 @@ namespace dae
 		GameCollisionComponent* CheckOverlapWithFirstPlayer(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapWithPlayers(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
+		bool CheckOverlapWithPlayersBoolIngredients(const GameCollisionComponent* box) const;
 		bool CheckForInStairsX() const;
 		bool CheckOverlapWithStairs() const;
 		bool MovePlayerUpStairs() const;
@@ -49,7 +53,7 @@ namespace dae
 		bool MovePlayerLeftFloors() const;
 		bool MovePlayerRightFloors() const;
 
-		GameCollisionComponent* CheckOverlapWithIngredient() const;
+		bool CheckOverlapWithIngredient() const;
 
 		
 		bool CheckForCollision(const GameCollisionComponent* box) const;

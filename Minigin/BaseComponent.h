@@ -19,7 +19,6 @@ namespace dae
 		virtual void FixedUpdate(float);
 		virtual void Render() const;
 
-
 	private:
 
 	protected:
