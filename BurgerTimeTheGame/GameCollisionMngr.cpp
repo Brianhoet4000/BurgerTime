@@ -306,8 +306,8 @@ namespace dae
 
             if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
-                box->GetCollisionRect().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
-                box->GetCollisionRect().y + box->GetCollisionRect().h > floor->GetCollisionRect().y)
+                box->GetOwner()->GetRelativePosition().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
+                box->GetOwner()->GetRelativePosition().y + box->GetCollisionRect().h - 10 > floor->GetCollisionRect().y)
             {
                 return true;
             }

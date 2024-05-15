@@ -23,7 +23,7 @@ void dae::IngredientComponent::Update(float deltaTime)
 
 			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
 			GameCollisionComponent* currentFloor = nullptr;
-
+			
 			if (dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithFloors(childCollider, currentFloor))
 			{
 				m_IsFalling = false;
@@ -39,11 +39,11 @@ void dae::IngredientComponent::Update(float deltaTime)
 				m_DoOnce = true;
 			}
 
-			
+			glm::vec2 pos = m_pOwner->GetChildren()[i]->GetRelativePosition();
+			pos.y += m_speed * deltaTime;
+			m_pOwner->GetChildren()[i]->SetRelativePosition(pos.x, pos.y);
 		}
-		glm::vec2 pos = m_pOwner->GetRelativePosition();
-		pos.y += m_speed * deltaTime;
-		m_pOwner->SetRelativePosition(pos.x, pos.y);
+		
 	}
 
 	if(m_allPushedDown && !m_IsFalling)
@@ -54,7 +54,6 @@ void dae::IngredientComponent::Update(float deltaTime)
 	{
 		m_allPushedDown = AllArePushedDown();
 	}
-		
 }
 
 bool dae::IngredientComponent::AllArePushedDown() const

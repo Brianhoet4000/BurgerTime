@@ -107,6 +107,9 @@
     <ClCompile Include="IngredientComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteRenderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerOne.h">
@@ -188,6 +191,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="IngredientComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
