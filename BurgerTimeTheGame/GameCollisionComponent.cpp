@@ -21,8 +21,8 @@ void dae::GameCollisionComponent::Update(float)
 {
 	if (!m_NeedsUpdate) return;
 
-	m_CollisionBox.x = m_pOwner->GetRelativePosition().x + m_Offset.x;
-	m_CollisionBox.y = m_pOwner->GetRelativePosition().y + m_Offset.y;
+	m_CollisionBox.x = m_pOwner->GetWorldPosition().x + m_Offset.x;
+	m_CollisionBox.y = m_pOwner->GetWorldPosition().y + m_Offset.y;
 }
 
 void dae::GameCollisionComponent::Render() const

@@ -9,6 +9,7 @@ dae::IngredientPart::IngredientPart(std::shared_ptr<GameObject>& parent, std::st
 	for (int i = 0; i < 4; ++i)
 	{
 		const auto& pIngredientPart = std::make_shared<dae::GameObject>("Ingredient");
+		parent->AddChild(pIngredientPart);
 		const auto& pIngredientTexture = std::make_shared<dae::TextureComponent>(pIngredientPart.get());
 		glm::vec2 newPos = pos;
 
@@ -23,7 +24,7 @@ dae::IngredientPart::IngredientPart(std::shared_ptr<GameObject>& parent, std::st
 		const auto& pIngredientComponent = std::make_shared<IngredientPartComponent>(pIngredientPart.get());
 		pIngredientPart->AddComponent(pIngredientComponent);
 
-		parent->AddChild(pIngredientPart);
+		
 		scene.Add(pIngredientPart);
 	}
 }

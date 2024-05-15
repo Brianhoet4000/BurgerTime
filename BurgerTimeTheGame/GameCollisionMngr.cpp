@@ -236,6 +236,21 @@ namespace dae
         return nullptr;
     }
 
+    GameCollisionComponent* GameCollisionMngr::GetCurrentFloor(const GameCollisionComponent* box) const
+    {
+        for (const auto& floor : m_pFloorBoxes)
+        {
+            if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
+                box->GetCollisionRect().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > floor->GetCollisionRect().y)
+            {
+                return floor;
+            }
+        }
+        return nullptr;
+    }
+
     bool GameCollisionMngr::CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const
     {
         for (const auto& player : PlayerManager::GetInstance().GetPlayers())
@@ -266,7 +281,7 @@ namespace dae
 
             const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
 
-            int offsetX = 20; // Offset towards the center
+            int offsetX = 10; // Offset towards the center
             int offsetY = 0; // Offset towards the center
 
             if (box->GetCollisionRect().x < PlayerBox->GetCollisionRect().x + offsetX &&
@@ -280,6 +295,24 @@ namespace dae
 
         return false;
 
+    }
+
+    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent* currentFloor) const
+    {
+        for (const auto& floor : m_pFloorBoxes)
+        {
+            if(floor == currentFloor)
+                return false;
+
+            if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
+                box->GetCollisionRect().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > floor->GetCollisionRect().y)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     bool GameCollisionMngr::CheckForInStairsX() const

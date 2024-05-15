@@ -43,8 +43,13 @@ namespace dae
 		GameCollisionComponent* CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapWithFirstPlayer(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapWithPlayers(const GameCollisionComponent* box) const;
+		
+		GameCollisionComponent* GetCurrentFloor(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBoolIngredients(const GameCollisionComponent* box) const;
+		bool CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent* currentFloor) const;
+
+
 		bool CheckForInStairsX() const;
 		bool CheckOverlapWithStairs() const;
 		bool MovePlayerUpStairs() const;

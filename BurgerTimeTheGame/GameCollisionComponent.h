@@ -20,7 +20,7 @@ namespace dae
 	{
 	public:
 
-		GameCollisionComponent(GameObject* owner, glm::vec2 pos, const float width, const float height, bool needsUpdate = false, bool visualizeRect = false, bool IsVersus = false);
+		GameCollisionComponent(GameObject* owner, glm::vec2 pos, const float width, const float height, bool needsUpdate = true, bool visualizeRect = false, bool IsVersus = false);
 		virtual ~GameCollisionComponent() = default;
 		GameCollisionComponent(const GameCollisionComponent& other) = delete;
 		GameCollisionComponent(GameCollisionComponent&& other) = delete;

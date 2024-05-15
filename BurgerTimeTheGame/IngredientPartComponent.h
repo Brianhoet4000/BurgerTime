@@ -24,17 +24,18 @@ namespace dae
 		void SetPushedDown(bool pushedDown)
 		{
 			m_PushedDown = pushedDown;
+			m_Collided = pushedDown;
 		}
 
-		bool GetCollided() const { return m_collided; }
+		bool GetCollided() const { return m_Collided; }
 		void SetCollided(bool collided)
 		{
-			m_collided = collided;
+			m_Collided = collided;
 		}
 
 	private:
 		bool m_PushedDown;
-		bool m_collided;
+		bool m_Collided;
 	};
 
 }

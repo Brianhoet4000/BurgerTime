@@ -20,9 +20,13 @@ namespace dae
 		void Update(float) override;
 		bool AllArePushedDown() const;
 
+		bool GetIsFalling() const { return m_IsFalling; }
+
 	private:
-		float m_speed = 40.f;
+		int m_speed = 40;
 		bool m_allPushedDown;
+		bool m_IsFalling;
+		bool m_DoOnce;
 	};
 
 }
