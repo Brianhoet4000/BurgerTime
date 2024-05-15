@@ -297,13 +297,10 @@ namespace dae
 
     }
 
-    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent* currentFloor) const
+    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box) const
     {
         for (const auto& floor : m_pFloorBoxes)
         {
-            if(floor == currentFloor)
-                return false;
-
             if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
                 box->GetOwner()->GetRelativePosition().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
@@ -313,6 +310,34 @@ namespace dae
             }
         }
         return false;
+    }
+
+    GameObject* GameCollisionMngr::CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const
+    {
+        for (const auto& OtherIngredients : m_pIngredientBoxes)
+        {
+            for (const auto& element : box->GetOwner()->GetChildren())
+            {
+                const auto& childColl = element->GetComponent<GameCollisionComponent>();
+
+                if (childColl == OtherIngredients)
+                    continue;
+
+                    if (childColl->GetCollisionRect().x  < OtherIngredients->GetCollisionRect().x + OtherIngredients->GetCollisionRect().w &&
+                        childColl->GetCollisionRect().x + childColl->GetCollisionRect().w > OtherIngredients->GetCollisionRect().x &&
+                        childColl->GetOwner()->GetRelativePosition().y < OtherIngredients->GetCollisionRect().y + OtherIngredients->GetCollisionRect().h &&
+                        childColl->GetOwner()->GetRelativePosition().y + childColl->GetCollisionRect().h - 10 > OtherIngredients->GetCollisionRect().y)
+                    {
+                        for (auto otherIng : OtherIngredients->GetOwner()->GetChildren())
+                        {
+                            otherIng->GetComponent<IngredientPartComponent>()->SetCollided(true);
+                        }
+
+                        return OtherIngredients->GetOwner()->GetParent();
+                    }
+            }
+        }
+        return nullptr;
     }
 
     bool GameCollisionMngr::CheckForInStairsX() const

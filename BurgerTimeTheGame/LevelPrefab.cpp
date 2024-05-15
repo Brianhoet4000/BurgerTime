@@ -73,17 +73,17 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		scene.Add(ladder);
 	}
 
-	for (const auto& stair : document["floors"].GetArray())
+	for (const auto& floors : document["floors"].GetArray())
 	{
-		float x = stair[0].GetFloat();
-		float y = stair[1].GetFloat();
-		float z = stair[2].GetFloat();
+		float x = floors[0].GetFloat();
+		float y = floors[1].GetFloat();
+		float z = floors[2].GetFloat();
 
 		std::shared_ptr<dae::GameObject> floor = std::make_shared<dae::GameObject>("Floor");
 		std::shared_ptr<dae::GameCollisionComponent> FloorColl =
 			std::make_shared<dae::GameCollisionComponent>(floor.get(), glm::vec2{ x + 43.f, y + 42.f },
 				z,  10.f, false, true);
-		FloorColl->SetDebugColor("orange");
+		FloorColl->SetDebugColor("red");
 		floor->AddComponent(FloorColl);
 		scene.Add(floor);
 	}
