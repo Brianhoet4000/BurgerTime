@@ -17,12 +17,21 @@ void dae::IngredientComponent::Update(float deltaTime)
 {
 	if(m_IsFalling)
 	{
-		for (const auto& element : m_pOwner->GetChildren())
+		for (size_t i = 0; i < m_pOwner->GetChildren().size(); ++i)
 		{
-			if (element == nullptr) return;
+			if (m_pOwner->GetChildren()[i] == nullptr) return;
 
-			const auto& childCollider = element->GetComponent<GameCollisionComponent>();
+			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
 			GameCollisionComponent* currentFloor = nullptr;
+
+			if (dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithFloors(childCollider, currentFloor))
+			{
+				m_IsFalling = false;
+				m_DoOnce = false;
+				m_pOwner->GetChildren()[i]->GetComponent<IngredientPartComponent>()->SetPushedDown(false);
+				float y = m_pOwner->GetChildren()[0]->GetRelativePosition().y;
+				m_pOwner->GetChildren()[i]->SetRelativePosition(m_pOwner->GetChildren()[i]->GetRelativePosition().x, y);
+			}
 
 			if (!m_DoOnce)
 			{
@@ -30,16 +39,11 @@ void dae::IngredientComponent::Update(float deltaTime)
 				m_DoOnce = true;
 			}
 
-			if (dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithFloors(childCollider, currentFloor))
-			{
-				element->GetComponent<IngredientPartComponent>()->SetPushedDown(false);
-				m_IsFalling = false;
-				m_DoOnce = false;
-			}
-			glm::vec2 pos = element->GetRelativePosition();
-			pos.y += m_speed * deltaTime;
-			element->SetRelativePosition(pos.x, pos.y);
+			
 		}
+		glm::vec2 pos = m_pOwner->GetRelativePosition();
+		pos.y += m_speed * deltaTime;
+		m_pOwner->SetRelativePosition(pos.x, pos.y);
 	}
 
 	if(m_allPushedDown && !m_IsFalling)
