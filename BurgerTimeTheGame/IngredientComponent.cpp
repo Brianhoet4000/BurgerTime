@@ -23,7 +23,13 @@ void dae::IngredientComponent::Update(float deltaTime)
 			if (m_pOwner->GetChildren()[i] == nullptr) return;
 
 			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
+
+			if(GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithOtherIngredients(childCollider))
+			{
+				m_IsFalling = true;
+			}
 			
+
 			if (dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithFloors(childCollider))
 			{
 				m_IsFalling = false;

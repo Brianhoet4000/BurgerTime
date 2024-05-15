@@ -3,7 +3,6 @@
 #include <SDL_syswm.h>
 
 #include "GameObject.h"
-#include "HobbinComponent.h"
 #include "IngredientPartComponent.h"
 #include "PlayerManager.h"
 #include "PointComponent.h"
@@ -312,12 +311,13 @@ namespace dae
         return false;
     }
 
-    GameObject* GameCollisionMngr::CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const
+    bool GameCollisionMngr::CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const
     {
         for (const auto& OtherIngredients : m_pIngredientBoxes)
         {
             for (const auto& element : box->GetOwner()->GetChildren())
             {
+                std::cout << box->GetOwner()->GetChildren().size() << '\n';
                 const auto& childColl = element->GetComponent<GameCollisionComponent>();
 
                 if (childColl == OtherIngredients)
@@ -333,11 +333,11 @@ namespace dae
                             otherIng->GetComponent<IngredientPartComponent>()->SetCollided(true);
                         }
 
-                        return OtherIngredients->GetOwner()->GetParent();
+                        return true;
                     }
             }
         }
-        return nullptr;
+        return false;
     }
 
     bool GameCollisionMngr::CheckForInStairsX() const

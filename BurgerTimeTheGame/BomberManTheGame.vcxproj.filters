@@ -50,9 +50,6 @@
     <ClCompile Include="GameCollisionMngr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HobbinComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyPrefab.cpp">
       <Filter>Prefab</Filter>
     </ClCompile>
@@ -131,9 +128,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ShootingDirComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HobbinComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="EnemyPrefab.h">

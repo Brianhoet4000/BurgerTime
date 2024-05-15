@@ -107,5 +107,5 @@ void dae::LevelPrefab::ParseIngredient(Scene& scene, const rapidjson::Document& 
 	const rapidjson::Value& bunBottomValue = document[part.c_str()];
 	const std::string bunBottomTexturePath = bunBottomValue["texturePath"].GetString();
 	for (const auto& bunBottom : bunBottomValue["position"].GetArray())
-	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>(bunBottomTexturePath, scene, glm::vec2{ bunBottom[0].GetDouble() + 43.f,bunBottom[1].GetDouble() + 36.f });
+	std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>(bunBottomTexturePath, scene, glm::vec2{ bunBottom[0].GetDouble() + 43.f,bunBottom[1].GetDouble() + 32.f });
 }

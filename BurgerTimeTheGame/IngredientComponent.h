@@ -23,7 +23,7 @@ namespace dae
 		bool GetIsFalling() const { return m_IsFalling; }
 
 	private:
-		int m_speed = 40;
+		int m_speed = 60;
 		bool m_allPushedDown;
 		bool m_IsFalling;
 		bool m_DoOnce;

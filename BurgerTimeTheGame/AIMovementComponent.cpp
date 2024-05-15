@@ -2,7 +2,6 @@
 #include "GameCollisionMngr.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
-#include "HobbinComponent.h"
 #include "PlayerManager.h"
 #include "PointComponent.h"
 #include "ScreenManager.h"

@@ -6,7 +6,6 @@
 #include "Counter.h"
 #include "GameCommands.h"
 #include "HealthComponent.h"
-#include "HobbinComponent.h"
 #include "PointComponent.h"
 #include "ResourceManager.h"
 #include "ShootingDirComponent.h"
@@ -65,9 +64,6 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 		const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), level.GetSpawnPosition()[1], pTexture->GetSize().x, pTexture->GetSize().y, true, false ,true);
 		pCollider->SetRenderCollisionBox(false);
 		m_pPlayerTwo->AddComponent(pCollider);
-
-		const auto& Hobbin = std::make_shared<dae::HobbinComponent>(m_pPlayerTwo.get());
-		m_pPlayerTwo->AddComponent(Hobbin);
 
 		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up);
 		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down);

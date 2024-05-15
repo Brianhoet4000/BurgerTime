@@ -57,6 +57,7 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
         {
             pos.x += m_Dir.x * deltaTime;
             m_pGameObject->SetRelativePosition(pos);
+            return;
         }
         return;
     }
