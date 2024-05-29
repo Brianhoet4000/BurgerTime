@@ -235,6 +235,20 @@ namespace dae
         return nullptr;
     }
 
+    void GameCollisionMngr::CheckIngredientOverlapWithEnemies(const GameCollisionComponent* box) const
+    {
+        for (const auto& EnemyBox : m_pEnemies)
+        {
+            if (box->GetCollisionRect().x < EnemyBox->GetCollisionRect().x + EnemyBox->GetCollisionRect().w &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > EnemyBox->GetCollisionRect().x &&
+                box->GetCollisionRect().y < EnemyBox->GetCollisionRect().y + EnemyBox->GetCollisionRect().h &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > EnemyBox->GetCollisionRect().y)
+            {
+                EnemyBox->GetOwner()->MarkTrueForDeleting();
+            }
+        }
+    }
+
     GameCollisionComponent* GameCollisionMngr::GetCurrentFloor(const GameCollisionComponent* box) const
     {
         for (const auto& floor : m_pFloorBoxes)

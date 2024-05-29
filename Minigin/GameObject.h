@@ -48,6 +48,7 @@ namespace dae
 
 		GameObject* GetParent() const;
 		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
+		GameObject* GetChildAt(const unsigned int idx) const { return m_pChildren[idx].get(); }
 		void RemoveChild(const GameObject* child);
 		void RemoveAllChilderen();
 		void SetParent(GameObject* parent);

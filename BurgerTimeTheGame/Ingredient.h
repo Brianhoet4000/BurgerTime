@@ -19,7 +19,6 @@ namespace dae
         Ingredient& operator=(Ingredient&&) = default;
 
     private:
-        std::shared_ptr<IngredientComponent> m_ingredientComponent;
         std::shared_ptr<GameObject> m_pIngredient;
     };
 

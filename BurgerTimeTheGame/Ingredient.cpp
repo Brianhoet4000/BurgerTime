@@ -5,7 +5,7 @@
 
 dae::Ingredient::Ingredient(std::string path, dae::Scene& scene, glm::vec2 pos)
 {
-	m_pIngredient = std::make_shared<dae::GameObject>();
+	m_pIngredient = std::make_shared<dae::GameObject>("IngredientBlock");
 
 	const auto& pIngredientComp = std::make_shared<IngredientComponent>(m_pIngredient.get());
 	m_pIngredient->AddComponent(pIngredientComp);
