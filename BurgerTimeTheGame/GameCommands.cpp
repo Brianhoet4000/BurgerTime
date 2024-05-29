@@ -17,14 +17,12 @@ GameCommands::PlayerMovement::PlayerMovement(std::shared_ptr<dae::GameObject> ow
 void GameCommands::PlayerMovement::Execute(float deltaTime)
 {
     if (m_pGameObject->ReturnDeleting()) return;
+    if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
 
     glm::vec2 pos = m_pGameObject->GetRelativePosition();
 
-    
-    auto shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
-
+    const auto& shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
     if (shootingstate == nullptr) return;
-
     if (m_Dir.x > 0)
     {
         shootingstate->SetFaceState(dae::ShootingDirComponent::Right);
@@ -34,22 +32,24 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
         shootingstate->SetFaceState(dae::ShootingDirComponent::Left);
     }
 
-	dae::GameCollisionMngr::GetInstance().PlayerLogicBox(m_pGameObject->GetComponent<dae::GameCollisionComponent>(), m_Dir);
+	//dae::GameCollisionMngr::GetInstance().PlayerLogicBox(m_pGameObject->GetComponent<dae::GameCollisionComponent>(), m_Dir);
 
-    if (!dae::GameCollisionMngr::GetInstance().Raycast(m_pGameObject->GetRelativePosition(), m_Dir, m_pCollision))
-        return;
+    //if (!dae::GameCollisionMngr::GetInstance().Raycast(m_pGameObject->GetRelativePosition(), m_Dir, m_pCollision))
+    //    return;
+
+    const float offset{ 3.5f };
 
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {
         if(dae::GameCollisionMngr::GetInstance().MovePlayerLeftFloors())
         {
-            pos.x = m_pGameObject->GetRelativePosition().x + 3.f;
+            pos.x = m_pGameObject->GetRelativePosition().x + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
         else if(dae::GameCollisionMngr::GetInstance().MovePlayerRightFloors())
         {
-            pos.x = m_pGameObject->GetRelativePosition().x - 3.f;
+            pos.x = m_pGameObject->GetRelativePosition().x - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
@@ -66,13 +66,13 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
     {
         if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs())
         {
-            pos.y = m_pGameObject->GetRelativePosition().y - 3.f;
+            pos.y = m_pGameObject->GetRelativePosition().y - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
         else if (dae::GameCollisionMngr::GetInstance().MovePlayerUpStairs())
         {
-            pos.y = m_pGameObject->GetRelativePosition().y + 3.f;
+            pos.y = m_pGameObject->GetRelativePosition().y + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }

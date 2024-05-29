@@ -3,6 +3,7 @@
 #include <SDL_syswm.h>
 
 #include "GameObject.h"
+#include "IngredientComponent.h"
 #include "IngredientPartComponent.h"
 #include "PlayerManager.h"
 #include "PointComponent.h"
@@ -325,33 +326,25 @@ namespace dae
         return false;
     }
 
-    bool GameCollisionMngr::CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const
+    void GameCollisionMngr::CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const
     {
         for (const auto& OtherIngredients : m_pIngredientBoxes)
         {
-            for (const auto& element : box->GetOwner()->GetChildren())
-            {
-                std::cout << box->GetOwner()->GetChildren().size() << '\n';
-                const auto& childColl = element->GetComponent<GameCollisionComponent>();
+            if (box->GetCollisionRect().x < OtherIngredients->GetCollisionRect().x + OtherIngredients->GetCollisionRect().w &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > OtherIngredients->GetCollisionRect().x &&
+                box->GetCollisionRect().y < OtherIngredients->GetCollisionRect().y + OtherIngredients->GetCollisionRect().h &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > OtherIngredients->GetCollisionRect().y)
+                {
+                OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->SetCollided(true); //->GetParent()->GetComponent<IngredientComponent>()->SetIsFalling(true);
 
-                if (childColl == OtherIngredients)
-                    continue;
-
-                    if (childColl->GetCollisionRect().x  < OtherIngredients->GetCollisionRect().x + OtherIngredients->GetCollisionRect().w &&
-                        childColl->GetCollisionRect().x + childColl->GetCollisionRect().w > OtherIngredients->GetCollisionRect().x &&
-                        childColl->GetOwner()->GetRelativePosition().y < OtherIngredients->GetCollisionRect().y + OtherIngredients->GetCollisionRect().h &&
-                        childColl->GetOwner()->GetRelativePosition().y + childColl->GetCollisionRect().h - 10 > OtherIngredients->GetCollisionRect().y)
-                    {
-                        for (auto otherIng : OtherIngredients->GetOwner()->GetChildren())
-                        {
-                            otherIng->GetComponent<IngredientPartComponent>()->SetCollided(true);
-                        }
-
-                        return true;
-                    }
-            }
+                    //for (auto otherIng : OtherIngredients->GetOwner()->GetChildren())
+                    //{
+                    //    std::cout << "here\n";
+                    //    //otherIng->GetComponent<IngredientPartComponent>()->SetCollided(true);
+                    //    otherIng->GetComponent<IngredientComponent>()->SetIsFalling(true);
+                    //}
+                }
         }
-        return false;
     }
 
     bool GameCollisionMngr::CheckForInStairsX() const
@@ -479,6 +472,8 @@ namespace dae
 
     bool GameCollisionMngr::MovePlayerLeftFloors() const
     {
+        const float heightOffset = 5.f;
+
         for (const auto& floors : m_pFloorBoxes)
         {
             if (floors == nullptr)
@@ -488,11 +483,10 @@ namespace dae
             {
                 const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
 
-                // Adjust the comparison with the offset
-                if (PlayerBox->GetCollisionRect().y >= floors->GetCollisionRect().y &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h &&
-                    PlayerBox->GetCollisionRect().x < floors->GetCollisionRect().x
-                    && PlayerBox->GetCollisionRect().x > floors->GetCollisionRect().x - 10)
+                if (PlayerBox->GetCollisionRect().y >= floors->GetCollisionRect().y - heightOffset &&
+                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h + heightOffset &&
+                    PlayerBox->GetCollisionRect().x <= floors->GetCollisionRect().x &&
+                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w >= floors->GetCollisionRect().x - 10)
                 {
                     return true;
                 }
@@ -501,8 +495,11 @@ namespace dae
         return false;
     }
 
+
     bool GameCollisionMngr::MovePlayerRightFloors() const
     {
+        const float heightOffset = 5.f;
+
         for (const auto& floors : m_pFloorBoxes)
         {
             if (floors == nullptr)
@@ -513,10 +510,10 @@ namespace dae
                 const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
 
                 // Adjust the comparison with the offset
-                if (PlayerBox->GetCollisionRect().y >= floors->GetCollisionRect().y &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h &&
-                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w > floors->GetCollisionRect().x + floors->GetCollisionRect().w
-                    && PlayerBox->GetCollisionRect().x < floors->GetCollisionRect().x + floors->GetCollisionRect().w + 10)
+                if (PlayerBox->GetCollisionRect().y >= floors->GetCollisionRect().y - heightOffset &&
+                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h + heightOffset &&
+                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w >= floors->GetCollisionRect().x + floors->GetCollisionRect().w
+                    && PlayerBox->GetCollisionRect().x <= floors->GetCollisionRect().x + floors->GetCollisionRect().w + 10)
                 {
                     return true;
                 }

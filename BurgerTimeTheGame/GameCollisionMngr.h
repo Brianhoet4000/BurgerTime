@@ -49,7 +49,7 @@ namespace dae
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBoolIngredients(const GameCollisionComponent* box) const;
 		bool CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box) const;
-		bool CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const;
+		void CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const; //Here
 
 		bool CheckForInStairsX() const;
 		bool CheckOverlapWithStairs() const;

@@ -21,12 +21,13 @@ namespace dae
 		bool AllArePushedDown() const;
 
 		bool GetIsFalling() const { return m_IsFalling; }
+		void SetIsFalling(bool Falling) { m_IsFalling = Falling; }
 
 	private:
 		int m_speed = 60;
 		bool m_allPushedDown;
 		bool m_IsFalling;
-		bool m_DoOnce;
+		bool m_OverlappedFloor;
 	};
 
 }

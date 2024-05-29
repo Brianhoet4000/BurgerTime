@@ -8,7 +8,7 @@ dae::IngredientComponent::IngredientComponent(dae::GameObject* owner)
 	:BaseComponent(owner)
 	,m_allPushedDown(false)
 	,m_IsFalling(false)
-	,m_DoOnce(false)
+	,m_OverlappedFloor(false)
 {
 
 }
@@ -25,18 +25,12 @@ void dae::IngredientComponent::Update(float deltaTime)
 			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
 
 			GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
-			
-			
-			//if(GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithOtherIngredients(childCollider))
-			//{
-			//	m_IsFalling = true;
-			//}
-			
+
+			//GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithOtherIngredients(childCollider);
 
 			if (dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithFloors(childCollider))
 			{
 				m_IsFalling = false;
-				m_DoOnce = false;
 				m_pOwner->GetChildren()[i]->GetComponent<IngredientPartComponent>()->SetPushedDown(false);
 				float y = m_pOwner->GetChildren()[0]->GetRelativePosition().y;
 				m_pOwner->GetChildren()[i]->SetRelativePosition(m_pOwner->GetChildren()[i]->GetRelativePosition().x, y);
