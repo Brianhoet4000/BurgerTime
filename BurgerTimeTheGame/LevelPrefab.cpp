@@ -3,12 +3,14 @@
 #include "TextureComponent.h"
 #include <fstream>
 #include "GameCollisionComponent.h"
+#include "Ingredient.h"
+#include "IngredientPart.h"
+#include "PlateComponent.h"
 #include "rapidjson.h"
 #pragma warning(disable : 4996)
 #include <document.h>
 
-#include "Ingredient.h"
-#include "IngredientPart.h"
+
 
 dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 {
@@ -86,6 +88,21 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		FloorColl->SetDebugColor("red");
 		floor->AddComponent(FloorColl);
 		scene.Add(floor);
+	}
+
+	for (const auto& plates : document["plates"].GetArray())
+	{
+		float x = plates[0].GetFloat();
+		float y = plates[1].GetFloat();
+
+		std::shared_ptr<dae::GameObject> plate = std::make_shared<dae::GameObject>("Plate");
+		std::shared_ptr<dae::GameCollisionComponent> PlateColl =
+			std::make_shared<dae::GameCollisionComponent>(plate.get(), glm::vec2{ x + 36.f, y - 30.f }, 104.f, 84.f, false, true);
+		std::shared_ptr<dae::PlateComponent> PlateComp = std::make_shared<PlateComponent>(plate.get());
+		PlateColl->SetDebugColor("red");
+		plate->AddComponent(PlateColl);
+		plate->AddComponent(PlateComp);
+		scene.Add(plate);
 	}
 
 	// BUN_TOP

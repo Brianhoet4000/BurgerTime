@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "IngredientComponent.h"
 #include "IngredientPartComponent.h"
+#include "PlateComponent.h"
 #include "PlayerManager.h"
 #include "PointComponent.h"
 #include "ScreenManager.h"
@@ -39,6 +40,10 @@ namespace dae
             else if (owner->GetTag() == "Enemy")
             {
                 m_pEnemies.push_back(box);
+            }
+            else if(owner->GetTag() == "Plate")
+            {
+                m_pPlates.push_back(box);
             }
             else if (owner->GetTag() == "Player_01")
             {
@@ -84,25 +89,9 @@ namespace dae
         m_pFloorBoxes.clear();
         m_pIngredientBoxes.clear();
         m_pEnemies.clear();
+        m_pPlates.clear();
         m_pFirstPlayer = nullptr;
         m_pSecondPlayer = nullptr;
-    }
-
-    std::vector<dae::GameCollisionComponent*> dae::GameCollisionMngr::GetAllWall()
-    {
-        return m_pWallBoxes;
-    }
-    std::vector<dae::GameCollisionComponent*> dae::GameCollisionMngr::GetAllStairs()
-    {
-        return m_pStairsBoxes;
-    }
-    std::vector<dae::GameCollisionComponent*> dae::GameCollisionMngr::GetAllFloors()
-    {
-        return m_pFloorBoxes;
-    }
-    std::vector<dae::GameCollisionComponent*> GameCollisionMngr::GetAllEnemies()
-    {
-        return m_pEnemies;
     }
 
     std::vector<GameCollisionComponent*> GameCollisionMngr::GetAllPlayers() const
@@ -344,6 +333,47 @@ namespace dae
                     //    otherIng->GetComponent<IngredientComponent>()->SetIsFalling(true);
                     //}
                 }
+        }
+    }
+
+    void GameCollisionMngr::CheckOverlapIngredientsWithPlates(const GameCollisionComponent* box, int amountOfIngredient) const
+    {
+        float YDepending = 0.0f;
+
+        // Determine the Y offset based on the amount of ingredients
+        switch (amountOfIngredient)
+        {
+        case 0:
+            std::cout << "0\n";
+            YDepending = 21.0f * 3;
+            break;
+        case 1:
+            std::cout << "1\n";
+            YDepending = 21.0f * 2;
+            break;
+        case 2:
+            std::cout << "2\n";
+            YDepending = 21.0f * 1;
+            break;
+        case 3:
+            std::cout << "3\n";
+            YDepending = 0.0f;
+            break;
+        default:
+            YDepending = 0.0f;
+            break;
+        }
+        for (const auto& ingredient : m_pIngredientBoxes)
+        {
+            if (box->GetCollisionRect().x < ingredient->GetCollisionRect().x &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > ingredient->GetCollisionRect().x + ingredient->GetCollisionRect().w &&
+                box->GetCollisionRect().y + YDepending < ingredient->GetCollisionRect().y &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h + YDepending > ingredient->GetCollisionRect().y + ingredient->GetCollisionRect().h)
+            {
+                ingredient->GetOwner()->GetParent()->GetComponent<IngredientComponent>()->SetIsFalling(false);
+                box->GetOwner()->GetComponent<PlateComponent>()->IncrementInt();
+            }
+
         }
     }
 
