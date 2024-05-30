@@ -8,11 +8,11 @@
 
 namespace dae
 {
+	using sound_id = unsigned short;
 
 	class SoundSystem final : public BaseSoundSystem
 	{
 	public:
-
 		SoundSystem();
 		virtual ~SoundSystem() override;
 
