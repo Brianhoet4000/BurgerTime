@@ -15,14 +15,11 @@ dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos)
 	m_pEnemy->SetRelativePosition(StartPos.x, StartPos.y - pTexture->GetSize().y);
 
 	//Collision
-	const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pEnemy.get(), StartPos, pTexture->GetSize().x, pTexture->GetSize().y, true, true);
+	const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pEnemy.get(), StartPos,
+		pTexture->GetSize().x, pTexture->GetSize().y, true, true);
 	m_pEnemy->AddComponent(pCollider);
 	pCollider->SetCollisionRectOffset(0.2f);
 	pCollider->SetRenderCollisionBox(true);
-
-	//Hobbin
-	//const auto& hobbinComponent = std::make_shared<dae::HobbinComponent>(m_pEnemy.get());
-	//m_pEnemy->AddComponent(hobbinComponent);
 
 	//AIMovement
 	const auto& AIMovement = std::make_shared<dae::AIMovementComponent>(m_pEnemy.get(), StartPos);

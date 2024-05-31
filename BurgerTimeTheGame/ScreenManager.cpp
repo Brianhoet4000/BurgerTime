@@ -232,8 +232,8 @@ namespace dae
 				player[0]->SetRelativePosition(pLevel->GetSpawnPosition()[0]);
 				
 				//const auto& pSpawner = std::make_shared<dae::EnemySpawner>(*dae::SceneManager::GetInstance().GetActiveScene(), pLevel->GetEnemySpawnPosition(), 3);
-				//const auto& pWinLose = std::make_shared<dae::ConditionSingleCoopComponent>(pLevel->returnLevelObj().get(), pSpawner->getSpawnObj());
-				//pLevel->returnLevelObj()->AddComponent();
+				const auto& pWinLose = std::make_shared<dae::ConditionSingleCoopComponent>(pLevel->returnLevelObj().get());
+				pLevel->returnLevelObj()->AddComponent(pWinLose);
 
 				std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 });
 
@@ -402,36 +402,59 @@ namespace dae
 
 	void ScreenManager::CreateUI(dae::Scene& scene, std::vector<std::shared_ptr<GameObject>>& players, bool SecondPlayer)
 	{
-		const auto& pPlayerLives = std::make_shared<dae::GameObject>();
-		const auto& pPlayerLiveText = std::make_shared<dae::TextComponent>(std::to_string(players[0]->GetComponent<HealthComponent>()->GetAmount()),
-			m_pFont, pPlayerLives.get());
-		pPlayerLives->AddComponent(pPlayerLiveText);
-		pPlayerLives->SetRelativePosition(60, 410);
-		scene.Add(pPlayerLives);
+		const auto& pPlayerLivesFirst = std::make_shared<dae::GameObject>("PlayerLivesFirst");
+		scene.Add(pPlayerLivesFirst);
+		const auto& pPlayerLivesSecond = std::make_shared<dae::GameObject>("PlayerLivesSecond");
+		scene.Add(pPlayerLivesSecond);
+
+		for (int i = 0; i < players[0]->GetComponent<HealthComponent>()->GetAmount(); ++i)
+		{
+			const auto& pPlayerLives = std::make_shared<dae::GameObject>();
+			const auto& pPlayerLiveTexture = std::make_shared<TextureComponent>(pPlayerLives.get());
+			pPlayerLiveTexture->SetTexture("Misc/PepperHealth.png");
+			pPlayerLives->AddComponent(pPlayerLiveTexture);
+
+			pPlayerLives->SetRelativePosition(((710.f/2.f) - ((pPlayerLiveTexture->GetSize().x*3))) + (i * pPlayerLiveTexture->GetSize().x),  6.f);
+			scene.Add(pPlayerLives);
+			pPlayerLivesFirst->AddChild(pPlayerLives);
+
+			if (SecondPlayer)
+			{
+				const auto& pPlayerLives2 = std::make_shared<dae::GameObject>();
+				const auto& pPlayerLiveTexture2 = std::make_shared<TextureComponent>(pPlayerLives2.get());
+				pPlayerLiveTexture2->SetTexture("Misc/SallyHealth.png");
+				pPlayerLives2->AddComponent(pPlayerLiveTexture2);
+
+				pPlayerLives2->SetRelativePosition(((710.f / 2.f) - ((pPlayerLiveTexture2->GetSize().x * 3))) + (i * pPlayerLiveTexture2->GetSize().x), 34.f);
+				scene.Add(pPlayerLives2);
+				pPlayerLivesSecond->AddChild(pPlayerLives2);
+
+			}
+		}
 
 		const auto& pPlayerPoints = std::make_shared<GameObject>("PlayerOnePoints");
 		const auto& pPlayerPointsText = std::make_shared<TextComponent>(std::to_string(players[0]->GetComponent<PointComponent>()->GetAmount()),
 			m_pFont, pPlayerPoints.get());
 		pPlayerPoints->AddComponent(pPlayerPointsText);
-		pPlayerPoints->SetRelativePosition(75, 430);
+		pPlayerPoints->SetRelativePosition((710.f / 2.f), 6.f);
 		scene.Add(pPlayerPoints);
 
 		if(SecondPlayer)
 		{
-			const auto& pPlayerLives2 = std::make_shared<dae::GameObject>();
-			const auto& pPlayerLiveText2 = std::make_shared<dae::TextComponent>(std::to_string(players[1]->GetComponent<HealthComponent>()->GetAmount()),
-				m_pFont, pPlayerLives2.get());
-			pPlayerLives2->AddComponent(pPlayerLiveText2);
-			pPlayerLives2->SetRelativePosition(170, 410);
-			scene.Add(pPlayerLives2);
-
 			const auto& pPlayerPoints2 = std::make_shared<GameObject>("PlayerTwoPoints");
 			const auto& pPlayerPointsText2 = std::make_shared<TextComponent>(std::to_string(players[1]->GetComponent<PointComponent>()->GetAmount()),
 				m_pFont, pPlayerPoints2.get());
 			pPlayerPoints2->AddComponent(pPlayerPointsText2);
-			pPlayerPoints2->SetRelativePosition(185, 430);
+			pPlayerPoints2->SetRelativePosition((710.f / 2.f), 34.f);
 			scene.Add(pPlayerPoints2);
 		}
+
+		//const auto& pPlayerLives = std::make_shared<dae::GameObject>();
+		//const auto& pPlayerLiveText = std::make_shared<dae::TextComponent>(std::to_string(players[0]->GetComponent<HealthComponent>()->GetAmount()),
+		//	m_pFont, pPlayerLives.get());
+		//pPlayerLives->AddComponent(pPlayerLiveText);
+		//pPlayerLives->SetRelativePosition(60, 410);
+		//scene.Add(pPlayerLives);
 	}
 
 	void ScreenManager::PlayerKilledResetLevelAndStats(dae::GameCollisionComponent* ownerbox) const
@@ -452,12 +475,9 @@ namespace dae
 			points->GetComponent<TextComponent>()->SetText(std::to_string(ownerbox->GetOwner()->GetComponent<PointComponent>()->GetAmount()));
 		}
 
-
 		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 		dae::GameCollisionMngr::GetInstance().ClearAll();
 		GetInstance().CreateGameScreen(*SceneManager::GetInstance().GetActiveScene());
-
-
 	}
 
 	GameObject* ScreenManager::GetGameObjectInScene(dae::Scene& scene, std::string tag)

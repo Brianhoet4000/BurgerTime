@@ -25,8 +25,7 @@ void dae::AIMovementComponent::Update(float deltaTime)
 	const auto& pPlayerCollision = dae::GameCollisionMngr::GetInstance().CheckOverlapWithPlayers(m_pOwner->GetComponent<dae::GameCollisionComponent>());
 	if (pPlayerCollision != nullptr)
 	{
-		//dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(pPlayerCollision);
-		std::cout << "Died\n";
+		dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(pPlayerCollision);
 		return;
 	}
 

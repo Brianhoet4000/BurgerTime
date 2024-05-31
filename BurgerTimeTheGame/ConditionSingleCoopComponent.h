@@ -10,7 +10,7 @@ namespace dae
 	{
 	public:
 
-		ConditionSingleCoopComponent(dae::GameObject* owner, std::shared_ptr<dae::GameObject> spawner);
+		ConditionSingleCoopComponent(dae::GameObject* owner);
 		virtual ~ConditionSingleCoopComponent() = default;
 		ConditionSingleCoopComponent(const ConditionSingleCoopComponent& other) = delete;
 		ConditionSingleCoopComponent(ConditionSingleCoopComponent&& other) = delete;
@@ -21,7 +21,7 @@ namespace dae
 
 	private:
 		bool m_Finished;
-		std::shared_ptr<dae::GameObject> m_pSpawner;
+		//std::shared_ptr<dae::GameObject> m_pSpawner;
 		bool m_DoOnce = false;
 	};
 

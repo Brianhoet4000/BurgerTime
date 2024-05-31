@@ -1,6 +1,6 @@
-bribri, 88
-bri,55
-testing, 150
+Kenneth, 88888
+Lars,5556
+Sharon, 1436
 rgaerga, 250
 Lisa, 1600
 TomIsTheBest, 1500

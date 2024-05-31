@@ -9,11 +9,11 @@
 #include "ScreenManager.h"
 #include "TextureComponent.h"
 
-dae::ConditionSingleCoopComponent::ConditionSingleCoopComponent(dae::GameObject* owner, std::shared_ptr<dae::GameObject> spawner)
+dae::ConditionSingleCoopComponent::ConditionSingleCoopComponent(dae::GameObject* owner)
 	:BaseComponent(owner)
 	,m_Finished{false}
 {
-	m_pSpawner = spawner;
+	
 }
 
 void dae::ConditionSingleCoopComponent::Update(float)
