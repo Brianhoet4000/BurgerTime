@@ -21,7 +21,7 @@ namespace dae
 
 	private:
 		int m_AmountOfIngredients;
-
+		bool m_PlateFull;
 	};
 
 }

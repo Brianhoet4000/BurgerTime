@@ -338,39 +338,39 @@ namespace dae
 
     void GameCollisionMngr::CheckOverlapIngredientsWithPlates(const GameCollisionComponent* box, int amountOfIngredient) const
     {
-        float YDepending = 0.0f;
-
-        // Determine the Y offset based on the amount of ingredients
-        switch (amountOfIngredient)
-        {
-        case 0:
-            std::cout << "0\n";
-            YDepending = 21.0f * 3;
-            break;
-        case 1:
-            std::cout << "1\n";
-            YDepending = 21.0f * 2;
-            break;
-        case 2:
-            std::cout << "2\n";
-            YDepending = 21.0f * 1;
-            break;
-        case 3:
-            std::cout << "3\n";
-            YDepending = 0.0f;
-            break;
-        default:
-            YDepending = 0.0f;
-            break;
-        }
         for (const auto& ingredient : m_pIngredientBoxes)
         {
+            if(ingredient->GetOwner()->GetParent()->GetComponent<IngredientComponent>()->GetIsCompleted())
+                continue;
+
+			float YDepending = 0.0f;
+
+            // Determine the Y offset based on the amount of ingredients
+            switch (amountOfIngredient)
+            {
+            case 0:
+                YDepending = 21.0f * 3;
+                break;
+            case 1:
+                YDepending = 21.0f * 2;
+                break;
+            case 2:
+                YDepending = 21.0f * 1;
+                break;
+            case 3:
+                YDepending = 0.0f;
+                break;
+            default:
+                YDepending = 0.0f;
+                break;
+			}
+        
             if (box->GetCollisionRect().x < ingredient->GetCollisionRect().x &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > ingredient->GetCollisionRect().x + ingredient->GetCollisionRect().w &&
                 box->GetCollisionRect().y + YDepending < ingredient->GetCollisionRect().y &&
                 box->GetCollisionRect().y + box->GetCollisionRect().h + YDepending > ingredient->GetCollisionRect().y + ingredient->GetCollisionRect().h)
             {
-                ingredient->GetOwner()->GetParent()->GetComponent<IngredientComponent>()->SetIsFalling(false);
+                ingredient->GetOwner()->GetParent()->GetComponent<IngredientComponent>()->SetIscompleted(true);
                 box->GetOwner()->GetComponent<PlateComponent>()->IncrementInt();
             }
 

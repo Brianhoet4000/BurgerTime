@@ -23,11 +23,14 @@ namespace dae
 		bool GetIsFalling() const { return m_IsFalling; }
 		void SetIsFalling(bool Falling) { m_IsFalling = Falling; }
 
+		bool GetIsCompleted() const { return m_Completed; }
+		void SetIscompleted(bool Completed) { m_Completed = Completed; }
+
 	private:
 		int m_speed = 60;
 		bool m_allPushedDown;
 		bool m_IsFalling;
-		bool m_OverlappedFloor;
+		bool m_Completed;
 	};
 
 }

@@ -70,7 +70,7 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		std::shared_ptr<dae::GameObject> ladder = std::make_shared<dae::GameObject>("Stair");
 		std::shared_ptr<dae::GameCollisionComponent> LadderColl =
 			std::make_shared<dae::GameCollisionComponent>(ladder.get(), glm::vec2{ x + 43.f, y + 43.f },
-				48.f, z + 8.f, false, true);
+				48.f, z + 8.f, false, false);
 		ladder->AddComponent(LadderColl);
 		scene.Add(ladder);
 	}
@@ -84,7 +84,7 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		std::shared_ptr<dae::GameObject> floor = std::make_shared<dae::GameObject>("Floor");
 		std::shared_ptr<dae::GameCollisionComponent> FloorColl =
 			std::make_shared<dae::GameCollisionComponent>(floor.get(), glm::vec2{ x + 43.f, y + 42.f },
-				z,  10.f, false, true);
+				z,  10.f, false, false);
 		FloorColl->SetDebugColor("red");
 		floor->AddComponent(FloorColl);
 		scene.Add(floor);
@@ -97,7 +97,8 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 
 		std::shared_ptr<dae::GameObject> plate = std::make_shared<dae::GameObject>("Plate");
 		std::shared_ptr<dae::GameCollisionComponent> PlateColl =
-			std::make_shared<dae::GameCollisionComponent>(plate.get(), glm::vec2{ x + 36.f, y - 30.f }, 104.f, 84.f, false, true);
+			std::make_shared<dae::GameCollisionComponent>(plate.get(), glm::vec2{ x + 36.f, y - 30.f },
+				104.f, 84.f, false, false);
 		std::shared_ptr<dae::PlateComponent> PlateComp = std::make_shared<PlateComponent>(plate.get());
 		PlateColl->SetDebugColor("red");
 		plate->AddComponent(PlateColl);
