@@ -300,10 +300,18 @@ namespace dae
 
     }
 
-    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box) const
+    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent*) const
     {
         for (const auto& floor : m_pFloorBoxes)
         {
+            // Skip the check if the current floor is the same as the one being checked
+            //if (floor == currentFloor)
+            //{
+            //    std::cout << "Skipping floor\n";
+            //    continue;
+            //}
+
+            // Perform the collision check
             if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
                 box->GetOwner()->GetRelativePosition().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
@@ -315,6 +323,23 @@ namespace dae
         return false;
     }
 
+
+    GameCollisionComponent* GameCollisionMngr::CheckOverlapIngredientsForCurrentFloor(const GameCollisionComponent* box) const
+    {
+        for (const auto& floor : m_pFloorBoxes)
+        {
+            if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
+                box->GetCollisionRect().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > floor->GetCollisionRect().y)
+            {
+                return floor;
+            }
+        }
+        return nullptr;
+    }
+
+
     void GameCollisionMngr::CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const
     {
         for (const auto& OtherIngredients : m_pIngredientBoxes)
@@ -324,14 +349,7 @@ namespace dae
                 box->GetCollisionRect().y < OtherIngredients->GetCollisionRect().y + OtherIngredients->GetCollisionRect().h &&
                 box->GetCollisionRect().y + box->GetCollisionRect().h > OtherIngredients->GetCollisionRect().y)
                 {
-                OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->SetCollided(true); //->GetParent()->GetComponent<IngredientComponent>()->SetIsFalling(true);
-
-                    //for (auto otherIng : OtherIngredients->GetOwner()->GetChildren())
-                    //{
-                    //    std::cout << "here\n";
-                    //    //otherIng->GetComponent<IngredientPartComponent>()->SetCollided(true);
-                    //    otherIng->GetComponent<IngredientComponent>()->SetIsFalling(true);
-                    //}
+					OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->SetCollided(true);
                 }
         }
     }
@@ -401,7 +419,7 @@ namespace dae
         return false;
     }
 
-    bool GameCollisionMngr::CheckOverlapWithStairs() const
+    bool GameCollisionMngr::CheckOverlapWithStairs(const GameCollisionComponent* playerBox) const
     {
 
         for (const auto& stairs : m_pStairsBoxes)
@@ -409,98 +427,75 @@ namespace dae
             if (stairs == nullptr)
                 return false;
 
-            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
+                playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
+                playerBox->GetCollisionRect().y >= stairs->GetCollisionRect().y &&
+                playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h <= stairs->GetCollisionRect().y + stairs->GetCollisionRect().h)
             {
-                const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
-
-                if (PlayerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
-                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
-                    PlayerBox->GetCollisionRect().y >= stairs->GetCollisionRect().y &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= stairs->GetCollisionRect().y + stairs->GetCollisionRect().h)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
     }
 
-    bool GameCollisionMngr::MovePlayerUpStairs() const
+    bool GameCollisionMngr::MovePlayerUpStairs(const GameCollisionComponent* playerBox) const
     {
         for (const auto& stairs : m_pStairsBoxes)
         {
             if (stairs == nullptr)
                 return false;
 
-            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
+                playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
+                playerBox->GetCollisionRect().y < stairs->GetCollisionRect().y && playerBox->GetCollisionRect().y > stairs->GetCollisionRect().y - 10) // Going up
             {
-                const auto& playerBox = player->GetComponent<GameCollisionComponent>();
-                // Check if player can move up the stairs
-                // Adjusting for top-left origin by comparing top edge of player with bottom edge of stairs
-                if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
-                    playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
-                    playerBox->GetCollisionRect().y < stairs->GetCollisionRect().y && playerBox->GetCollisionRect().y > stairs->GetCollisionRect().y - 10) // Going up
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
     }
 
 
-    bool GameCollisionMngr::MovePlayerDownStairs() const
+    bool GameCollisionMngr::MovePlayerDownStairs(const GameCollisionComponent* playerBox) const
     {
         for (const auto& stairs : m_pStairsBoxes)
         {
             if (stairs == nullptr)
                 return false;
 
-            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
+                playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
+                playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h > stairs->GetCollisionRect().y + stairs->GetCollisionRect().h &&
+                playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h < stairs->GetCollisionRect().y + stairs->GetCollisionRect().h + 10)
             {
-                const auto& playerBox = player->GetComponent<GameCollisionComponent>();
-
-            	if (playerBox->GetCollisionRect().x >= stairs->GetCollisionRect().x &&
-                    playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w <= stairs->GetCollisionRect().x + stairs->GetCollisionRect().w &&
-                    playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h > stairs->GetCollisionRect().y + stairs->GetCollisionRect().h &&
-                    playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h < stairs->GetCollisionRect().y + stairs->GetCollisionRect().h + 10)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
     }
 
-    bool GameCollisionMngr::CheckOverlapWithFloors() const
+    bool GameCollisionMngr::CheckOverlapWithFloors(const GameCollisionComponent* playerBox) const
     {
-        // Define offset values
-        constexpr int offsetX = 2; // Adjust as needed
-        constexpr int offsetY = 2; // Adjust as needed
+        constexpr int offsetX = 2;
+        constexpr int offsetY = 2;
 
         for (const auto& floors : m_pFloorBoxes)
         {
             if (floors == nullptr)
                 return false;
-
-            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            
+            if (playerBox->GetCollisionRect().x + offsetX >= floors->GetCollisionRect().x &&
+                playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w - offsetX <= floors->GetCollisionRect().x + floors->GetCollisionRect().w &&
+                playerBox->GetCollisionRect().y + offsetY >= floors->GetCollisionRect().y &&
+                playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h - offsetY <= floors->GetCollisionRect().y + floors->GetCollisionRect().h)
             {
-                const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
-
-                // Adjust the comparison with the offset
-                if (PlayerBox->GetCollisionRect().x + offsetX >= floors->GetCollisionRect().x &&
-                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w - offsetX <= floors->GetCollisionRect().x + floors->GetCollisionRect().w &&
-                    PlayerBox->GetCollisionRect().y + offsetY >= floors->GetCollisionRect().y &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h - offsetY <= floors->GetCollisionRect().y + floors->GetCollisionRect().h)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
     }
 
-    bool GameCollisionMngr::MovePlayerLeftFloors() const
+    bool GameCollisionMngr::MovePlayerLeftFloors(const GameCollisionComponent* playerBox) const
     {
         const float heightOffset = 5.f;
 
@@ -509,24 +504,19 @@ namespace dae
             if (floors == nullptr)
                 return false;
 
-            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            if (playerBox->GetCollisionRect().y >= floors->GetCollisionRect().y - heightOffset &&
+                playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h + heightOffset &&
+                playerBox->GetCollisionRect().x <= floors->GetCollisionRect().x &&
+                playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w >= floors->GetCollisionRect().x - 10)
             {
-                const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
-
-                if (PlayerBox->GetCollisionRect().y >= floors->GetCollisionRect().y - heightOffset &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h + heightOffset &&
-                    PlayerBox->GetCollisionRect().x <= floors->GetCollisionRect().x &&
-                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w >= floors->GetCollisionRect().x - 10)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
     }
 
 
-    bool GameCollisionMngr::MovePlayerRightFloors() const
+    bool GameCollisionMngr::MovePlayerRightFloors(const GameCollisionComponent* playerBox) const
     {
         const float heightOffset = 5.f;
 
@@ -535,24 +525,18 @@ namespace dae
             if (floors == nullptr)
                 return false;
 
-            for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+            if (playerBox->GetCollisionRect().y >= floors->GetCollisionRect().y - heightOffset &&
+                playerBox->GetCollisionRect().y + playerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h + heightOffset &&
+                playerBox->GetCollisionRect().x + playerBox->GetCollisionRect().w >= floors->GetCollisionRect().x + floors->GetCollisionRect().w
+                && playerBox->GetCollisionRect().x <= floors->GetCollisionRect().x + floors->GetCollisionRect().w + 10)
             {
-                const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
-
-                // Adjust the comparison with the offset
-                if (PlayerBox->GetCollisionRect().y >= floors->GetCollisionRect().y - heightOffset &&
-                    PlayerBox->GetCollisionRect().y + PlayerBox->GetCollisionRect().h <= floors->GetCollisionRect().y + floors->GetCollisionRect().h + heightOffset &&
-                    PlayerBox->GetCollisionRect().x + PlayerBox->GetCollisionRect().w >= floors->GetCollisionRect().x + floors->GetCollisionRect().w
-                    && PlayerBox->GetCollisionRect().x <= floors->GetCollisionRect().x + floors->GetCollisionRect().w + 10)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
     }
 
-    bool GameCollisionMngr::CheckOverlapWithIngredient() const
+    bool GameCollisionMngr::CheckOverlapWithIngredient(const GameCollisionComponent*) const
     {
         if (!m_pIngredientBoxes.empty())
         {
@@ -619,25 +603,6 @@ namespace dae
             }
         }
         return false;
-    }
-
-    void GameCollisionMngr::PlayerLogicBox(dae::GameCollisionComponent*, glm::vec2)
-    {
-        //const auto& overlappedbox = CheckOverlapWithIngredient();
-        //
-        //if (overlappedbox == nullptr) return;
-        //
-        //glm::vec2 pos = overlappedbox->GetOwner()->GetRelativePosition();
-        //pos.y += 4;
-        //overlappedbox->GetOwner()->SetRelativePosition(pos);
-        
-
-        //const GameCollisionComponent* OverlappedBox = nullptr;
-        //dir = glm::vec2{ 0,0 };
-        //if (box)
-        //{
-        //	OverlappedBox = CheckForCollisionComponent(box);
-        //}
     }
 
     bool dae::GameCollisionMngr::Raycast(glm::vec2 startpos, glm::vec2 direction,const dae::GameCollisionComponent* box) const

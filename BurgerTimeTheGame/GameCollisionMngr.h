@@ -27,8 +27,6 @@ namespace dae
 		void RemoveEnemyBox(GameCollisionComponent* box);
 		void ClearAll();
 
-		void PrintIngredients() const { std::cout << m_pIngredientBoxes.size() << '\n'; }
-
 		std::vector<GameCollisionComponent*> GetAllWall() { return m_pWallBoxes; };
 		std::vector<GameCollisionComponent*> GetAllStairs() { return m_pStairsBoxes; }
 		std::vector<GameCollisionComponent*> GetAllFloors() { return m_pFloorBoxes; }
@@ -49,26 +47,24 @@ namespace dae
 		GameCollisionComponent* GetCurrentFloor(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBoolIngredients(const GameCollisionComponent* box) const;
-		bool CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box) const;
+		bool CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent* currentFloor) const;
+		GameCollisionComponent* CheckOverlapIngredientsForCurrentFloor(const GameCollisionComponent* box) const;
 		void CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const;
 		void CheckOverlapIngredientsWithPlates(const GameCollisionComponent* box, int amountOfIngredient) const;
 
 		bool CheckForInStairsX() const;
-		bool CheckOverlapWithStairs() const;
-		bool MovePlayerUpStairs() const;
-		bool MovePlayerDownStairs() const;
-		bool CheckOverlapWithFloors() const;
-		bool MovePlayerLeftFloors() const;
-		bool MovePlayerRightFloors() const;
+		bool CheckOverlapWithStairs(const GameCollisionComponent* playerBox) const;
+		bool MovePlayerUpStairs(const GameCollisionComponent* playerBox) const;
+		bool MovePlayerDownStairs(const GameCollisionComponent* playerBox) const;
+		bool CheckOverlapWithFloors(const GameCollisionComponent* playerBox) const;
+		bool MovePlayerLeftFloors(const GameCollisionComponent* playerBox) const;
+		bool MovePlayerRightFloors(const GameCollisionComponent* playerBox) const;
 
-		bool CheckOverlapWithIngredient() const;
-
+		bool CheckOverlapWithIngredient(const GameCollisionComponent* box) const;
 		
 		bool CheckForCollision(const GameCollisionComponent* box) const;
 		bool CheckForOverlapWall(const dae::GameCollisionComponent* box) const;
 		bool CheckOverlapWithEnemies(const GameCollisionComponent* box) const;
-
-		void PlayerLogicBox(dae::GameCollisionComponent* box, glm::vec2 dir);
 
 		bool Raycast(glm::vec2 startpos, glm::vec2 direction,const dae::GameCollisionComponent* box) const;
 

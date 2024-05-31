@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include "BaseComponent.h"
+#include "GameCollisionComponent.h"
 
 namespace dae
 {
@@ -31,6 +32,8 @@ namespace dae
 		bool m_allPushedDown;
 		bool m_IsFalling;
 		bool m_Completed;
+		bool m_DoOnce;
+		GameCollisionComponent* m_currentFloor;
 	};
 
 }

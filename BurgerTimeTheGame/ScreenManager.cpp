@@ -123,13 +123,13 @@ namespace dae
 		{
 			const auto& pGameObjLivesText = std::make_shared<dae::GameObject>();
 			const auto& pLivesText = std::make_shared<dae::TextComponent>("Lives:", m_pFont, pGameObjLivesText.get());
-			pGameObjLivesText->SetRelativePosition(10, 410);
+			pGameObjLivesText->SetRelativePosition(10, 610);
 			pGameObjLivesText->AddComponent(pLivesText);
 			scene.Add(pGameObjLivesText);
 
 			const auto& pGameObjPointText = std::make_shared<dae::GameObject>();
 			const auto& pPointsText = std::make_shared<dae::TextComponent>("Points:", m_pFont, pGameObjPointText.get());
-			pGameObjPointText->SetRelativePosition(10, 430);
+			pGameObjPointText->SetRelativePosition(10, 630);
 			pGameObjPointText->AddComponent(pPointsText);
 			scene.Add(pGameObjPointText);
 		}
@@ -137,13 +137,13 @@ namespace dae
 		{
 			const auto& pGameObjLivesText = std::make_shared<dae::GameObject>();
 			const auto& pLivesText = std::make_shared<dae::TextComponent>("Lives:", m_pFont, pGameObjLivesText.get());
-			pGameObjLivesText->SetRelativePosition(120, 410);
+			pGameObjLivesText->SetRelativePosition(120, 610);
 			pGameObjLivesText->AddComponent(pLivesText);
 			scene.Add(pGameObjLivesText);
 
 			const auto& pGameObjPointText = std::make_shared<dae::GameObject>();
 			const auto& pPointsText = std::make_shared<dae::TextComponent>("Points:", m_pFont, pGameObjPointText.get());
-			pGameObjPointText->SetRelativePosition(120, 430);
+			pGameObjPointText->SetRelativePosition(120, 630);
 			pGameObjPointText->AddComponent(pPointsText);
 			scene.Add(pGameObjPointText);
 		}
@@ -237,7 +237,7 @@ namespace dae
 
 				std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 });
 
-				//CreateUI(scene, player, false);
+				CreateUI(scene, player, false);
 			}
 
 			else if(m_CurrentGameMode == GameMode::Coop)

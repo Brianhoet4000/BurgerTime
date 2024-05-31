@@ -10,7 +10,7 @@
 #include "ResourceManager.h"
 #include "ShootingDirComponent.h"
 
-dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
+dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 {
 	m_pPlayerTwo = std::make_shared<dae::GameObject>("Player_02");
 
@@ -32,10 +32,17 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 		m_pPlayerTwo->AddComponent(pTexture);
 
 		//Collision
-		const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), level.GetSpawnPosition()[1], pTexture->GetSize().x, pTexture->GetSize().y, true, false, false);
-		pCollider->SetCollisionRectOffset(5.f);
-		pCollider->SetRenderCollisionBox(true);
-		m_pPlayerTwo->AddComponent(pCollider);
+		//const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), level.GetSpawnPosition()[1], pTexture->GetSize().x, pTexture->GetSize().y, true, false, false);
+		//pCollider->SetCollisionRectOffset(5.f);
+		//pCollider->SetRenderCollisionBox(true);
+		//m_pPlayerTwo->AddComponent(pCollider);
+
+		const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), m_pPlayerTwo->GetRelativePosition(),
+			pTexture->GetSize().x, 8.f, true, true, false);
+		m_pPlayerTwo->AddComponent(pFootCollider);
+		pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
+		pFootCollider->SetDebugColor("red");
+		pFootCollider->SetRenderCollisionBox(true);
 
 		//BulletTimer
 		const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get());
@@ -45,12 +52,15 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 		const auto& pShootingDir = std::make_shared<ShootingDirComponent>(m_pPlayerTwo.get());
 		m_pPlayerTwo->AddComponent(pShootingDir);
 
+		std::shared_ptr<GameCommands::Stun> stunCommand = std::make_shared<GameCommands::Stun>(m_pPlayerTwo);
 		//Movement
 		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up);
 		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down);
 		moveCommandLeft = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Left);
 		moveCommandRight = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Right);
 
+		controllerButton = dae::Controller::ControllerButton::ButtonA;
+		dae::InputManager::GetInstance().BindControllerToCommand(controller1Index, controllerButton, stunCommand);
 	}
 	else
 	{
@@ -60,15 +70,17 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 		pTexture->SetTexture("Enemies/HotDog.png");
 		m_pPlayerTwo->AddComponent(pTexture);
 
-		//Collision
-		const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), level.GetSpawnPosition()[1], pTexture->GetSize().x, pTexture->GetSize().y, true, false ,true);
-		pCollider->SetRenderCollisionBox(false);
-		m_pPlayerTwo->AddComponent(pCollider);
+		const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), m_pPlayerTwo->GetRelativePosition(),
+			pTexture->GetSize().x, 8.f, true, true, false);
+		m_pPlayerTwo->AddComponent(pFootCollider);
+		pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
+		pFootCollider->SetDebugColor("red");
+		pFootCollider->SetRenderCollisionBox(true);
 
-		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up);
-		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down);
-		moveCommandLeft = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Left);
-		moveCommandRight = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Right);
+		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up, false);
+		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down, false);
+		moveCommandLeft = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Left, false);
+		moveCommandRight = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Right, false);
 	}
 
 

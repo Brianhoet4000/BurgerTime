@@ -7,53 +7,52 @@
 #include "ServiceLocator.h"
 #include "ShootingDirComponent.h"
 
-GameCommands::PlayerMovement::PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir)
+GameCommands::PlayerMovement::PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir, bool player)
 {
 	m_pGameObject = owner;
 	m_Dir = dir;
     m_pCollision = m_pGameObject->GetComponent<dae::GameCollisionComponent>();
+    m_Player = player;
 }
 
 void GameCommands::PlayerMovement::Execute(float deltaTime)
 {
     if (m_pGameObject->ReturnDeleting()) return;
-    if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
-
     glm::vec2 pos = m_pGameObject->GetRelativePosition();
 
-    const auto& shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
-    if (shootingstate == nullptr) return;
-    if (m_Dir.x > 0)
+    if (m_Player)
     {
-        shootingstate->SetFaceState(dae::ShootingDirComponent::Right);
-    }
-    if (m_Dir.x < 0)
-    {
-        shootingstate->SetFaceState(dae::ShootingDirComponent::Left);
-    }
+        if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
 
-	//dae::GameCollisionMngr::GetInstance().PlayerLogicBox(m_pGameObject->GetComponent<dae::GameCollisionComponent>(), m_Dir);
-
-    //if (!dae::GameCollisionMngr::GetInstance().Raycast(m_pGameObject->GetRelativePosition(), m_Dir, m_pCollision))
-    //    return;
+        const auto& shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
+        if (shootingstate == nullptr) return;
+        if (m_Dir.x > 0)
+        {
+            shootingstate->SetFaceState(dae::ShootingDirComponent::Right);
+        }
+        if (m_Dir.x < 0)
+        {
+            shootingstate->SetFaceState(dae::ShootingDirComponent::Left);
+        }
+    }
 
     const float offset{ 3.5f };
 
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {
-        if(dae::GameCollisionMngr::GetInstance().MovePlayerLeftFloors())
+        if(dae::GameCollisionMngr::GetInstance().MovePlayerLeftFloors(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.x = m_pGameObject->GetRelativePosition().x + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if(dae::GameCollisionMngr::GetInstance().MovePlayerRightFloors())
+        else if(dae::GameCollisionMngr::GetInstance().MovePlayerRightFloors(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.x = m_pGameObject->GetRelativePosition().x - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors())
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.x += m_Dir.x * deltaTime;
             m_pGameObject->SetRelativePosition(pos);
@@ -64,19 +63,19 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
 
     if (m_Dir.y > 0.2f || m_Dir.y < -0.2f)
     {
-        if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs())
+        if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.y = m_pGameObject->GetRelativePosition().y - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().MovePlayerUpStairs())
+        else if (dae::GameCollisionMngr::GetInstance().MovePlayerUpStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.y = m_pGameObject->GetRelativePosition().y + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs())
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.y += m_Dir.y * deltaTime;
             m_pGameObject->SetRelativePosition(pos);
@@ -99,7 +98,6 @@ void GameCommands::Stun::Execute(float)
     if (m_pGameObject->ReturnDeleting()) return;
     if (m_pBulletTimer->ReturnHasShot()) return;
 
-    
 
     auto shootingState = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
 

@@ -13,8 +13,9 @@ namespace GameCommands
 	private:
 		glm::vec2 m_Dir{};
 		dae::GameCollisionComponent* m_pCollision;
+		bool m_Player;
 	public:
-		PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir);
+		PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir, bool player = true);
 		virtual void Execute(float deltaTime) override;
 	};
 
