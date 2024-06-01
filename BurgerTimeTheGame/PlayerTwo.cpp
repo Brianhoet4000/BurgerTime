@@ -71,7 +71,7 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 		m_pPlayerTwo->AddComponent(pTexture);
 
 		const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerTwo.get(), m_pPlayerTwo->GetRelativePosition(),
-			pTexture->GetSize().x, 8.f, true, true, false);
+			pTexture->GetSize().x, 8.f, true, true, true);
 		m_pPlayerTwo->AddComponent(pFootCollider);
 		pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
 		pFootCollider->SetDebugColor("red");

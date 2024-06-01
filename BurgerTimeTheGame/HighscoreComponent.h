@@ -28,6 +28,7 @@ namespace dae
 
 	private:
 		std::unique_ptr<dae::TextComponent> m_pNameText;
+		std::shared_ptr<Font> m_pFont;
 
 		float m_TimeBeforeWriting{};
 		bool m_HasEnteredName{};

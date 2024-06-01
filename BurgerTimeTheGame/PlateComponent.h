@@ -18,6 +18,7 @@ namespace dae
 
 		void Update(float) override;
 		void IncrementInt() { ++m_AmountOfIngredients; }
+		bool GetPlateFull() const { return m_PlateFull; }
 
 	private:
 		int m_AmountOfIngredients;

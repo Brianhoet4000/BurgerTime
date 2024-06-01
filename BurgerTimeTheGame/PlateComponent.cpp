@@ -15,7 +15,6 @@ void dae::PlateComponent::Update(float)
 	if (dae::GameCollisionMngr::GetInstance().CheckOverlapTopBunWithPlates(m_pOwner->GetComponent<dae::GameCollisionComponent>()))
 	{
 		m_PlateFull = true;
-		std::cout << "Full\n";
 	}
 	dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithPlates(m_pOwner->GetComponent<dae::GameCollisionComponent>(), m_AmountOfIngredients);
 }

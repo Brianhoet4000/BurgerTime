@@ -25,7 +25,6 @@ namespace dae
 
 		void CreateMenuScreen(dae::Scene& scene);
 		void CreateGameScreen(dae::Scene& scene);
-
 		void CreateGameOverScreen(dae::Scene& scene);
 
 		int GetCurrentEnum() const { return m_CurrentGameMode; }
@@ -46,6 +45,7 @@ namespace dae
 
 		void SkipToGameOverLevel();
 		void ProceedNextLevel() const;
+		void IncreasePoint(GameObject* player, int points);
 
 	private:
 		friend class Singleton<ScreenManager>;
@@ -59,6 +59,9 @@ namespace dae
 		int m_CurrentLevel{ 0 };
 		bool m_AddedPlayers = false;
 		std::shared_ptr<Font> m_pFont;
+		const std::string_view m_FontPath{ "fonts/8-bit-hud.ttf" };
+
+		static void LoadInSounds();
 	};
 
 }

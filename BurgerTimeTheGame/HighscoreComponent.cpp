@@ -20,6 +20,7 @@ using namespace dae;
 HighscoreComponent::HighscoreComponent(GameObject* owner, const std::shared_ptr<Font>& font)
     :BaseComponent(owner),
     m_pNameText{ std::make_unique<TextComponent>("name", font, owner) }
+	,m_pFont{font}
 {
 }
 
@@ -36,8 +37,6 @@ void HighscoreComponent::Render() const
 
 void HighscoreComponent::EnterName(float deltaTime)
 {
-    //Check if score isnt 0
-
     if (m_HasEnteredName) return;
 
     if (m_TimeBeforeWriting < 1)
@@ -105,7 +104,7 @@ void HighscoreComponent::EnterName(float deltaTime)
 
     //Show names
     const auto highscores = GetHighscoreNames("../Data/HighScores.txt");
-    auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+    m_pFont->SetFontSize(12);
 
     for (int i{}; i < static_cast<int>(highscores.size()); ++i)
     {
@@ -114,8 +113,8 @@ void HighscoreComponent::EnterName(float deltaTime)
         const auto pointsObj = std::make_shared<dae::GameObject>();
 
         const std::string text = highscores[i].name + " - " + std::to_string(highscores[i].score);
-        const auto pointsText = std::make_shared<dae::TextComponent>(text, smallFont, pointsObj.get());
-        pointsObj->SetRelativePosition({ 340, -100 + i * 30 });
+        const auto pointsText = std::make_shared<dae::TextComponent>(text, m_pFont, pointsObj.get());
+        pointsObj->SetRelativePosition({ 275, -100 + i * 30 });
         pointsObj->AddComponent(pointsText);
         m_pOwner->AddChild(pointsObj);
     }
@@ -172,10 +171,10 @@ std::vector<HighscoreComponent::Highscore> HighscoreComponent::GetHighscoreNames
             return a.score > b.score;
         });
 
-    for (const auto& record : highscores)
-    {
-        std::cout << record.name << " - " << record.score << std::endl;
-    }
+    //for (const auto& record : highscores)
+    //{
+    //    std::cout << record.name << " - " << record.score << std::endl;
+    //}
 
     return highscores;
 }

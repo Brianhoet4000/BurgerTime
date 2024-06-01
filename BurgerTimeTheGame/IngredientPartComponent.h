@@ -33,9 +33,16 @@ namespace dae
 			m_Collided = collided;
 		}
 
+		void SetPlayer(GameObject* player)
+		{
+			m_pPlayer = player;
+		}
+		GameObject* GetPlayer() { return m_pPlayer; }
+
 	private:
 		bool m_PushedDown;
 		bool m_Collided;
+		GameObject* m_pPlayer;
 	};
 
 }

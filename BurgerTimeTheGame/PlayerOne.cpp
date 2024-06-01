@@ -9,8 +9,9 @@
 #include "PointComponent.h"
 #include "ResourceManager.h"
 #include "ShootingDirComponent.h"
+#include "SpriteRenderComponent.h"
 
-dae::PlayerOne::PlayerOne(dae::Scene& scene, dae::LevelPrefab&)
+dae::PlayerOne::PlayerOne(dae::Scene& scene)
 {
 	m_pPlayerOne = std::make_shared<dae::GameObject>("Player_01");
 

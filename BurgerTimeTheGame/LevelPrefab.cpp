@@ -26,8 +26,6 @@ dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 	pTexture->SetTexture("../Data/Levels/" + LevelPath + ".png");
 	m_pLevelObj->AddComponent(pTexture);
 
-	//std::unique_ptr<Ingredient> newPatty = std::make_unique<Ingredient>("Patty", scene, glm::vec2{ 200,500 });
-
 	std::string path = "../Data/Levels/" + LevelPath + ".json";
 
 	LevelParse(scene, LevelPath);
@@ -107,14 +105,17 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		scene.Add(plate);
 	}
 
-	//for (const auto& Enemies : document["enemy_spawnpoint"].GetArray())
-	//{
-	//	float x = Enemies[0].GetFloat();
-	//	float y = Enemies[1].GetFloat();
-	//	std::string TypeEnemy = Enemies[2].GetString();
-	//
-	//	std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
-	//}
+	for (const auto& Enemies : document["enemy_spawnpoint"].GetArray())
+	{
+		for (const auto& data : Enemies["data"].GetArray())
+		{
+			float x = data[0].GetFloat();
+			float y = data[1].GetFloat();
+			std::string TypeEnemy = data[2][0].GetString();
+
+			std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
+		}
+	}
 
 	// BUN_TOP
 	ParseIngredient(scene, document, "bun_top");

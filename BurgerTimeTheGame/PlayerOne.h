@@ -8,7 +8,7 @@ namespace dae
 	class PlayerOne final
 	{
 	public:
-		PlayerOne(dae::Scene& scene, dae::LevelPrefab& level);
+		PlayerOne(dae::Scene& scene);
 
 		~PlayerOne() = default;
 		PlayerOne(const PlayerOne& other) = delete;

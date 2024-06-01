@@ -26,7 +26,7 @@ namespace dae
 
 	void dae::ScreenManager::CreateMenuScreen(dae::Scene& scene)
 	{
-		m_pFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+		m_pFont = dae::ResourceManager::GetInstance().LoadFont(m_FontPath.data(), 20);
 
 		const auto& pGameObjBackGround = std::make_shared<dae::GameObject>();
 		const auto& pBackGroundLogo = std::make_shared<dae::TextureComponent>(pGameObjBackGround.get());
@@ -34,6 +34,20 @@ namespace dae
 		pGameObjBackGround->SetRelativePosition(pGameObjBackGround->GetWorldPosition());
 		pGameObjBackGround->AddComponent(pBackGroundLogo);
 		scene.Add(pGameObjBackGround);
+
+		const auto& pFont = dae::ResourceManager::GetInstance().LoadFont(m_FontPath.data(), 36);
+		const auto& pGameType = std::make_shared<GameObject>();
+		const auto& pGameTypeText = std::make_shared<TextComponent>("GameMode:", pFont, pGameType.get());
+		pGameType->SetRelativePosition(m_Width / 2 - 100, 90);
+		pGameType->AddComponent(pGameTypeText);
+		scene.Add(pGameType);
+
+		m_pGameModeDisplay = std::make_shared<GameObject>();
+		m_pGameModeDisplayText = std::make_shared<TextComponent>("Single", pFont, m_pGameModeDisplay.get());
+		m_pGameModeDisplay->AddComponent(m_pGameModeDisplayText);
+		m_pGameModeDisplay->SetRelativePosition(m_Width / 2 - 100, 140);
+
+		scene.Add(m_pGameModeDisplay);
 
 		//Controls
 		{
@@ -64,36 +78,19 @@ namespace dae
 			pEAccept->AddComponent(pE);
 			pEAccept->SetRelativePosition(40 + pTab->GetSize().x/2 - pE->GetSize().x /2, 140);
 			scene.Add(pEAccept);
+
+			std::shared_ptr<GameCommands::SwitchGameMode> Switch = std::make_shared<GameCommands::SwitchGameMode>(pGameObjBackGround, m_pGameModeDisplay.get(), m_CurrentGameMode, this);
+			std::shared_ptr<GameCommands::AcceptGameMode> Accept = std::make_shared<GameCommands::AcceptGameMode>();
+			std::shared_ptr<GameCommands::SkipLevel> SkipLevel = std::make_shared<GameCommands::SkipLevel>();
+			std::shared_ptr<GameCommands::ResetLevel> ResetLevel = std::make_shared<GameCommands::ResetLevel>();
+
+			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, Switch);
+			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_E, Accept);
+			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_Q, SkipLevel);
+			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, ResetLevel);
 		}
 
-		const auto& pFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-		const auto& pGameType = std::make_shared<GameObject>();
-		const auto& pGameTypeText = std::make_shared<TextComponent>("GameMode:", pFont, pGameType.get());
-		pGameType->SetRelativePosition(m_Width/2 - 100, 90);
-		pGameType->AddComponent(pGameTypeText);
-		scene.Add(pGameType);
-
-		m_pGameModeDisplay = std::make_shared<GameObject>();
-		m_pGameModeDisplayText = std::make_shared<TextComponent>("Single", pFont, m_pGameModeDisplay.get());
-		m_pGameModeDisplay->AddComponent(m_pGameModeDisplayText);
-		m_pGameModeDisplay->SetRelativePosition(m_Width / 2 - 100, 140);
-
-		scene.Add(m_pGameModeDisplay);
-		
-		std::shared_ptr<GameCommands::SwitchGameMode> Switch = std::make_shared<GameCommands::SwitchGameMode>(pGameObjBackGround, m_pGameModeDisplay.get(), m_CurrentGameMode, this);
-		std::shared_ptr<GameCommands::AcceptGameMode> Accept = std::make_shared<GameCommands::AcceptGameMode>();
-		std::shared_ptr<GameCommands::SkipLevel> SkipLevel = std::make_shared<GameCommands::SkipLevel>();
-		std::shared_ptr<GameCommands::ResetLevel> ResetLevel = std::make_shared<GameCommands::ResetLevel>();
-
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, Switch);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_E, Accept);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_Q, SkipLevel);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, ResetLevel);
-
-		dae::servicelocator::register_sound_system(std::make_unique<dae::SoundSystem>());
-		dae::servicelocator::get_sound_system().Load(0, "11_main.ogg");
-		//dae::servicelocator::get_sound_system().Load(1, "PickupSound.wav");
-		//dae::servicelocator::get_sound_system().Load(2, "MoneyBagBreaking.wav");
+		LoadInSounds();
 	}
 
 	void dae::ScreenManager::CreateGameScreen(dae::Scene& scene)
@@ -113,40 +110,11 @@ namespace dae
 		scene.Add(pGameObjLogo);
 
 		const auto& pGameObjFps = std::make_shared<dae::GameObject>();
-		const auto& pFpsFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+		const auto& pFpsFont = dae::ResourceManager::GetInstance().LoadFont(m_FontPath.data(), 15);
 		const auto& pFpsCounter = std::make_shared<dae::FPSCounterComponent>("FPS", pFpsFont, pGameObjFps.get());
 		pGameObjFps->SetRelativePosition(0, 0);
 		pGameObjFps->AddComponent(pFpsCounter);
 		scene.Add(pGameObjFps);
-
-		//Player One
-		{
-			const auto& pGameObjLivesText = std::make_shared<dae::GameObject>();
-			const auto& pLivesText = std::make_shared<dae::TextComponent>("Lives:", m_pFont, pGameObjLivesText.get());
-			pGameObjLivesText->SetRelativePosition(10, 610);
-			pGameObjLivesText->AddComponent(pLivesText);
-			scene.Add(pGameObjLivesText);
-
-			const auto& pGameObjPointText = std::make_shared<dae::GameObject>();
-			const auto& pPointsText = std::make_shared<dae::TextComponent>("Points:", m_pFont, pGameObjPointText.get());
-			pGameObjPointText->SetRelativePosition(10, 630);
-			pGameObjPointText->AddComponent(pPointsText);
-			scene.Add(pGameObjPointText);
-		}
-		//Player Two
-		{
-			const auto& pGameObjLivesText = std::make_shared<dae::GameObject>();
-			const auto& pLivesText = std::make_shared<dae::TextComponent>("Lives:", m_pFont, pGameObjLivesText.get());
-			pGameObjLivesText->SetRelativePosition(120, 610);
-			pGameObjLivesText->AddComponent(pLivesText);
-			scene.Add(pGameObjLivesText);
-
-			const auto& pGameObjPointText = std::make_shared<dae::GameObject>();
-			const auto& pPointsText = std::make_shared<dae::TextComponent>("Points:", m_pFont, pGameObjPointText.get());
-			pGameObjPointText->SetRelativePosition(120, 630);
-			pGameObjPointText->AddComponent(pPointsText);
-			scene.Add(pGameObjPointText);
-		}
 
 		//Mute sound
 		std::shared_ptr<GameCommands::MuteMusic> muteMusic = std::make_shared<GameCommands::MuteMusic>();
@@ -169,43 +137,42 @@ namespace dae
 		auto GameObjLogo = std::make_shared<dae::GameObject>();
 		auto go2 = std::make_shared<dae::TextureComponent>(GameObjLogo.get());
 		go2->SetTexture("logo.tga");
-		GameObjLogo->SetRelativePosition(glm::vec3{ 216, 420, 0 });
+		GameObjLogo->SetRelativePosition(glm::vec3{ 216, 500, 0 });
 		GameObjLogo->AddComponent(go2);
 		scene.Add(GameObjLogo);
 
 		const auto pMainObj = std::make_shared<dae::GameObject>();
 		scene.Add(pMainObj);
 
-		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-		auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 22);
+		auto font = dae::ResourceManager::GetInstance().LoadFont(m_FontPath.data(), 36);
+		auto smallFont = dae::ResourceManager::GetInstance().LoadFont(m_FontPath.data(), 16);
 
 		const auto gameOverObj = std::make_shared<dae::GameObject>();
 		const auto gameOverText = std::make_shared<dae::TextComponent>("GAME OVER", font, gameOverObj.get());
-		gameOverObj->SetRelativePosition({ 200, 40 });
 		gameOverObj->AddComponent(gameOverText);
+		gameOverObj->SetRelativePosition({ (m_Width - gameOverText->GetTextWidth()) / 2.f, 40.f });
 		pMainObj->AddChild(gameOverObj);
 
 		const auto resetObj = std::make_shared<dae::GameObject>("Explanation");
 		const auto resetText = std::make_shared<dae::TextComponent>("Enter name (Press Enter when done)", smallFont, resetObj.get());
-		resetObj->SetRelativePosition({ 160, 100 });
+		resetObj->SetRelativePosition({ (m_Width - resetText->GetTextWidth()) / 2.f, 100.f });
 		resetObj->AddComponent(resetText);
 		pMainObj->AddChild(resetObj);
 
 		const auto highObj = std::make_shared<dae::GameObject>();
 		const auto highText = std::make_shared<dae::TextComponent>("HighScores: ", smallFont, highObj.get());
-		highObj->SetRelativePosition({ 300, 145 });
+		highObj->SetRelativePosition({ 200, 145 });
 		highObj->AddComponent(highText);
 		pMainObj->AddChild(highObj);
 
 		const auto pointsObj = std::make_shared<dae::GameObject>();
-		const auto pointsText = std::make_shared<dae::TextComponent>("Points: ", smallFont, pointsObj.get());
+		const auto pointsText = std::make_shared<dae::TextComponent>("Points:", smallFont, pointsObj.get());
 		pointsObj->SetRelativePosition({ 10, 250 });
 		pointsObj->AddComponent(pointsText);
 		pMainObj->AddChild(pointsObj);
 
-		const auto scoreObj = std::make_shared<dae::GameObject>();
-		scoreObj->SetTag("Score");
-		scoreObj->SetRelativePosition({ 90, 250 });
+		const auto scoreObj = std::make_shared<dae::GameObject>("Score");
+		scoreObj->SetRelativePosition({ pointsObj.get()->GetRelativePosition().x + pointsText->GetTextWidth() + 10.f, 250 });
 
 		const auto pp = std::make_shared<dae::HighscoreComponent>(scoreObj.get(), smallFont);
 		scoreObj->AddComponent(pp);
@@ -223,7 +190,7 @@ namespace dae
 				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level01");
 				if (!m_AddedPlayers)
 				{
-					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene, *pLevel);
+					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene);
 					PlayerManager::GetInstance().AddPlayer(pPlayer_01->ReturnPlayer());
 					m_AddedPlayers = true;
 				}
@@ -235,20 +202,19 @@ namespace dae
 				const auto& pWinLose = std::make_shared<dae::ConditionSingleCoopComponent>(pLevel->returnLevelObj().get());
 				pLevel->returnLevelObj()->AddComponent(pWinLose);
 
-				//std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 });
+				std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 }, "Egg");
 
 				CreateUI(scene, player, false);
 			}
 
 			else if(m_CurrentGameMode == GameMode::Coop)
 			{
-
 				//Level
 				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level01");
 
 				if (!m_AddedPlayers)
 				{
-					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene, *pLevel);
+					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene);
 					PlayerManager::GetInstance().AddPlayer(pPlayer_01->ReturnPlayer());
 
 					const auto& Player_02 = std::make_shared<dae::PlayerTwo>(scene, *pLevel, true);
@@ -274,7 +240,7 @@ namespace dae
 
 				if (!m_AddedPlayers)
 				{
-					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene, *pLevel);
+					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene);
 					PlayerManager::GetInstance().AddPlayer(pPlayer_01->ReturnPlayer());
 
 					const auto& Player_02 = std::make_shared<dae::PlayerTwo>(scene, *pLevel, false);
@@ -448,13 +414,6 @@ namespace dae
 			pPlayerPoints2->SetRelativePosition((710.f / 2.f), 34.f);
 			scene.Add(pPlayerPoints2);
 		}
-
-		//const auto& pPlayerLives = std::make_shared<dae::GameObject>();
-		//const auto& pPlayerLiveText = std::make_shared<dae::TextComponent>(std::to_string(players[0]->GetComponent<HealthComponent>()->GetAmount()),
-		//	m_pFont, pPlayerLives.get());
-		//pPlayerLives->AddComponent(pPlayerLiveText);
-		//pPlayerLives->SetRelativePosition(60, 410);
-		//scene.Add(pPlayerLives);
 	}
 
 	void ScreenManager::PlayerKilledResetLevelAndStats(dae::GameCollisionComponent* ownerbox) const
@@ -542,6 +501,34 @@ namespace dae
 			dae::ScreenManager::GetInstance().IncrementCurrentLevel();
 			dae::ScreenManager::GetInstance().CreateGameScreen(*dae::SceneManager::GetInstance().GetActiveScene());
 		}
+	}
+
+	void ScreenManager::IncreasePoint(GameObject* player, int points)
+	{
+		Scene* scene = dae::SceneManager::GetInstance().GetActiveScene();
+		if (player->GetTag() == "Player_01")
+		{
+			player->GetComponent<PointComponent>()->IncreaseAmount(points);
+			const auto& pointPlayerOnePoints = dae::ScreenManager::GetInstance().GetGameObjectInScene(*scene, "PlayerOnePoints");
+			pointPlayerOnePoints->GetComponent<TextComponent>()->SetText(std::to_string(player->GetComponent<PointComponent>()->GetAmount()));
+		}
+		else if (player->GetTag() == "Player_02")
+		{
+			player->GetComponent<PointComponent>()->IncreaseAmount(points);
+			const auto& pointPlayerTwoPoints = dae::ScreenManager::GetInstance().GetGameObjectInScene(*scene, "PlayerTwoPoints");
+			pointPlayerTwoPoints->GetComponent<TextComponent>()->SetText(std::to_string(player->GetComponent<PointComponent>()->GetAmount()));
+		}
+	}
+
+	void ScreenManager::LoadInSounds()
+	{
+		dae::servicelocator::register_sound_system(std::make_unique<dae::SoundSystem>());
+		dae::servicelocator::get_sound_system().Load(0, "11_main.ogg");
+		dae::servicelocator::get_sound_system().Load(1, "0_burger_going_down.ogg");
+		dae::servicelocator::get_sound_system().Load(2, "1_burger_touching_floor.ogg");
+		dae::servicelocator::get_sound_system().Load(3, "16_stepping_on_burger.ogg");
+		dae::servicelocator::get_sound_system().Load(4, "7_enemy_crushed.ogg");
+		dae::servicelocator::get_sound_system().Load(5, "5_coin_inserted.ogg");
 	}
 
 }

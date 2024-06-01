@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <SDL_rect.h>
 #include <vector>
 #include <glm/vec4.hpp>
 
@@ -39,7 +40,7 @@ namespace dae
 		void Stop(bool value);
 		//void FlipTexture(RenderFlip flip);
 
-		glm::ivec2 GetSpriteSize() const;
+		glm::vec2 GetSpriteSize() const;
 
 	private:
 		SpriteSheet m_SpriteSheet;
@@ -60,7 +61,7 @@ namespace dae
 		bool m_Stop{};
 
 		glm::vec2 m_RenderPos{};
-		glm::ivec4 m_Rect{};
+		SDL_FRect m_Rect{};
 		//RenderFlip m_Flip{ RenderFlip::none };
 	};
 

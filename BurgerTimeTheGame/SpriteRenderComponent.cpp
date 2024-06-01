@@ -4,19 +4,20 @@
 
 
 #include "GameObject.h"
+#include "Renderer.h"
 
 
 dae::SpriteRenderComponent::SpriteRenderComponent(GameObject* pOwner, SpriteSheet spriteSheet)
 	: BaseComponent(pOwner)
 	, m_SpriteSheet(std::move(spriteSheet))
 {
-	m_Rect.z = m_SpriteSheet.pTexture->GetSize().x / m_SpriteSheet.columns;
-	m_Rect.w = m_SpriteSheet.pTexture->GetSize().y / m_SpriteSheet.rows;
+	m_Rect.h = static_cast<float>(m_SpriteSheet.pTexture->GetSize().x) / m_SpriteSheet.columns;
+	m_Rect.w = static_cast<float>(m_SpriteSheet.pTexture->GetSize().y) / m_SpriteSheet.rows;
 }
 
 void dae::SpriteRenderComponent::Update(float deltaTime)
 {
-	//m_RenderPos = m_pOwner().;
+	m_RenderPos = m_pOwner->GetRelativePosition();
 
 	if (m_Pause || m_Stop)
 	{
@@ -45,7 +46,7 @@ void dae::SpriteRenderComponent::Update(float deltaTime)
 			}
 
 			//Move rect
-			m_Rect.x = (m_CurrIdx % m_SpriteSheet.columns) * m_Rect.z;
+			m_Rect.x = (m_CurrIdx % m_SpriteSheet.columns) * m_Rect.h;
 			m_Rect.y = (m_CurrIdx / m_SpriteSheet.columns) * m_Rect.w;
 		}
 		else
@@ -62,7 +63,7 @@ void dae::SpriteRenderComponent::Update(float deltaTime)
 				m_CurrIdx = 0;
 			}
 
-			m_Rect.x = (m_SelectedIdcs[m_CurrIdx] % m_SpriteSheet.columns) * m_Rect.z;
+			m_Rect.x = (m_SelectedIdcs[m_CurrIdx] % m_SpriteSheet.columns) * m_Rect.h;
 			m_Rect.y = (m_SelectedIdcs[m_CurrIdx] / m_SpriteSheet.columns) * m_Rect.w;
 		}
 
@@ -72,22 +73,22 @@ void dae::SpriteRenderComponent::Update(float deltaTime)
 
 void dae::SpriteRenderComponent::Render() const
 {
-	//glm::ivec4 dstRect;
-	//dstRect.x = static_cast<int>(m_RenderPos.x);
-	//dstRect.y = static_cast<int>(m_RenderPos.y);
-	//dstRect.z = m_Rect.z;
-	//dstRect.w = m_Rect.w;
-	//
-	//const glm::ivec2 rotationCenter{ dstRect.z / 2, dstRect.w / 2 };
-	//
-	//Locator::GetRenderSystem().RenderSprite(*m_SpriteSheet.pTexture, m_Rect, dstRect, 0, rotationCenter, m_Flip);
+	SDL_FRect dstRect;
+	dstRect.x = m_RenderPos.x;
+	dstRect.y = m_RenderPos.y;
+	dstRect.h = m_Rect.h;
+	dstRect.w = m_Rect.w;
+	
+	const glm::ivec2 rotationCenter{ dstRect.h / 2, dstRect.w / 2 };
+	
+	//Renderer::GetInstance().RenderSprite(*m_SpriteSheet.pTexture, m_Rect, dstRect, 0, rotationCenter);
 }
 
 void dae::SpriteRenderComponent::SelectSprite(int idx)
 {
 	m_Pause = true;
 
-	m_Rect.x = (idx % m_SpriteSheet.columns) * m_Rect.z;
+	m_Rect.x = (idx % m_SpriteSheet.columns) * m_Rect.h;
 	m_Rect.y = (idx / m_SpriteSheet.columns) * m_Rect.w;
 }
 
@@ -155,7 +156,7 @@ void dae::SpriteRenderComponent::FlipTexture(RenderFlip flip)
 }
 */
 
-glm::ivec2 dae::SpriteRenderComponent::GetSpriteSize() const
+glm::vec2 dae::SpriteRenderComponent::GetSpriteSize() const
 {
-	return glm::ivec2(m_Rect.z, m_Rect.w);
+	return glm::vec2(m_Rect.h, m_Rect.w);
 }

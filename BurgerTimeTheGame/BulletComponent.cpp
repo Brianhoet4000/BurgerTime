@@ -37,23 +37,23 @@ void dae::BulletComponent::Update(float deltaTime)
 	}
 
 	//If in versus mode
-	const auto secondPlayerEnemy = dae::GameCollisionMngr::GetInstance().CheckOverlapWithSecondPlayerVersus(pColliderBullet);
-	if(secondPlayerEnemy != nullptr)
-	{
-		m_pOwner->MarkTrueForDeleting();
-		dae::GameCollisionMngr::GetInstance().RemoveBulletBox(pColliderBullet);
-
-		secondPlayerEnemy->GetOwner()->GetComponent<HealthComponent>()->DecreaseAmount(1);
-		secondPlayerEnemy->GetOwner()->GetComponent<PointComponent>()->SetAmount(0);
-
-		const auto& scene = dae::SceneManager::GetInstance().GetActiveScene();
-
-		const auto& points = dae::ScreenManager::GetInstance().GetGameObjectInScene(*scene, "PlayerTwoPoints");
-		points->GetComponent<TextComponent>()->SetText(std::to_string(secondPlayerEnemy->GetOwner()->GetComponent<PointComponent>()->GetAmount()));
-
-		dae::ScreenManager::GetInstance().ProceedNextLevel();
-		return;
-	}
+	//const auto secondPlayerEnemy = dae::GameCollisionMngr::GetInstance().CheckOverlapWithSecondPlayerVersus(pColliderBullet);
+	//if(secondPlayerEnemy != nullptr)
+	//{
+	//	m_pOwner->MarkTrueForDeleting();
+	//	dae::GameCollisionMngr::GetInstance().RemoveBulletBox(pColliderBullet);
+	//
+	//	//secondPlayerEnemy->GetOwner()->GetComponent<HealthComponent>()->DecreaseAmount(1);
+	//	//secondPlayerEnemy->GetOwner()->GetComponent<PointComponent>()->SetAmount(0);
+	//
+	//	const auto& scene = dae::SceneManager::GetInstance().GetActiveScene();
+	//
+	//	const auto& points = dae::ScreenManager::GetInstance().GetGameObjectInScene(*scene, "PlayerTwoPoints");
+	//	points->GetComponent<TextComponent>()->SetText(std::to_string(secondPlayerEnemy->GetOwner()->GetComponent<PointComponent>()->GetAmount()));
+	//
+	//	dae::ScreenManager::GetInstance().ProceedNextLevel();
+	//	return;
+	//}
 
 	//Enemies
 	const auto enemy = dae::GameCollisionMngr::GetInstance().CheckOverlapWithEnemiesComponent(pColliderBullet);

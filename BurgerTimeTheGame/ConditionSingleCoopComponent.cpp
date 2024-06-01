@@ -5,6 +5,7 @@
 #include "GameCollisionMngr.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
+#include "PlateComponent.h"
 #include "PlayerManager.h"
 #include "ScreenManager.h"
 #include "TextureComponent.h"
@@ -27,6 +28,19 @@ void dae::ConditionSingleCoopComponent::Update(float)
 			return;
 		}
 	}
+
+	bool allPlatesFull = true;
+	for (auto plate : GameCollisionMngr::GetInstance().GetAllPlates())
+	{
+		if (!plate->GetOwner()->GetComponent<PlateComponent>()->GetPlateFull())
+		{
+			allPlatesFull = false;
+			break;
+		}
+	}
+	m_Finished = allPlatesFull;
+
+	
 
 	
 	if(m_Finished && !m_DoOnce && dae::ScreenManager::GetInstance().GetCurrentLevel() != 3)

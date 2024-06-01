@@ -42,11 +42,13 @@ void dae::TextComponent::Render() const
 	}
 }
 
-// This implementation uses the "dirty flag" pattern
 void dae::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_needsUpdate = true;
 }
 
-
+float dae::TextComponent::GetTextWidth() const
+{
+	return m_Font->GetStringWidth(m_Text);
+}

@@ -16,6 +16,7 @@ namespace dae
 
 		void SetText(const std::string& text);
 		std::string GetBeginText() const { return m_BeginText; }
+		float GetTextWidth() const;
 
 		TextComponent(const std::string& text, std::shared_ptr<Font> font, GameObject* owner);
 		virtual ~TextComponent() = default;

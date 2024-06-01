@@ -3,7 +3,9 @@
 #include "AIMovementComponent.h"
 #include "CollisionBoxManager.h"
 #include "GameCollisionMngr.h"
+#include "HealthComponent.h"
 #include "InputManager.h"
+#include "PointComponent.h"
 #include "ServiceLocator.h"
 #include "ShootingDirComponent.h"
 
@@ -34,7 +36,25 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
         {
             shootingstate->SetFaceState(dae::ShootingDirComponent::Left);
         }
+
+
+        if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithSecondPlayerVersus(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        {
+            dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(m_pGameObject->GetComponent<dae::GameCollisionComponent>());
+            return;
+        }
     }
+    else
+    {
+        const auto& firstPlayer = dae::GameCollisionMngr::GetInstance().CheckOverlapWithFirstPlayer(m_pGameObject->GetComponent<dae::GameCollisionComponent>());
+        if (firstPlayer)
+        {
+            dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(firstPlayer);
+            return;
+        }
+    }
+
+    
 
     const float offset{ 3.5f };
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
@@ -171,6 +191,7 @@ void GameCommands::AcceptGameMode::Execute(float)
         dae::SceneManager::GetInstance().NextScene();
         dae::ScreenManager::GetInstance().CreateGameScreen(*dae::SceneManager::GetInstance().GetActiveScene());
         dae::servicelocator::get_sound_system().playMusic(0, 10);
+        dae::servicelocator::get_sound_system().playSound(5, 20);
         SetKeyPressed(true);
     }
 

@@ -3,6 +3,7 @@
 #include "GameCollisionMngr.h"
 #include "GameObject.h"
 #include "IngredientComponent.h"
+#include "ServiceLocator.h"
 
 dae::IngredientPartComponent::IngredientPartComponent(dae::GameObject* owner)
 	:BaseComponent(owner)

@@ -3,6 +3,10 @@
 #include "GameCollisionMngr.h"
 #include "GameObject.h"
 #include "IngredientPartComponent.h"
+#include "PointComponent.h"
+#include "ScreenManager.h"
+#include "ServiceLocator.h"
+#include "SoundSystem.h"
 
 dae::IngredientComponent::IngredientComponent(dae::GameObject* owner)
 	:BaseComponent(owner)
@@ -52,7 +56,7 @@ void dae::IngredientComponent::Update(float deltaTime)
 	}
 }
 
-bool dae::IngredientComponent::AllArePushedDown() const
+bool dae::IngredientComponent::AllArePushedDown()
 {
 	for (auto& element : m_pOwner->GetChildren())
 	{
@@ -63,5 +67,9 @@ bool dae::IngredientComponent::AllArePushedDown() const
 			return false;
 		}
 	}
+
+	const auto& player = m_pOwner->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
+	dae::ScreenManager::GetInstance().IncreasePoint(player, 50);
+
 	return true;
 }

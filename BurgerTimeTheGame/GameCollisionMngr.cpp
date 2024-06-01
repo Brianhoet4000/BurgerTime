@@ -174,8 +174,8 @@ namespace dae
         return nullptr;
     }
 
-    GameCollisionComponent* GameCollisionMngr::CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const
-    {
+   bool GameCollisionMngr::CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const
+	{
         for (const auto& player : PlayerManager::GetInstance().GetPlayers())
         {
             const auto& pPlayerCollision = player->GetComponent<dae::GameCollisionComponent>();
@@ -186,11 +186,11 @@ namespace dae
                     box->GetCollisionRect().y < pPlayerCollision->GetCollisionRect().y + pPlayerCollision->GetCollisionRect().h &&
                     box->GetCollisionRect().y + box->GetCollisionRect().h > pPlayerCollision->GetCollisionRect().y)
                 {
-                    return pPlayerCollision;
+                    return true;
                 }
             }
         }
-        return nullptr;
+        return false;
     }
 
     GameCollisionComponent* GameCollisionMngr::CheckOverlapWithFirstPlayer(const GameCollisionComponent* box) const
@@ -239,6 +239,13 @@ namespace dae
                 box->GetCollisionRect().y < EnemyBox->GetCollisionRect().y + EnemyBox->GetCollisionRect().h &&
                 box->GetCollisionRect().y + box->GetCollisionRect().h > EnemyBox->GetCollisionRect().y)
             {
+                if (box->GetOwner()->GetParent()->GetChildren()[0])
+                {
+                    const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
+                    dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
+                    std::cout << "1\n";
+                }
+
                 EnemyBox->GetOwner()->MarkTrueForDeleting();
             }
         }
@@ -289,6 +296,8 @@ namespace dae
 
             const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
 
+            if (PlayerBox->GetIsVersus()) return false;
+
             int offsetX = 10; // Offset towards the center
             int offsetY = 0; // Offset towards the center
 
@@ -297,10 +306,12 @@ namespace dae
                 box->GetCollisionRect().y < PlayerBox->GetCollisionRect().y + offsetY &&
                 box->GetCollisionRect().y + box->GetCollisionRect().h > PlayerBox->GetCollisionRect().y + offsetY)
             {
+                dae::servicelocator::get_sound_system().playSound(3, 50);
+                box->GetOwner()->GetComponent<IngredientPartComponent>()->SetPlayer(PlayerBox->GetOwner());
                 return true;
             }
         }
-
+        box->GetOwner()->GetComponent<IngredientPartComponent>()->SetPlayer(PlayerManager::GetInstance().GetPlayers()[0].get());
         return false;
 
     }
@@ -309,6 +320,7 @@ namespace dae
     {
         for (const auto& floor : m_pFloorBoxes)
         {
+
             if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
                 box->GetOwner()->GetRelativePosition().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
@@ -319,7 +331,6 @@ namespace dae
         }
         return false;
     }
-
 
     GameCollisionComponent* GameCollisionMngr::CheckOverlapIngredientsForCurrentFloor(const GameCollisionComponent* box) const
     {
@@ -347,6 +358,8 @@ namespace dae
                 box->GetCollisionRect().y + box->GetCollisionRect().h > OtherIngredients->GetCollisionRect().y)
                 {
 					OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->SetCollided(true);
+                    OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->
+            		SetPlayer(box->GetOwner()->GetComponent<IngredientPartComponent>()->GetPlayer());
                 }
         }
     }
@@ -360,7 +373,6 @@ namespace dae
 
 			float YDepending = 0.0f;
 
-            // Determine the Y offset based on the amount of ingredients
             switch (amountOfIngredient)
             {
             case 0:
