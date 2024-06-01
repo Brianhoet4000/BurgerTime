@@ -46,10 +46,6 @@ void load()
 	auto& sceneGameOver = dae::SceneManager::GetInstance().CreateScene("GameOver");
 	dae::ScreenManager::GetInstance().CreateGameOverScreen(sceneGameOver);
 
-
-	//dae::ScreenManager::GetInstance().CreateGameScreen();
-	//const float scale{ 1.08f };
-	//SDL_RenderSetScale(dae::Renderer::GetInstance().GetSDLRenderer(), scale, scale);
 }
 
 int main(int, char* [])

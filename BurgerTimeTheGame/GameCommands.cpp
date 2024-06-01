@@ -5,6 +5,7 @@
 #include "GameCollisionMngr.h"
 #include "HealthComponent.h"
 #include "InputManager.h"
+#include "PlayerManager.h"
 #include "PointComponent.h"
 #include "ServiceLocator.h"
 #include "ShootingDirComponent.h"
@@ -194,8 +195,6 @@ void GameCommands::AcceptGameMode::Execute(float)
         dae::servicelocator::get_sound_system().playSound(5, 20);
         SetKeyPressed(true);
     }
-
-    
 }
 
 void GameCommands::SkipLevel::Execute(float)
@@ -214,7 +213,6 @@ void GameCommands::SkipLevel::Execute(float)
     SetKeyPressed(true);
 }
 
-
 void GameCommands::ResetLevel::Execute(float)
 {
     if (GetKeyPressed()) return;
@@ -224,6 +222,12 @@ void GameCommands::ResetLevel::Execute(float)
     {
         SetKeyPressed(true);
         return;
+    }
+
+    for (auto player : PlayerManager::GetInstance().GetPlayers())
+    {
+        player->GetComponent<dae::PointComponent>()->SetAmount(0);
+        player->GetComponent<dae::HealthComponent>()->SetAmount(3);
     }
     
     dae::GameCollisionMngr::GetInstance().ClearAll();

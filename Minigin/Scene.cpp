@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include <fstream>
+#include <thread>
 
 using namespace dae;
 
@@ -47,7 +48,6 @@ void Scene::Update(float deltaTime)
 			Remove(object);
 			continue;
 		}
-		
 
 		object->Update(deltaTime);
 	}

@@ -93,6 +93,7 @@ namespace dae
         m_pStairsBoxes.clear();
         m_pFloorBoxes.clear();
         m_pIngredientBoxes.clear();
+        m_pBunTopBoxes.clear();
         m_pEnemies.clear();
         m_pPlates.clear();
         m_pFirstPlayer = nullptr;

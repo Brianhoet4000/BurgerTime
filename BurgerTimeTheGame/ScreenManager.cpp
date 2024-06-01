@@ -434,8 +434,8 @@ namespace dae
 			points->GetComponent<TextComponent>()->SetText(std::to_string(ownerbox->GetOwner()->GetComponent<PointComponent>()->GetAmount()));
 		}
 
-		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 		dae::GameCollisionMngr::GetInstance().ClearAll();
+		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 		GetInstance().CreateGameScreen(*SceneManager::GetInstance().GetActiveScene());
 	}
 
@@ -500,6 +500,11 @@ namespace dae
 			dae::GameCollisionMngr::GetInstance().ClearAll();
 			dae::ScreenManager::GetInstance().IncrementCurrentLevel();
 			dae::ScreenManager::GetInstance().CreateGameScreen(*dae::SceneManager::GetInstance().GetActiveScene());
+		}
+
+		if(dae::SceneManager::GetInstance().GetActiveSceneName() == "GameOver")
+		{
+			
 		}
 	}
 

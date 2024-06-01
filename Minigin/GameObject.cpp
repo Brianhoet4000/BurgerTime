@@ -16,20 +16,32 @@ namespace dae
 
 	void GameObject::Update(float deltaTime)
 	{
+		// Update all components
 		for (const auto& pComponent : m_pComponents)
 		{
-			if (pComponent == nullptr) return;
+			if (pComponent == nullptr) {
+				std::cerr << "Encountered a nullptr in components, skipping..." << std::endl;
+				continue; // Skip nullptr
+			}
 
 			pComponent->Update(deltaTime);
 		}
 
-		for (const auto& child : m_pChildren)
+		// Update all children
+		if (!m_pChildren.empty())
 		{
-			if (child == nullptr) return;
+			for (const auto& child : m_pChildren)
+			{
+				if (child == nullptr) {
+					std::cerr << "Encountered a nullptr in children, skipping..." << std::endl;
+					continue; // Skip nullptr
+				}
 
-			child->Update(deltaTime);
+				child->Update(deltaTime);
+			}
 		}
 	}
+
 
 	void GameObject::FixedUpdate(float deltaTime)
 	{
