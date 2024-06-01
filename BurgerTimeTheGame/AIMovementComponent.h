@@ -12,7 +12,6 @@ namespace dae
 	class AIMovementComponent : public dae::BaseComponent
 	{
 	public:
-
 		AIMovementComponent(dae::GameObject* owner, glm::vec2 startPos);
 		virtual ~AIMovementComponent() override = default;
 		AIMovementComponent(const AIMovementComponent& other) = delete;

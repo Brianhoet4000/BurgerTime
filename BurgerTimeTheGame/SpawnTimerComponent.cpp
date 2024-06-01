@@ -20,8 +20,8 @@ void dae::SpawnTimerComponent::Update(float deltaTime)
 {
 	if (!m_Start)
 	{
-		auto enemy = std::make_shared<dae::EnemyPrefab>(*m_pScene, m_pOwner->GetRelativePosition());
-		m_pScene->Add(enemy->returnGameObject());
+		//auto enemy = std::make_shared<dae::EnemyPrefab>(*m_pScene, m_pOwner->GetRelativePosition(),);
+		//m_pScene->Add(enemy->returnGameObject());
 		--m_EnemyNumber;
 		m_Start = true;
 

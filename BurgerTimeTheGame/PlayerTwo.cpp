@@ -64,7 +64,7 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 	}
 	else
 	{
-		m_Speed = 75;
+		m_Speed = 65;
 		//Texture Verus
 		const auto& pTexture = std::make_shared<dae::TextureComponent>(m_pPlayerTwo.get());
 		pTexture->SetTexture("Enemies/HotDog.png");

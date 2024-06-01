@@ -32,6 +32,7 @@ namespace dae
 		std::vector<GameCollisionComponent*> GetAllFloors() { return m_pFloorBoxes; }
 		std::vector<GameCollisionComponent*> GetAllEnemies() { return m_pEnemies; }
 		std::vector<GameCollisionComponent*> GetAllPlates() { return m_pPlates; }
+		std::vector<GameCollisionComponent*> GetAllTopBuns() { return m_pBunTopBoxes; }
 		GameCollisionComponent* GetFirstPlayer() const { return m_pFirstPlayer; }
 		GameCollisionComponent* GetSecondPlayer() const { return m_pSecondPlayer; }
 		std::vector<GameCollisionComponent*> GetAllPlayers() const;
@@ -47,10 +48,11 @@ namespace dae
 		GameCollisionComponent* GetCurrentFloor(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBool(const GameCollisionComponent* box) const;
 		bool CheckOverlapWithPlayersBoolIngredients(const GameCollisionComponent* box) const;
-		bool CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent* currentFloor) const;
+		bool CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapIngredientsForCurrentFloor(const GameCollisionComponent* box) const;
 		void CheckOverlapIngredientsWithOtherIngredients(const GameCollisionComponent* box) const;
 		void CheckOverlapIngredientsWithPlates(const GameCollisionComponent* box, int amountOfIngredient) const;
+		bool CheckOverlapTopBunWithPlates(const GameCollisionComponent* box) const;
 
 		bool CheckForInStairsX() const;
 		bool CheckOverlapWithStairs(const GameCollisionComponent* playerBox) const;
@@ -80,6 +82,7 @@ namespace dae
 		std::vector<GameCollisionComponent*> m_pStairsBoxes;
 		std::vector<GameCollisionComponent*> m_pFloorBoxes;
 		std::vector<GameCollisionComponent*> m_pIngredientBoxes;
+		std::vector<GameCollisionComponent*> m_pBunTopBoxes;
 		std::vector<GameCollisionComponent*> m_pEnemies;
 		std::vector<GameCollisionComponent*> m_pPlates;
 		GameCollisionComponent* m_pFirstPlayer{nullptr};

@@ -33,9 +33,14 @@ namespace dae
             {
                 m_pFloorBoxes.push_back(box);
             }
-            else if (owner->GetTag() == "Ingredient")
+            else if (owner->GetTag() == "Ingredient" || owner->GetTag() == "BunTop")
             {
                 m_pIngredientBoxes.push_back(box);
+
+                if (owner->GetTag() == "BunTop")
+
+                    m_pBunTopBoxes.push_back(box);
+                
             }
             else if (owner->GetTag() == "Enemy")
             {
@@ -300,18 +305,10 @@ namespace dae
 
     }
 
-    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box, const GameCollisionComponent*) const
+    bool GameCollisionMngr::CheckOverlapIngredientsWithFloors(const GameCollisionComponent* box) const
     {
         for (const auto& floor : m_pFloorBoxes)
         {
-            // Skip the check if the current floor is the same as the one being checked
-            //if (floor == currentFloor)
-            //{
-            //    std::cout << "Skipping floor\n";
-            //    continue;
-            //}
-
-            // Perform the collision check
             if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
                 box->GetOwner()->GetRelativePosition().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
@@ -391,8 +388,22 @@ namespace dae
                 ingredient->GetOwner()->GetParent()->GetComponent<IngredientComponent>()->SetIscompleted(true);
                 box->GetOwner()->GetComponent<PlateComponent>()->IncrementInt();
             }
-
         }
+    }
+
+    bool GameCollisionMngr::CheckOverlapTopBunWithPlates(const GameCollisionComponent* box) const
+    {
+        for (const auto& Topbun : m_pBunTopBoxes)
+        {
+            if (box->GetCollisionRect().x < Topbun->GetCollisionRect().x &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > Topbun->GetCollisionRect().x + Topbun->GetCollisionRect().w &&
+                box->GetCollisionRect().y < Topbun->GetCollisionRect().y &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > Topbun->GetCollisionRect().y + Topbun->GetCollisionRect().h)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     bool GameCollisionMngr::CheckForInStairsX() const

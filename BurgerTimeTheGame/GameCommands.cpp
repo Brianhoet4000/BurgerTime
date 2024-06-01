@@ -9,7 +9,7 @@
 
 GameCommands::PlayerMovement::PlayerMovement(std::shared_ptr<dae::GameObject> owner, const glm::vec2& dir, bool player)
 {
-	m_pGameObject = owner;
+	m_pGameObject = std::move(owner);
 	m_Dir = dir;
     m_pCollision = m_pGameObject->GetComponent<dae::GameCollisionComponent>();
     m_Player = player;
@@ -80,7 +80,6 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        return;
     }
 }
 
@@ -97,10 +96,9 @@ void GameCommands::Stun::Execute(float)
     if (m_pGameObject->ReturnDeleting()) return;
     if (m_pBulletTimer->ReturnHasShot()) return;
 
-
     auto shootingState = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
 
-    if (shootingState == nullptr) return;
+    if (!shootingState) return;
 
     if (shootingState->returnFaceState() == dae::ShootingDirComponent::Right)
     {
@@ -122,14 +120,13 @@ void GameCommands::Stun::Execute(float)
             element->GetComponent<dae::AIMovementComponent>()->Stunned();
 		}
     }
-    
 
     m_pBulletTimer->SetHasShot(true);
     SetKeyPressed(true);
 }
 
 GameCommands::SwitchGameMode::SwitchGameMode(std::shared_ptr<dae::GameObject> owner, dae::GameObject* text, dae::ScreenManager::GameMode& currentScreen, dae::ScreenManager* screen)
-	:m_pScreen{owner},
+	:m_pScreen{std::move(owner)},
     m_pTextMode{text},
     m_CurrentScreen{ currentScreen },
 	m_pScreenManager{ screen }

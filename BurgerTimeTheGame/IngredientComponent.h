@@ -28,12 +28,10 @@ namespace dae
 		void SetIscompleted(bool Completed) { m_Completed = Completed; }
 
 	private:
-		int m_speed = 60;
+		float m_speed = 60;
 		bool m_allPushedDown;
 		bool m_IsFalling;
 		bool m_Completed;
-		bool m_DoOnce;
-		GameCollisionComponent* m_currentFloor;
 	};
 
 }

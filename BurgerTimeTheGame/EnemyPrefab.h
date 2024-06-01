@@ -9,7 +9,7 @@ namespace dae
 	class EnemyPrefab final
 	{
 	public:
-		EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos);
+		EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos, std::string typeOfenemy);
 
 		~EnemyPrefab() = default;
 		EnemyPrefab(const EnemyPrefab& other) = delete;

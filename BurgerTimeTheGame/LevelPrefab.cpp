@@ -10,6 +10,7 @@
 #pragma warning(disable : 4996)
 #include <document.h>
 
+#include "EnemyPrefab.h"
 
 
 dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
@@ -105,6 +106,15 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		plate->AddComponent(PlateComp);
 		scene.Add(plate);
 	}
+
+	//for (const auto& Enemies : document["enemy_spawnpoint"].GetArray())
+	//{
+	//	float x = Enemies[0].GetFloat();
+	//	float y = Enemies[1].GetFloat();
+	//	std::string TypeEnemy = Enemies[2].GetString();
+	//
+	//	std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
+	//}
 
 	// BUN_TOP
 	ParseIngredient(scene, document, "bun_top");

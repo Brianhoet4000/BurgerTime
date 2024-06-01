@@ -6,9 +6,22 @@
 
 dae::IngredientPart::IngredientPart(std::shared_ptr<GameObject>& parent, std::string path, dae::Scene& scene, glm::vec2 pos)
 {
+	const std::string IngredientString{ "Ingredient" };
+	const std::string TopBun{ "BunTop" };
+	
+
 	for (int i = 0; i < 4; ++i)
 	{
-		const auto& pIngredientPart = std::make_shared<dae::GameObject>("Ingredient");
+		std::shared_ptr<GameObject> pIngredientPart;
+
+		if (path == TopBun)
+		{
+			pIngredientPart = std::make_shared<dae::GameObject>("BunTop");
+		}
+		else
+		{
+			pIngredientPart = std::make_shared<dae::GameObject>("Ingredient");
+		}
 		parent->AddChild(pIngredientPart);
 		const auto& pIngredientTexture = std::make_shared<dae::TextureComponent>(pIngredientPart.get());
 		glm::vec2 newPos = pos;

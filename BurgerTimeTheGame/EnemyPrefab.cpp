@@ -3,13 +3,13 @@
 #include "GameCollisionComponent.h"
 #include "TextureComponent.h"
 
-dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos)
+dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos, std::string typeOfenemy)
 {
 	m_pEnemy = std::make_shared<dae::GameObject>("Enemy");
 
 	//Texture
 	const auto& pTexture = std::make_shared<dae::TextureComponent>(m_pEnemy.get());
-	pTexture->SetTexture("Enemies/Egg.png");
+	pTexture->SetTexture("Enemies/" + typeOfenemy + ".png");
 	m_pEnemy->AddComponent(pTexture);
 
 	m_pEnemy->SetRelativePosition(StartPos.x, StartPos.y - pTexture->GetSize().y);

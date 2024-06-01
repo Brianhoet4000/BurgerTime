@@ -12,7 +12,7 @@ dae::PlateComponent::PlateComponent(dae::GameObject* owner)
 
 void dae::PlateComponent::Update(float)
 {
-	if (m_AmountOfIngredients >= 4)
+	if (dae::GameCollisionMngr::GetInstance().CheckOverlapTopBunWithPlates(m_pOwner->GetComponent<dae::GameCollisionComponent>()))
 	{
 		m_PlateFull = true;
 		std::cout << "Full\n";
