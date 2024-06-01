@@ -107,14 +107,11 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 
 	for (const auto& Enemies : document["enemy_spawnpoint"].GetArray())
 	{
-		for (const auto& data : Enemies["data"].GetArray())
-		{
-			float x = data[0].GetFloat();
-			float y = data[1].GetFloat();
-			std::string TypeEnemy = data[2][0].GetString();
+		float x = Enemies[0].GetFloat();
+		float y = Enemies[1].GetFloat();
+		std::string TypeEnemy = Enemies[2][0].GetString();
 
-			std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
-		}
+		std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
 	}
 
 	// BUN_TOP

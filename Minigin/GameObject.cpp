@@ -20,25 +20,20 @@ namespace dae
 		for (const auto& pComponent : m_pComponents)
 		{
 			if (pComponent == nullptr) {
-				std::cerr << "Encountered a nullptr in components, skipping..." << std::endl;
-				continue; // Skip nullptr
+				continue;
 			}
 
 			pComponent->Update(deltaTime);
 		}
 
 		// Update all children
-		if (!m_pChildren.empty())
+		for (const auto& pChild : m_pChildren)
 		{
-			for (const auto& child : m_pChildren)
-			{
-				if (child == nullptr) {
-					std::cerr << "Encountered a nullptr in children, skipping..." << std::endl;
-					continue; // Skip nullptr
-				}
-
-				child->Update(deltaTime);
+			if (pChild == nullptr) {
+				continue;
 			}
+		
+			pChild->Update(deltaTime);
 		}
 	}
 

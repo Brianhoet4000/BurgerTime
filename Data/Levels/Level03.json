@@ -108,26 +108,12 @@
         [483,593]
     ],
     "enemy_spawnpoint": [
-        {
-            "loop": 1,
-            "data" : [   
-                [-48, 38, ["Pickle"]],
-                [-48, 470, ["Egg","Pickle"]],
-                [624, 38, ["HotDog"]],
-                [624, 374, ["HotDog","Pickle"]]
-            ]
-
-        },
-        {
-            "loop": 2,
-            "data" : [   
-                [-48, 38, ["Pickle"]],
-                [-48, 470, ["Egg","HotDog"]],
-                [624, 38, ["HotDog"]],
-                [624, 374, ["Pickle","Egg"]]
-            ]
-
-        }
+          
+        [43, 185, ["Pickle"]],
+        [43, 475, ["Egg"]],
+        [619, 89, ["HotDog"]],
+        [475, 185, ["HotDog"]]
+   
     ],
     "item_spawnpoint" : [288,284]
 }
