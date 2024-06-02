@@ -40,7 +40,7 @@ namespace dae
 		GameCollisionComponent* CheckForCollisionComponent(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapWithEnemiesComponent(const GameCollisionComponent* box) const;
 
-		bool CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const;
+		GameCollisionComponent* CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapWithFirstPlayer(const GameCollisionComponent* box) const;
 		GameCollisionComponent* CheckOverlapWithPlayers(const GameCollisionComponent* box) const;
 		void CheckIngredientOverlapWithEnemies(const GameCollisionComponent* box) const;
@@ -85,6 +85,7 @@ namespace dae
 		std::vector<GameCollisionComponent*> m_pBunTopBoxes;
 		std::vector<GameCollisionComponent*> m_pEnemies;
 		std::vector<GameCollisionComponent*> m_pPlates;
+		std::vector<GameCollisionComponent*> m_pBullet;
 		GameCollisionComponent* m_pFirstPlayer{nullptr};
 		GameCollisionComponent* m_pSecondPlayer{nullptr};
 

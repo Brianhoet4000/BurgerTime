@@ -22,7 +22,6 @@ namespace GameCommands
 	class Stun : public dae::Command
 	{
 	private:
-		glm::vec2 m_Dir{};
 		dae::BulletTimerComponent* m_pBulletTimer{};
 
 	public:

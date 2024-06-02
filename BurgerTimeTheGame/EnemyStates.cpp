@@ -45,45 +45,44 @@ void EnemyMovement::Update(float deltaTime)
         // If on stairs
         if (m_OnStairs)
         {
-            // If moving up, check if moving outside the stair collider up side
-            if (directionToPlayer.y < 0 && !gameCollMngr.MoveOutsideColliderUpStairs(collider))
+            // Check if the player is above or below the enemy
+            if (playerPos.y < enemyPos.y)
             {
-                m_Dir = m_DirUp;
+                m_Dir = m_DirUp; // Move up to align with player's position
             }
-            // If moving down, check if moving outside the stair collider down side
-            else if (directionToPlayer.y > 0 && !gameCollMngr.MoveOutsideColliderDownStairs(collider))
+            else if (playerPos.y > enemyPos.y)
             {
-                m_Dir = m_DirDown;
+                m_Dir = m_DirDown; // Move down to align with player's position
             }
-            // Otherwise, continue towards the player
             else
             {
+                // If the player is at the same level, continue towards the player
                 m_Dir = directionToPlayer;
             }
         }
         // If on floor
         else if (m_OnFloor)
         {
-            // If player is to the left, check if moving outside of floor collider left side
-            if (playerPos.x < enemyPos.x && !gameCollMngr.MoveOutsideColliderLeftStairs(collider))
+            // Check if the player is to the left or right of the enemy
+            if (playerPos.x < enemyPos.x)
             {
-                m_Dir = m_DirLeft;
+                m_Dir = m_DirLeft; // Move left towards the player
             }
-            // If player is to the right, check if moving outside of floor collider right side
-            else if (playerPos.x > enemyPos.x && !gameCollMngr.MoveOutsideColliderRightStairs(collider))
+            else if (playerPos.x > enemyPos.x)
             {
-                m_Dir = m_DirRight;
+                m_Dir = m_DirRight; // Move right towards the player
             }
-            // Otherwise, continue towards the player
             else
             {
+                // If the player is at the same position horizontally, continue towards the player
                 m_Dir = directionToPlayer;
             }
         }
-        // If neither on stairs nor floor, choose a random direction
+        // If neither on stairs nor floor, choose a random direction or continue towards the player
         else
         {
             // Implement random direction logic if needed
+            m_Dir = directionToPlayer;
         }
 
         // Step 5: Move AI based on the determined direction
@@ -96,9 +95,10 @@ void EnemyMovement::Update(float deltaTime)
 }
 
 
+
 void EnemyMovement::GetClosestPlayer()
 {
-	const auto& pPlayers = PlayerManager::GetInstance().GetPlayers();
+	const auto& pPlayers = dae::PlayerManager::GetInstance().GetPlayersNotVersus();
 
 	if (pPlayers.empty()) return;
 

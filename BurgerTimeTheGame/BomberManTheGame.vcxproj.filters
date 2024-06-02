@@ -110,6 +110,9 @@
     <ClCompile Include="PlateComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="BulletPrefab.cpp">
+      <Filter>Prefab</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerOne.h">
@@ -195,6 +198,9 @@
     </ClInclude>
     <ClInclude Include="PlateComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletPrefab.h">
+      <Filter>Prefab</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -182,6 +182,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
   <ItemGroup>
     <ClCompile Include="AIMovementComponent.cpp" />
     <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="BulletPrefab.cpp" />
     <ClCompile Include="BulletTimerComponent.cpp" />
     <ClCompile Include="BurgerTimeTheGame.cpp" />
     <ClCompile Include="ConditionVersusComponent.cpp" />
@@ -210,6 +211,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
   <ItemGroup>
     <ClInclude Include="AIMovementComponent.h" />
     <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="BulletPrefab.h" />
     <ClInclude Include="BulletTimerComponent.h" />
     <ClInclude Include="ConditionVersusComponent.h" />
     <ClInclude Include="EnemyPrefab.h" />

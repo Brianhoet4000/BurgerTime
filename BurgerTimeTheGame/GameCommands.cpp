@@ -1,6 +1,7 @@
 #include "GameCommands.h"
 
 #include "AIMovementComponent.h"
+#include "BulletPrefab.h"
 #include "CollisionBoxManager.h"
 #include "GameCollisionMngr.h"
 #include "HealthComponent.h"
@@ -47,6 +48,16 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
     }
     else
     {
+        if(m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnCompleted())
+        {
+            m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ResetComplete();
+        }
+
+        if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot())
+            return;
+
+       
+
         const auto& firstPlayer = dae::GameCollisionMngr::GetInstance().CheckOverlapWithFirstPlayer(m_pGameObject->GetComponent<dae::GameCollisionComponent>());
         if (firstPlayer)
         {
@@ -121,25 +132,17 @@ void GameCommands::Stun::Execute(float)
 
     if (!shootingState) return;
 
-    if (shootingState->returnFaceState() == dae::ShootingDirComponent::Right)
-    {
-        m_Dir = { 1,0 };
-        std::cout << "stunned right\n";
-    }
-    if (shootingState->returnFaceState() == dae::ShootingDirComponent::Left)
-    {
-        m_Dir = { -1,0 };
-        std::cout << "stunned left\n";
-    }
+    std::unique_ptr<dae::BulletPrefab> bullet = std::make_unique<dae::BulletPrefab>(*dae::SceneManager::GetInstance().GetActiveScene(),
+        m_pGameObject->GetRelativePosition(), shootingState->returnFaceState());
 
-    for (const auto& element : dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects())
-    {
-		if(element->GetTag() == "Enemy")
-		{
-            std::cout << "Found\n";
-            element->GetComponent<dae::AIMovementComponent>()->Stunned();
-		}
-    }
+    //for (const auto& element : dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects())
+    //{
+	//	if(element->GetTag() == "Enemy")
+	//	{
+    //        std::cout << "Found\n";
+    //        element->GetComponent<dae::AIMovementComponent>()->Stunned();
+	//	}
+    //}
 
     m_pBulletTimer->SetHasShot(true);
     SetKeyPressed(true);
@@ -223,7 +226,7 @@ void GameCommands::ResetLevel::Execute(float)
         return;
     }
 
-    for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+    for (const auto& player : dae::PlayerManager::GetInstance().GetPlayers())
     {
         player->GetComponent<dae::PointComponent>()->SetAmount(0);
         player->GetComponent<dae::HealthComponent>()->SetAmount(3);

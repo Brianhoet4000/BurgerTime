@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include <TextureComponent.h>
 #include "Counter.h"
+#include "EnemyStates.h"
 #include "GameCommands.h"
 #include "HealthComponent.h"
 #include "PointComponent.h"
@@ -76,6 +77,9 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 		pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
 		pFootCollider->SetDebugColor("red");
 		pFootCollider->SetRenderCollisionBox(true);
+
+		std::shared_ptr<BulletTimerComponent> pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get());
+		m_pPlayerTwo->AddComponent(pTimer);
 
 		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up, false);
 		moveCommandDown = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Down, false);

@@ -59,6 +59,10 @@ namespace dae
             {
                 m_pSecondPlayer = box;
             }
+            else if(owner->GetTag() == "Bullet")
+            {
+                m_pBullet.push_back(box);
+            }
         }
     }
 
@@ -69,7 +73,7 @@ namespace dae
     void GameCollisionMngr::RemoveBulletBox(GameCollisionComponent* box)
     {
         RemoveCollisionBox(box);
-        m_pIngredientBoxes.erase(std::remove(m_pIngredientBoxes.begin(), m_pIngredientBoxes.end(), box), m_pIngredientBoxes.end());
+        m_pBullet.erase(std::remove(m_pBullet.begin(), m_pBullet.end(), box), m_pBullet.end());
     }
     void GameCollisionMngr::RemoveFirstPlayerBox(GameCollisionComponent* box)
     {
@@ -176,7 +180,7 @@ namespace dae
         return nullptr;
     }
 
-   bool GameCollisionMngr::CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const
+    GameCollisionComponent* GameCollisionMngr::CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const
 	{
         for (const auto& player : PlayerManager::GetInstance().GetPlayers())
         {
@@ -188,11 +192,11 @@ namespace dae
                     box->GetCollisionRect().y < pPlayerCollision->GetCollisionRect().y + pPlayerCollision->GetCollisionRect().h &&
                     box->GetCollisionRect().y + box->GetCollisionRect().h > pPlayerCollision->GetCollisionRect().y)
                 {
-                    return true;
+                    return pPlayerCollision;
                 }
             }
         }
-        return false;
+        return nullptr;
     }
 
     GameCollisionComponent* GameCollisionMngr::CheckOverlapWithFirstPlayer(const GameCollisionComponent* box) const
