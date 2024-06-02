@@ -191,7 +191,7 @@ namespace dae
 		m_deletParentFromScene = true;
 	}
 
-	bool GameObject::ReturnDeleting()
+	bool GameObject::ReturnDeleting() const
 	{
 		return m_deletParentFromScene;
 	}

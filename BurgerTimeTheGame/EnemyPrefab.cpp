@@ -5,7 +5,7 @@
 
 dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos, std::string typeOfenemy)
 {
-	m_pEnemy = std::make_shared<dae::GameObject>("Enemy");
+	m_pEnemy = std::make_shared<dae::GameObject>(typeOfenemy);
 
 	//Texture
 	const auto& pTexture = std::make_shared<dae::TextureComponent>(m_pEnemy.get());

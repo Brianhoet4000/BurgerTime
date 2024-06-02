@@ -21,14 +21,11 @@ namespace dae
 
 		void Update(float deltaTime) override;
 
-		void MoveAI(float deltaTime, glm::vec2 dir) const;
-		void GetClosestPlayer();
-
 		bool ReturnStunned() const { return m_pEnemyStunned->Stunned(); }
 		void Stunned() const { m_pEnemyMovement->OnExit(); m_pEnemyStunned->OnEnter(); }
 
 	private:
-		float m_Speed{40.f};
+		
 		GameCollisionComponent* m_pCollision;
 		std::shared_ptr<dae::BulletTimerComponent> m_pStunTimer{};
 		GameObject* m_pClosestPlayer{};

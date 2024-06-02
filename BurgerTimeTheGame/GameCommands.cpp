@@ -60,13 +60,13 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
     const float offset{ 3.5f };
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {
-        if(dae::GameCollisionMngr::GetInstance().MovePlayerLeftFloors(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderLeftStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.x = m_pGameObject->GetRelativePosition().x + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if(dae::GameCollisionMngr::GetInstance().MovePlayerRightFloors(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        else if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderRightStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.x = m_pGameObject->GetRelativePosition().x - offset;
             m_pGameObject->SetRelativePosition(pos);
@@ -83,13 +83,13 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
 
     if (m_Dir.y > 0.2f || m_Dir.y < -0.2f)
     {
-        if (dae::GameCollisionMngr::GetInstance().MovePlayerDownStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        if (dae::GameCollisionMngr::GetInstance().MoveOutsideColliderDownStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.y = m_pGameObject->GetRelativePosition().y - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().MovePlayerUpStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        else if (dae::GameCollisionMngr::GetInstance().MoveOutsideColliderUpStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
         {
             pos.y = m_pGameObject->GetRelativePosition().y + offset;
             m_pGameObject->SetRelativePosition(pos);

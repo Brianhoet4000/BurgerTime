@@ -43,7 +43,7 @@ namespace dae
                     m_pBunTopBoxes.push_back(box);
                 
             }
-            else if (owner->GetTag() == "Enemy")
+            else if (owner->GetTag() == "Egg" || owner->GetTag() == "HotDog" || owner->GetTag() == "Pickle")
             {
                 m_pEnemies.push_back(box);
             }
@@ -467,7 +467,7 @@ namespace dae
         return false;
     }
 
-    bool GameCollisionMngr::MovePlayerUpStairs(const GameCollisionComponent* playerBox) const
+    bool GameCollisionMngr::MoveOutsideColliderUpStairs(const GameCollisionComponent* playerBox) const
     {
         for (const auto& stairs : m_pStairsBoxes)
         {
@@ -485,7 +485,7 @@ namespace dae
     }
 
 
-    bool GameCollisionMngr::MovePlayerDownStairs(const GameCollisionComponent* playerBox) const
+    bool GameCollisionMngr::MoveOutsideColliderDownStairs(const GameCollisionComponent* playerBox) const
     {
         for (const auto& stairs : m_pStairsBoxes)
         {
@@ -524,7 +524,7 @@ namespace dae
         return false;
     }
 
-    bool GameCollisionMngr::MovePlayerLeftFloors(const GameCollisionComponent* playerBox) const
+    bool GameCollisionMngr::MoveOutsideColliderLeftStairs(const GameCollisionComponent* playerBox) const
     {
         const float heightOffset = 5.f;
 
@@ -545,7 +545,7 @@ namespace dae
     }
 
 
-    bool GameCollisionMngr::MovePlayerRightFloors(const GameCollisionComponent* playerBox) const
+    bool GameCollisionMngr::MoveOutsideColliderRightStairs(const GameCollisionComponent* playerBox) const
     {
         const float heightOffset = 5.f;
 

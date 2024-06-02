@@ -56,11 +56,11 @@ namespace dae
 
 		bool CheckForInStairsX() const;
 		bool CheckOverlapWithStairs(const GameCollisionComponent* playerBox) const;
-		bool MovePlayerUpStairs(const GameCollisionComponent* playerBox) const;
-		bool MovePlayerDownStairs(const GameCollisionComponent* playerBox) const;
+		bool MoveOutsideColliderUpStairs(const GameCollisionComponent* playerBox) const;
+		bool MoveOutsideColliderDownStairs(const GameCollisionComponent* playerBox) const;
 		bool CheckOverlapWithFloors(const GameCollisionComponent* playerBox) const;
-		bool MovePlayerLeftFloors(const GameCollisionComponent* playerBox) const;
-		bool MovePlayerRightFloors(const GameCollisionComponent* playerBox) const;
+		bool MoveOutsideColliderLeftStairs(const GameCollisionComponent* playerBox) const;
+		bool MoveOutsideColliderRightStairs(const GameCollisionComponent* playerBox) const;
 
 		bool CheckOverlapWithIngredient(const GameCollisionComponent* box) const;
 		

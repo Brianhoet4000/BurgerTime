@@ -9,7 +9,7 @@ namespace dae
 	{
 	public:
 
-		BulletComponent(dae::GameObject* owner, glm::vec2 vel, int amountOfBounces);
+		BulletComponent(dae::GameObject* owner);
 		virtual ~BulletComponent() override = default;
 		BulletComponent(const BulletComponent& other) = delete;
 		BulletComponent(BulletComponent&& other) = delete;
@@ -19,10 +19,6 @@ namespace dae
 		void Update(float deltaTime) override;
 
 	private:
-		glm::vec2 m_vel;
-		int m_Bounce;
-		int m_AmountOfBounce;
-		const float m_Speed;
 	};
 
 }
