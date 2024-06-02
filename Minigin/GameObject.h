@@ -64,7 +64,7 @@ namespace dae
 		void SetTag(const std::string& tag);
 
 		void MarkTrueForDeleting();
-		bool ReturnDeleting();
+		bool ReturnDeleting() const;
 
 		void SetScene(Scene* scene);
 		Scene* GetScene() const;

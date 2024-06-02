@@ -25,7 +25,7 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
 
     if (m_Player)
     {
-        if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
+        //if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
 
         const auto& shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
         if (shootingstate == nullptr) return;
@@ -132,8 +132,7 @@ void GameCommands::Stun::Execute(float)
         std::cout << "stunned left\n";
     }
 
-    dae::SceneManager* Scenemanager;
-    for (auto element : Scenemanager->GetInstance().GetActiveScene()->GetGameObjects())
+    for (const auto& element : dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects())
     {
 		if(element->GetTag() == "Enemy")
 		{
@@ -224,7 +223,7 @@ void GameCommands::ResetLevel::Execute(float)
         return;
     }
 
-    for (auto player : PlayerManager::GetInstance().GetPlayers())
+    for (const auto& player : PlayerManager::GetInstance().GetPlayers())
     {
         player->GetComponent<dae::PointComponent>()->SetAmount(0);
         player->GetComponent<dae::HealthComponent>()->SetAmount(3);

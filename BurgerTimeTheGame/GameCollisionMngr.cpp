@@ -2,6 +2,7 @@
 
 #include <SDL_syswm.h>
 
+#include "AIMovementComponent.h"
 #include "GameObject.h"
 #include "IngredientComponent.h"
 #include "IngredientPartComponent.h"
@@ -216,6 +217,10 @@ namespace dae
         for (const auto& player : PlayerManager::GetInstance().GetPlayers())
         {
             if (player == nullptr) return nullptr;
+            if (box->GetOwner()->GetComponent<AIMovementComponent>()->ReturnStunned())
+            {
+                return nullptr;
+            }
 
             const auto& PlayerBox = player->GetComponent<GameCollisionComponent>();
 

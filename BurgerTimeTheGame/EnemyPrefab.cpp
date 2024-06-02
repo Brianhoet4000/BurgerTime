@@ -14,12 +14,12 @@ dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos, std::string
 
 	m_pEnemy->SetRelativePosition(StartPos.x, StartPos.y - pTexture->GetSize().y);
 
-	//Collision
-	const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pEnemy.get(), StartPos,
-		pTexture->GetSize().x, pTexture->GetSize().y, true, true);
-	m_pEnemy->AddComponent(pCollider);
-	pCollider->SetCollisionRectOffset(0.2f);
-	pCollider->SetRenderCollisionBox(true);
+	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pEnemy.get(), m_pEnemy->GetRelativePosition(),
+		pTexture->GetSize().x, 8.f, true, true, false);
+	m_pEnemy->AddComponent(pFootCollider);
+	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
+	pFootCollider->SetDebugColor("green");
+	pFootCollider->SetRenderCollisionBox(true);
 
 	//AIMovement
 	const auto& AIMovement = std::make_shared<dae::AIMovementComponent>(m_pEnemy.get(), StartPos);

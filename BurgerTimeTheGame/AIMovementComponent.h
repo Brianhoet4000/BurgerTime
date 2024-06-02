@@ -24,7 +24,7 @@ namespace dae
 		void MoveAI(float deltaTime, glm::vec2 dir) const;
 		void GetClosestPlayer();
 
-		bool ReturnStunned() const { return m_pEnemyStunned->DoneStun(); }
+		bool ReturnStunned() const { return m_pEnemyStunned->Stunned(); }
 		void Stunned() const { m_pEnemyMovement->OnExit(); m_pEnemyStunned->OnEnter(); }
 
 	private:
