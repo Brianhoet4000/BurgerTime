@@ -19,15 +19,15 @@ dae::ConditionSingleCoopComponent::ConditionSingleCoopComponent(dae::GameObject*
 
 void dae::ConditionSingleCoopComponent::Update(float)
 {
-	for (const auto& player : PlayerManager::GetInstance().GetPlayers())
-	{
-		if (player->GetComponent<HealthComponent>()->GetAmount() <= -1)
-		{
-			dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
-			dae::SceneManager::GetInstance().SetActiveScene("GameOver");
-			return;
-		}
-	}
+	//for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+	//{
+	//	if (player->GetComponent<HealthComponent>()->GetAmount() <= -1)
+	//	{
+	//		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
+	//		dae::SceneManager::GetInstance().SetActiveScene("GameOver");
+	//		return;
+	//	}
+	//}
 
 	bool allPlatesFull = true;
 	for (auto plate : GameCollisionMngr::GetInstance().GetAllPlates())
@@ -39,9 +39,6 @@ void dae::ConditionSingleCoopComponent::Update(float)
 		}
 	}
 	m_Finished = allPlatesFull;
-
-	
-
 	
 	if(m_Finished && !m_DoOnce && dae::ScreenManager::GetInstance().GetCurrentLevel() != 3)
 	{

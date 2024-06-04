@@ -1,5 +1,6 @@
 #include "HealthComponent.h"
 
+#include "Scene.h"
 #include "SceneManager.h"
 
 dae::HealthComponent::HealthComponent(dae::GameObject* owner, int startAmount)
@@ -11,6 +12,13 @@ dae::HealthComponent::HealthComponent(dae::GameObject* owner, int startAmount)
 void dae::HealthComponent::DecreaseAmount(int difference) const
 {
 	m_pCounterCp->DecreaseAmount(difference);
+
+	if(m_pCounterCp->GetAmount() < -1)
+	{
+		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
+		dae::SceneManager::GetInstance().SetActiveScene("GameOver");
+		return;
+	}
 }
 
 void dae::HealthComponent::IncreaseAmount(int difference) const

@@ -11,7 +11,7 @@ void SceneManager::Update(float deltaTime) const
 			continue;
 
 		scene->Update(deltaTime);
-		//return;
+		return;
 	}
 }
 

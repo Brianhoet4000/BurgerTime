@@ -16,6 +16,8 @@ namespace dae
 
 	void GameObject::Update(float deltaTime)
 	{
+		if (!m_Update) return;
+
 		// Update all components
 		for (const auto& pComponent : m_pComponents)
 		{
@@ -68,14 +70,14 @@ namespace dae
 
 	void GameObject::UpdateWorldPos()
 	{
-		if (m_dirtyFlag)
+		if (m_DirtyFlag)
 		{
 			if (m_pParent == nullptr)
 				m_WorldTransform = m_RelativeTransform;
 			else
 				m_WorldTransform = m_pParent->GetWorldPosition() + m_RelativeTransform;
 
-			m_dirtyFlag = false;
+			m_DirtyFlag = false;
 		}
 	}
 
@@ -117,6 +119,12 @@ namespace dae
 		child->SetParent(this);
 	}
 
+	void GameObject::RemoveAllComponents()
+	{
+		if(!m_pComponents.empty())
+		m_pComponents.clear();
+	}
+
 	void GameObject::RemoveChild(const GameObject* child)
 	{
 		m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(),
@@ -127,12 +135,16 @@ namespace dae
 
 	void GameObject::RemoveAllChilderen()
 	{
+		for (const auto& child : m_pChildren)
+		{
+			child->RemoveAllComponents();
+		}
 		m_pChildren.clear();
 	}
 
 	const glm::vec2& GameObject::GetWorldPosition()
 	{
-		if (m_dirtyFlag)
+		if (m_DirtyFlag)
 			UpdateWorldPos();
 		return m_WorldTransform;
 	}
@@ -169,7 +181,7 @@ namespace dae
 
 	void GameObject::FlagIsTrue()
 	{
-		m_dirtyFlag = true;
+		m_DirtyFlag = true;
 		for (const auto& child : m_pChildren)
 		{
 			child->FlagIsTrue();
@@ -188,12 +200,12 @@ namespace dae
 
 	void GameObject::MarkTrueForDeleting()
 	{
-		m_deletParentFromScene = true;
+		m_DeletParentFromScene = true;
 	}
 
 	bool GameObject::ReturnDeleting() const
 	{
-		return m_deletParentFromScene;
+		return m_DeletParentFromScene;
 	}
 
 	void GameObject::SetScene(Scene* scene)

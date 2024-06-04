@@ -124,6 +124,11 @@ namespace dae
 		CreateLevelZero(scene);
 		CreateLevelOne(scene);
 		CreateLevelTwo(scene);
+
+		//for (auto element : PlayerManager::GetInstance().GetPlayers())
+		//{
+		//	element->SetUpdate(true);
+		//}
 	}
 
 	void ScreenManager::CreateGameOverScreen(dae::Scene& scene)
@@ -186,9 +191,11 @@ namespace dae
 	{
 		if(m_CurrentLevel == 0)
 		{
+			const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level01");
+
 			if (m_CurrentGameMode == GameMode::SinglePlayer)
 			{
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level01");
+				
 				if (!m_AddedPlayers)
 				{
 					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene);
@@ -210,9 +217,6 @@ namespace dae
 
 			else if(m_CurrentGameMode == GameMode::Coop)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level01");
-
 				if (!m_AddedPlayers)
 				{
 					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene);
@@ -235,10 +239,6 @@ namespace dae
 
 			else if(m_CurrentGameMode == GameMode::Versus)
 			{
-
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level01");
-
 				if (!m_AddedPlayers)
 				{
 					const auto& pPlayer_01 = std::make_shared<dae::PlayerOne>(scene);
@@ -374,28 +374,39 @@ namespace dae
 		const auto& pPlayerLivesSecond = std::make_shared<dae::GameObject>("PlayerLivesSecond");
 		scene.Add(pPlayerLivesSecond);
 
-		for (int i = 0; i < players[0]->GetComponent<HealthComponent>()->GetAmount(); ++i)
+		for (auto element : players)
 		{
-			const auto& pPlayerLives = std::make_shared<dae::GameObject>();
-			const auto& pPlayerLiveTexture = std::make_shared<TextureComponent>(pPlayerLives.get());
-			pPlayerLiveTexture->SetTexture("Misc/PepperHealth.png");
-			pPlayerLives->AddComponent(pPlayerLiveTexture);
-
-			pPlayerLives->SetRelativePosition(((710.f/2.f) - ((pPlayerLiveTexture->GetSize().x*3))) + (i * pPlayerLiveTexture->GetSize().x),  6.f);
-			scene.Add(pPlayerLives);
-			pPlayerLivesFirst->AddChild(pPlayerLives);
-
-			if (SecondPlayer)
+			if (element->GetTag() == "Player_01")
 			{
-				const auto& pPlayerLives2 = std::make_shared<dae::GameObject>();
-				const auto& pPlayerLiveTexture2 = std::make_shared<TextureComponent>(pPlayerLives2.get());
-				pPlayerLiveTexture2->SetTexture("Misc/SallyHealth.png");
-				pPlayerLives2->AddComponent(pPlayerLiveTexture2);
+				for (int j = 0; j < element->GetComponent<HealthComponent>()->GetAmount(); ++j)
+				{
+					const auto& pPlayerLives = std::make_shared<dae::GameObject>();
+					const auto& pPlayerLiveTexture = std::make_shared<TextureComponent>(pPlayerLives.get());
+					pPlayerLiveTexture->SetTexture("Misc/PepperHealth.png");
+					pPlayerLives->AddComponent(pPlayerLiveTexture);
 
-				pPlayerLives2->SetRelativePosition(((710.f / 2.f) - ((pPlayerLiveTexture2->GetSize().x * 3))) + (i * pPlayerLiveTexture2->GetSize().x), 34.f);
-				scene.Add(pPlayerLives2);
-				pPlayerLivesSecond->AddChild(pPlayerLives2);
+					pPlayerLives->SetRelativePosition(((710.f / 2.f) - ((pPlayerLiveTexture->GetSize().x * 3))) + (j * pPlayerLiveTexture->GetSize().x), 6.f);
+					scene.Add(pPlayerLives);
+					pPlayerLivesFirst->AddChild(pPlayerLives);
+				}
+			}
+			else
+			{
+				if (SecondPlayer)
+				{
+					for (int j = 0; j < element->GetComponent<HealthComponent>()->GetAmount(); ++j)
+					{
+						const auto& pPlayerLives2 = std::make_shared<dae::GameObject>();
+						const auto& pPlayerLiveTexture2 = std::make_shared<TextureComponent>(pPlayerLives2.get());
+						pPlayerLiveTexture2->SetTexture("Misc/SallyHealth.png");
+						pPlayerLives2->AddComponent(pPlayerLiveTexture2);
 
+						pPlayerLives2->SetRelativePosition(((710.f / 2.f) - ((pPlayerLiveTexture2->GetSize().x * 3))) + (j * pPlayerLiveTexture2->GetSize().x), 34.f);
+						scene.Add(pPlayerLives2);
+						pPlayerLivesSecond->AddChild(pPlayerLives2);
+					}
+
+				}
 			}
 		}
 
@@ -420,8 +431,11 @@ namespace dae
 	void ScreenManager::PlayerKilledResetLevelAndStats(dae::GameCollisionComponent* ownerbox) const
 	{
 		ownerbox->GetOwner()->GetComponent<HealthComponent>()->DecreaseAmount(1);
+
+		if(ownerbox->GetOwner()->GetComponent<HealthComponent>()->GetAmount() <= -1)
+			return;
+
 		ownerbox->GetOwner()->GetComponent<PointComponent>()->SetAmount(0);
-		
 		const auto& scene = dae::SceneManager::GetInstance().GetActiveScene();
 		
 		if (ownerbox->GetOwner()->GetTag() == "Player_01")
@@ -435,9 +449,20 @@ namespace dae
 			points->GetComponent<TextComponent>()->SetText(std::to_string(ownerbox->GetOwner()->GetComponent<PointComponent>()->GetAmount()));
 		}
 
+		for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+		{
+			SceneManager::GetInstance().GetActiveScene()->Remove(player);
+		}
+		
 		dae::GameCollisionMngr::GetInstance().ClearAll();
 		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
+
 		GetInstance().CreateGameScreen(*SceneManager::GetInstance().GetActiveScene());
+
+		for (auto players : PlayerManager::GetInstance().GetPlayers())
+		{
+			players->SetUpdate(true);
+		}
 	}
 
 	GameObject* ScreenManager::GetGameObjectInScene(dae::Scene& scene, std::string tag)
@@ -501,11 +526,6 @@ namespace dae
 			dae::GameCollisionMngr::GetInstance().ClearAll();
 			dae::ScreenManager::GetInstance().IncrementCurrentLevel();
 			dae::ScreenManager::GetInstance().CreateGameScreen(*dae::SceneManager::GetInstance().GetActiveScene());
-		}
-
-		if(dae::SceneManager::GetInstance().GetActiveSceneName() == "GameOver")
-		{
-			
 		}
 	}
 

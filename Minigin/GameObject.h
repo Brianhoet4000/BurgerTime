@@ -53,7 +53,7 @@ namespace dae
 		void RemoveAllChilderen();
 		void SetParent(GameObject* parent);
 		void AddChild(const std::shared_ptr<GameObject>& child);
-		
+		void RemoveAllComponents();
 
 		glm::vec2 GetRelativePosition() const;	
 		void SetRelativePosition(glm::vec2 Pos);
@@ -65,9 +65,13 @@ namespace dae
 
 		void MarkTrueForDeleting();
 		bool ReturnDeleting() const;
+		void SetUpdate(bool update) { m_Update = update; }
 
 		void SetScene(Scene* scene);
 		Scene* GetScene() const;
+
+		std::vector<std::shared_ptr<BaseComponent>> GetAllComponents() { return m_pComponents; }
+		std::vector<std::shared_ptr<GameObject>> GetAllChildren() { return m_pChildren; }
 
 	protected:
 		std::unique_ptr<Subject> m_pSubject;
@@ -81,8 +85,9 @@ namespace dae
 		GameObject* m_pParent{ nullptr };
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
-		bool m_deletParentFromScene{ false };
-		bool m_dirtyFlag{ false };
+		bool m_Update{ true };
+		bool m_DeletParentFromScene{ false };
+		bool m_DirtyFlag{ false };
 		std::string m_TagString;
 
 		Scene* m_pScene{};

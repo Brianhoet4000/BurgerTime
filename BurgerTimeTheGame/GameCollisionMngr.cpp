@@ -101,8 +101,8 @@ namespace dae
         m_pBunTopBoxes.clear();
         m_pEnemies.clear();
         m_pPlates.clear();
-        m_pFirstPlayer = nullptr;
-        m_pSecondPlayer = nullptr;
+        //m_pFirstPlayer = nullptr;
+        //m_pSecondPlayer = nullptr;
     }
 
     std::vector<GameCollisionComponent*> GameCollisionMngr::GetAllPlayers() const

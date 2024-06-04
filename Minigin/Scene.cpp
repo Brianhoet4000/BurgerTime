@@ -21,18 +21,22 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 void Scene::Remove(const std::shared_ptr<GameObject>& object)
 {
 	//remove children
-	for (const auto& c : object->GetChildren())
-	{
-		m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), c), m_pObjects.end());
-	}
+	//for (const auto& c : object->GetChildren())
+	//{
+	//	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), c), m_pObjects.end());
+	//}
 
 	//remove object
 	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), object), m_pObjects.end());
 }
 
-
 void Scene::RemoveAll()
 {
+	for (auto object : m_pObjects)
+	{
+		object->SetUpdate(false);
+	}
+
 	m_pObjects.clear();
 }
 
