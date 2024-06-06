@@ -5,7 +5,7 @@ using namespace dae;
 
 void SceneManager::Update(float deltaTime) const
 {
-	for (auto& scene : m_pScenes)
+	for (const auto& scene : m_pScenes)
 	{
 		if (!scene->IsActive())
 			continue;
@@ -17,7 +17,7 @@ void SceneManager::Update(float deltaTime) const
 
 void SceneManager::FixedUpdate(float fixedTimeStep) const
 {
-	for (auto& scene : m_pScenes)
+	for (const auto& scene : m_pScenes)
 	{
 		if (!scene->IsActive())
 			continue;

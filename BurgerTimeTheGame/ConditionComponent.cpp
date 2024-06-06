@@ -1,7 +1,5 @@
-#include "ConditionSingleCoopComponent.h"
-
+#include "ConditionComponent.h"
 #include <iostream>
-
 #include "GameCollisionMngr.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
@@ -10,14 +8,14 @@
 #include "ScreenManager.h"
 #include "TextureComponent.h"
 
-dae::ConditionSingleCoopComponent::ConditionSingleCoopComponent(dae::GameObject* owner)
+dae::ConditionComponent::ConditionComponent(dae::GameObject* owner)
 	:BaseComponent(owner)
 	,m_Finished{false}
 {
 	
 }
 
-void dae::ConditionSingleCoopComponent::Update(float)
+void dae::ConditionComponent::Update(float)
 {
 	//for (const auto& player : PlayerManager::GetInstance().GetPlayers())
 	//{

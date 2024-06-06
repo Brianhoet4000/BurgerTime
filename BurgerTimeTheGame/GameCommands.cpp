@@ -66,8 +66,6 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
         }
     }
 
-    
-
     const float offset{ 3.5f };
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {

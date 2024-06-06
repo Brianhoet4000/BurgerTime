@@ -14,7 +14,7 @@ namespace dae
 	{
 	}
 
-	void GameObject::Update(float deltaTime)
+	void GameObject::Update(float deltaTime) const
 	{
 		if (!m_Update) return;
 

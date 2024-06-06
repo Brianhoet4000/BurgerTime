@@ -62,7 +62,7 @@
     <ClCompile Include="ScreenManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConditionSingleCoopComponent.cpp">
+    <ClCompile Include="ConditionComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="PlayerManager.cpp">
@@ -78,9 +78,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HighscoreComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ConditionVersusComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="BurgerTimeTheGame.cpp">
@@ -148,7 +145,7 @@
     <ClInclude Include="ScreenManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConditionSingleCoopComponent.h">
+    <ClInclude Include="ConditionComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerManager.h">
@@ -161,9 +158,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="HighscoreComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ConditionVersusComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="HealthObserver.h">

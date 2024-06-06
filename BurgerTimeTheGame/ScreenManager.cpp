@@ -2,13 +2,11 @@
 #include <SDL_scancode.h>
 #include <thread>
 #include <glm/vec2.hpp>
+#include "ConditionComponent.h"
 #include "EnemyPrefab.h"
-#include "Font.h"
 #include "GameCommands.h"
 #include "FPSCounterComponent.h"
 #include "GameCollisionMngr.h"
-#include "ConditionSingleCoopComponent.h"
-#include "ConditionVersusComponent.h"
 #include "HealthComponent.h"
 #include "HighscoreComponent.h"
 #include "InputManager.h"
@@ -207,14 +205,11 @@ namespace dae
 				player[0]->SetRelativePosition(pLevel->GetSpawnPosition()[0]);
 				
 				//const auto& pSpawner = std::make_shared<dae::EnemySpawner>(*dae::SceneManager::GetInstance().GetActiveScene(), pLevel->GetEnemySpawnPosition(), 3);
-				const auto& pWinLose = std::make_shared<dae::ConditionSingleCoopComponent>(pLevel->returnLevelObj().get());
-				pLevel->returnLevelObj()->AddComponent(pWinLose);
 
 				std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 }, "Egg");
 
 				CreateUI(scene, player, false);
 			}
-
 			else if(m_CurrentGameMode == GameMode::Coop)
 			{
 				if (!m_AddedPlayers)
@@ -255,12 +250,12 @@ namespace dae
 					PlayerManager::GetInstance().GetPlayers()[i]->SetRelativePosition(pLevel->GetSpawnPosition()[i]);
 				}
 
-				const auto& pWinLose = std::make_shared<dae::ConditionVersusComponent>(pLevel->returnLevelObj().get());
-				pLevel->returnLevelObj()->AddComponent(pWinLose);
-
 				auto players = PlayerManager::GetInstance().GetPlayers();
 				CreateUI(scene, players, true);
 			}
+
+			const auto& pWinLose = std::make_shared<dae::ConditionComponent>(pLevel->returnLevelObj().get());
+			pLevel->returnLevelObj()->AddComponent(pWinLose);
 		}
 	}
 
@@ -268,11 +263,11 @@ namespace dae
 	{
 		if (m_CurrentLevel == 1)
 		{
+			//Level
+			const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level02");
+
 			if (m_CurrentGameMode == GameMode::SinglePlayer)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level02");
-
 				auto player = PlayerManager::GetInstance().GetPlayers();
 				dae::SceneManager::GetInstance().GetActiveScene()->Add(player[0]);
 				player[0]->SetRelativePosition(pLevel->GetSpawnPosition()[0]);
@@ -282,9 +277,6 @@ namespace dae
 
 			else if (m_CurrentGameMode == GameMode::Coop)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level02");
-
 				for (int i = 0; i < static_cast<int>(PlayerManager::GetInstance().GetPlayers().size()); ++i)
 				{
 					dae::SceneManager::GetInstance().GetActiveScene()->Add(PlayerManager::GetInstance().GetPlayers()[i]);
@@ -297,21 +289,18 @@ namespace dae
 
 			else if (m_CurrentGameMode == GameMode::Versus)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level02");
-
 				for (int i = 0; i < static_cast<int>(PlayerManager::GetInstance().GetPlayers().size()); ++i)
 				{
 					dae::SceneManager::GetInstance().GetActiveScene()->Add(PlayerManager::GetInstance().GetPlayers()[i]);
 					PlayerManager::GetInstance().GetPlayers()[i]->SetRelativePosition(pLevel->GetSpawnPosition()[i]);
 				}
 
-				const auto& pWinLose = std::make_shared<dae::ConditionVersusComponent>(pLevel->returnLevelObj().get());
-				pLevel->returnLevelObj()->AddComponent(pWinLose);
-
 				auto players = PlayerManager::GetInstance().GetPlayers();
 				CreateUI(scene, players, true);
 			}
+
+			const auto& pWinLose = std::make_shared<dae::ConditionComponent>(pLevel->returnLevelObj().get());
+			pLevel->returnLevelObj()->AddComponent(pWinLose);
 		}
 	}
 
@@ -319,11 +308,11 @@ namespace dae
 	{
 		if (m_CurrentLevel == 2)
 		{
+			//Level
+			const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level03");
+
 			if (m_CurrentGameMode == GameMode::SinglePlayer)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level03");
-
 				//auto EnemySpawner = std::make_shared<dae::EnemySpawner>(scene, pLevel->GetEnemySpawnPosition(), 6);
 				auto player = PlayerManager::GetInstance().GetPlayers();
 				dae::SceneManager::GetInstance().GetActiveScene()->Add(player[0]);
@@ -331,11 +320,9 @@ namespace dae
 
 				CreateUI(scene, player, false);
 			}
-
 			else if (m_CurrentGameMode == GameMode::Coop)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level03");
+				
 
 				for (int i = 0; i < static_cast<int>(PlayerManager::GetInstance().GetPlayers().size()); ++i)
 				{
@@ -346,24 +333,20 @@ namespace dae
 				auto players = PlayerManager::GetInstance().GetPlayers();
 				CreateUI(scene, players, true);
 			}
-
 			else if (m_CurrentGameMode == GameMode::Versus)
 			{
-				//Level
-				const auto& pLevel = std::make_shared<dae::LevelPrefab>(scene, "Level03");
-
 				for (int i = 0; i < static_cast<int>(PlayerManager::GetInstance().GetPlayers().size()); ++i)
 				{
 					dae::SceneManager::GetInstance().GetActiveScene()->Add(PlayerManager::GetInstance().GetPlayers()[i]);
 					PlayerManager::GetInstance().GetPlayers()[i]->SetRelativePosition(pLevel->GetSpawnPosition()[i]);
 				}
 
-				const auto& pWinLose = std::make_shared<dae::ConditionVersusComponent>(pLevel->returnLevelObj().get());
-				pLevel->returnLevelObj()->AddComponent(pWinLose);
-
 				auto players = PlayerManager::GetInstance().GetPlayers();
 				CreateUI(scene, players, true);
 			}
+
+			const auto& pWinLose = std::make_shared<dae::ConditionComponent>(pLevel->returnLevelObj().get());
+			pLevel->returnLevelObj()->AddComponent(pWinLose);
 		}
 	}
 
@@ -456,10 +439,9 @@ namespace dae
 		
 		dae::GameCollisionMngr::GetInstance().ClearAll();
 		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
-
 		GetInstance().CreateGameScreen(*SceneManager::GetInstance().GetActiveScene());
 
-		for (auto players : PlayerManager::GetInstance().GetPlayers())
+		for (const auto& players : PlayerManager::GetInstance().GetPlayers())
 		{
 			players->SetUpdate(true);
 		}

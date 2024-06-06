@@ -99,10 +99,13 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
 		float deltaTimeSec = std::chrono::duration<float>(currentTime - lastTime).count();
+
 		if (deltaTimeSec > 1) deltaTimeSec = 0.01f;
 		if (deltaTimeSec < 0.01) deltaTimeSec = 0.01f;
+
 		lastTime = currentTime;
 		lag += deltaTimeSec;
+
 		doContinue = input.ProcessInput(deltaTimeSec);
 		input.UpdateControllers();
 		while (lag >= fixedTimeStepSec)

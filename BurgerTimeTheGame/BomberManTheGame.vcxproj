@@ -185,12 +185,11 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClCompile Include="BulletPrefab.cpp" />
     <ClCompile Include="BulletTimerComponent.cpp" />
     <ClCompile Include="BurgerTimeTheGame.cpp" />
-    <ClCompile Include="ConditionVersusComponent.cpp" />
     <ClCompile Include="EnemyPrefab.cpp" />
     <ClCompile Include="EnemyStates.cpp" />
     <ClCompile Include="GameCollisionComponent.cpp" />
     <ClCompile Include="GameCollisionMngr.cpp" />
-    <ClCompile Include="ConditionSingleCoopComponent.cpp" />
+    <ClCompile Include="ConditionComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HighscoreComponent.cpp" />
     <ClCompile Include="Ingredient.cpp" />
@@ -213,12 +212,11 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletPrefab.h" />
     <ClInclude Include="BulletTimerComponent.h" />
-    <ClInclude Include="ConditionVersusComponent.h" />
     <ClInclude Include="EnemyPrefab.h" />
     <ClInclude Include="EnemyStates.h" />
     <ClInclude Include="GameCollisionComponent.h" />
     <ClInclude Include="GameCollisionMngr.h" />
-    <ClInclude Include="ConditionSingleCoopComponent.h" />
+    <ClInclude Include="ConditionComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="HighscoreComponent.h" />

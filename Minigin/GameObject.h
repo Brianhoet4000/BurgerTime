@@ -22,7 +22,7 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		void Update(float deltaTime);
+		void Update(float deltaTime) const;
 		void FixedUpdate(float deltaTime);
 		void Render() const;
 
