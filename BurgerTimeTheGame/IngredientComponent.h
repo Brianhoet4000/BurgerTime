@@ -19,7 +19,7 @@ namespace dae
 		IngredientComponent& operator=(IngredientComponent&& other) = delete;
 
 		void Update(float) override;
-		bool AllArePushedDown();
+		bool AllArePushedDown() const;
 
 		bool GetIsFalling() const { return m_IsFalling; }
 		void SetIsFalling(bool Falling) { m_IsFalling = Falling; }

@@ -10,7 +10,7 @@ dae::AIMovementComponent::AIMovementComponent(dae::GameObject* owner, glm::vec2 
 	:BaseComponent(owner)
 {
 	m_pCollision = owner->GetComponent<dae::GameCollisionComponent>();
-	m_pStunTimer = std::make_unique<dae::BulletTimerComponent>(owner);
+	m_pStunTimer = std::make_unique<dae::BulletTimerComponent>(owner, 5.f);
 
 	m_pEnemyMovement = std::make_unique<EnemyMovement>(m_pOwner, startPos);
 	m_pEnemyStunned = std::make_unique<EnemyStunned>(m_pOwner, m_pStunTimer.get());

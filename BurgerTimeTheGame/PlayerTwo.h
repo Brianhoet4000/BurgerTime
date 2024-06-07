@@ -30,7 +30,7 @@ namespace dae
 		}
 
 	private:
-		float m_Speed{ 40.f };
+		float m_Speed{ 35.f };
 		glm::vec2 m_Up = { 0.f,-m_Speed };
 		glm::vec2 m_Down = { 0.f,m_Speed };
 		glm::vec2 m_Right = { m_Speed,0.f };

@@ -35,10 +35,8 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene)
 	pFootCollider->SetDebugColor("red");
 	pFootCollider->SetRenderCollisionBox(true);
 
-
-
 	//BulletTimer
-	const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerOne.get());
+	const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerOne.get(), 3.f);
 	m_pPlayerOne->AddComponent(pTimer);
 
 	//ShootingDir

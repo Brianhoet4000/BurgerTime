@@ -2,9 +2,9 @@
 #include "GameObject.h"
 #include "TextureComponent.h"
 
-dae::BulletTimerComponent::BulletTimerComponent(dae::GameObject* owner)
+dae::BulletTimerComponent::BulletTimerComponent(dae::GameObject* owner, const float timer)
 	:BaseComponent(owner)
-	,m_StartValue{5.f}
+	,m_StartValue{ timer }
 	,m_CurrentTime{m_StartValue}
 
 {

@@ -251,13 +251,9 @@ namespace dae
                 box->GetCollisionRect().y < EnemyBox->GetCollisionRect().y + EnemyBox->GetCollisionRect().h &&
                 box->GetCollisionRect().y + box->GetCollisionRect().h > EnemyBox->GetCollisionRect().y)
             {
-                if (box->GetOwner()->GetParent()->GetChildren()[0])
-                {
-                    const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
-                    dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
-                    std::cout << "1\n";
-                }
-
+            	const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
+            	dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
+            	std::cout << "1\n";
                 EnemyBox->GetOwner()->MarkTrueForDeleting();
             }
         }
@@ -274,12 +270,9 @@ namespace dae
             box->GetCollisionRect().y < m_pSecondPlayer->GetCollisionRect().y + m_pSecondPlayer->GetCollisionRect().h &&
             box->GetCollisionRect().y + box->GetCollisionRect().h > m_pSecondPlayer->GetCollisionRect().y)
         {
-            if (box->GetOwner()->GetParent()->GetChildren()[0])
-            {
-                const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
-                dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
-                std::cout << "1\n";
-            }
+            const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
+            dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
+            
             if(!m_DoOnce)
             ScreenManager::GetInstance().ProceedNextLevel();
         }

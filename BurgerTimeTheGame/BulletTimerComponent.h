@@ -8,7 +8,7 @@ namespace dae
 	{
 	public:
 
-		BulletTimerComponent(dae::GameObject* owner);
+		BulletTimerComponent(dae::GameObject* owner, const float timer);
 		virtual ~BulletTimerComponent() override = default;
 		BulletTimerComponent(const BulletTimerComponent& other) = delete;
 		BulletTimerComponent(BulletTimerComponent&& other) = delete;

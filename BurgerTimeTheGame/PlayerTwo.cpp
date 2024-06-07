@@ -46,7 +46,7 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 		pFootCollider->SetRenderCollisionBox(true);
 
 		//BulletTimer
-		const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get());
+		const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get(), 3.f);
 		m_pPlayerTwo->AddComponent(pTimer);
 
 		//ShootingDir
@@ -65,7 +65,7 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 	}
 	else
 	{
-		m_Speed = 65;
+		m_Speed = 45.f;
 		//Texture Verus
 		const auto& pTexture = std::make_shared<dae::TextureComponent>(m_pPlayerTwo.get());
 		pTexture->SetTexture("Enemies/HotDog.png");
@@ -78,7 +78,7 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 		pFootCollider->SetDebugColor("red");
 		pFootCollider->SetRenderCollisionBox(true);
 
-		std::shared_ptr<BulletTimerComponent> pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get());
+		std::shared_ptr<BulletTimerComponent> pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get(), 5.f);
 		m_pPlayerTwo->AddComponent(pTimer);
 
 		moveCommandUp = std::make_shared<GameCommands::PlayerMovement>(m_pPlayerTwo, m_Up, false);

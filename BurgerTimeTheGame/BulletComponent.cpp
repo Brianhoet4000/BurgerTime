@@ -23,6 +23,9 @@ void dae::BulletComponent::Update(float)
 {
 	const auto pColliderBullet = m_pOwner->GetComponent<dae::GameCollisionComponent>();
 
+	if(m_pOwner->GetComponent<BulletTimerComponent>()->ReturnCompleted())
+		m_pOwner->MarkTrueForDeleting();
+
 	//If in versus mode
 	const auto secondPlayerEnemy = dae::GameCollisionMngr::GetInstance().CheckOverlapWithSecondPlayerVersus(pColliderBullet);
 	if(secondPlayerEnemy != nullptr)

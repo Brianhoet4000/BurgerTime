@@ -29,7 +29,7 @@ void dae::IngredientComponent::Update(float deltaTime)
 
 			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
 
-			GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
+			//GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
 
 			//std::cout << "implement secondplayer in versus\n";
 			//GameCollisionMngr::GetInstance().CheckIngredientOverlapWithSecondplayer(childCollider);
@@ -59,7 +59,7 @@ void dae::IngredientComponent::Update(float deltaTime)
 	}
 }
 
-bool dae::IngredientComponent::AllArePushedDown()
+bool dae::IngredientComponent::AllArePushedDown() const
 {
 	for (auto& element : m_pOwner->GetChildren())
 	{

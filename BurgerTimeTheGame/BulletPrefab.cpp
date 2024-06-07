@@ -1,6 +1,7 @@
 #include "BulletPrefab.h"
 
 #include "BulletComponent.h"
+#include "BulletTimerComponent.h"
 #include "GameCollisionComponent.h"
 #include "TextureComponent.h"
 
@@ -27,8 +28,10 @@ dae::BulletPrefab::BulletPrefab(dae::Scene& scene, glm::vec2 pos, ShootingDirCom
 
 	std::shared_ptr<GameCollisionComponent> pPepperColl = std::make_shared<GameCollisionComponent>(m_pBullet.get(), m_pBullet->GetRelativePosition(),
 		pPepperTex->GetSize().x , pPepperTex->GetSize().y, false, false);
-	//pPepperColl->SetDebugColor("red");
 	m_pBullet->AddComponent(pPepperColl);
+
+	std::shared_ptr<BulletTimerComponent> pBulletTimer = std::make_shared<BulletTimerComponent>(m_pBullet.get(), 3.f);
+	m_pBullet->AddComponent(pBulletTimer);
 
 	std::shared_ptr<BulletComponent> pBulletcomp = std::make_shared<BulletComponent>(m_pBullet.get());
 	m_pBullet->AddComponent(pBulletcomp);

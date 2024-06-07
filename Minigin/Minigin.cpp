@@ -89,7 +89,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 
 	constexpr float fixedTimeStep{ 0.02f };
-	constexpr float wantedFps{ 60.f };
+	constexpr float wantedFps{ 144.f };
 	constexpr int frameTimeMs{ static_cast<int>(1000 / wantedFps) };
 
 	bool doContinue = true;

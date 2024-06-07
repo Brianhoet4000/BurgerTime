@@ -23,7 +23,7 @@ private:
 	bool m_update = false;
 	bool m_OnStairs = false;
 	bool m_OnFloor = false;
-	float m_Speed{ 40.f };
+	float m_Speed{ 35.f };
 	glm::vec2 m_Dir = { 0,0 };
 	glm::vec2 m_DirLeft{ -1,0 };
 	glm::vec2 m_DirRight{ 1, 0 };

@@ -133,6 +133,7 @@ void GameCommands::Stun::Execute(float)
     std::unique_ptr<dae::BulletPrefab> bullet = std::make_unique<dae::BulletPrefab>(*dae::SceneManager::GetInstance().GetActiveScene(),
         m_pGameObject->GetRelativePosition(), shootingState->returnFaceState());
 
+    bullet->returnGameObject()->GetComponent<dae::BulletTimerComponent>()->SetHasShot(true);
     m_pBulletTimer->SetHasShot(true);
     SetKeyPressed(true);
 }
