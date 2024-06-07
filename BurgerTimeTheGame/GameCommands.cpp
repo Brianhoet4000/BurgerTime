@@ -26,7 +26,7 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
 
     if (m_Player)
     {
-        //if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
+        if (m_pGameObject->GetComponent<dae::BulletTimerComponent>()->ReturnHasShot()) return;
 
         const auto& shootingstate = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
         if (shootingstate == nullptr) return;
@@ -66,7 +66,7 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
         }
     }
 
-    const float offset{ 3.5f };
+    const float offset{ 2.0f };
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {
         if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderLeftStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
@@ -133,15 +133,6 @@ void GameCommands::Stun::Execute(float)
     std::unique_ptr<dae::BulletPrefab> bullet = std::make_unique<dae::BulletPrefab>(*dae::SceneManager::GetInstance().GetActiveScene(),
         m_pGameObject->GetRelativePosition(), shootingState->returnFaceState());
 
-    //for (const auto& element : dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects())
-    //{
-	//	if(element->GetTag() == "Enemy")
-	//	{
-    //        std::cout << "Found\n";
-    //        element->GetComponent<dae::AIMovementComponent>()->Stunned();
-	//	}
-    //}
-
     m_pBulletTimer->SetHasShot(true);
     SetKeyPressed(true);
 }
@@ -149,8 +140,8 @@ void GameCommands::Stun::Execute(float)
 GameCommands::SwitchGameMode::SwitchGameMode(std::shared_ptr<dae::GameObject> owner, dae::GameObject* text, dae::ScreenManager::GameMode& currentScreen, dae::ScreenManager* screen)
 	:m_pScreen{std::move(owner)},
     m_pTextMode{text},
-    m_CurrentScreen{ currentScreen },
-	m_pScreenManager{ screen }
+	m_pScreenManager{ screen },
+    m_CurrentScreen{ currentScreen }
 {
 }
 

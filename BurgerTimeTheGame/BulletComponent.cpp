@@ -31,8 +31,7 @@ void dae::BulletComponent::Update(float)
 		dae::GameCollisionMngr::GetInstance().RemoveBulletBox(pColliderBullet);
 
 		secondPlayerEnemy->GetOwner()->GetComponent<BulletTimerComponent>()->SetHasShot(true);
-	
-		//dae::ScreenManager::GetInstance().ProceedNextLevel();
+
 		return;
 	}
 

@@ -103,19 +103,20 @@ namespace dae
 
 	void GameObject::SetParent(GameObject* parent)
 	{
-		if(m_pParent)
+		if (m_pParent)
 		{
 			m_pParent->RemoveChild(this);
 		}
 		m_pParent = parent;
 
-		UpdateWorldPos();
+		if (!parent) return;
 
+		UpdateWorldPos();
 	}
 
 	void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	{
-		m_pChildren.push_back(child);
+		m_pChildren.emplace_back(child);
 		child->SetParent(this);
 	}
 

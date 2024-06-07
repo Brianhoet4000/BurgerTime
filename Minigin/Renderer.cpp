@@ -11,6 +11,8 @@
 #include "imgui/imgui_impl_opengl2.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_plot.h"
+#include <SDL.h>
+#include <SDL_image.h>
 
 int GetOpenGLDriverIndex()
 {
@@ -29,46 +31,12 @@ int GetOpenGLDriverIndex()
 void dae::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
+
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
 	if (m_renderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
-
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL2_Init();
-}
-
-void RenderStats(float min, float max, const float** data, int values, ImU32* colors, int count = 1)
-{
-	// Draw first plot with multiple sources
-	ImGui::PlotConfig conf;
-	conf.values.ys_list = data;
-	conf.values.ys_count = count;
-	conf.values.count = values;
-	conf.line_thickness = 2.f;
-	conf.values.colors = colors;
-	conf.scale.min = min;
-	conf.scale.max = max;
-	conf.tooltip.show = true;
-	conf.frame_size = ImVec2(250, 100.f);
-	conf.line_thickness = 2.f;
-
-	ImGui::Plot("plot", conf);
-}
-void RenderStats(std::vector<float> data, int values, ImU32& color)
-{
-	auto minIt = std::min_element(data.begin(), data.end());
-	auto maxIt = std::max_element(data.begin(), data.end());
-	float min = *minIt;
-	float max = *maxIt;
-
-	const float* dataFl[]{ {&data[0]} };
-	ImU32 colors[1]{ {color} };
-
-	RenderStats(min, max, dataFl, values, colors);
 }
 
 void dae::Renderer::Render()
@@ -78,27 +46,12 @@ void dae::Renderer::Render()
 	SDL_RenderClear(m_renderer);
 
 	SceneManager::GetInstance().Render();
-
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame(m_window);
-	ImGui::NewFrame();
-	//ImGui::ShowDemoWindow();
-	
-	//DrawPlotTrashCache();
-	//DrawPlotGameObject3D();
-
-	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	
 	SDL_RenderPresent(m_renderer);
 }
 
 void dae::Renderer::Destroy()
 {
-	ImGui_ImplOpenGL2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
 	if (m_renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_renderer);

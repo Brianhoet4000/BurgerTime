@@ -19,15 +19,17 @@
 
 void load()
 {
+
+
 	std::cout << "--Tab to switch gamemode--\n";
 	std::cout << "--E To Accept--\n";
 	std::cout << "--F2 To pause and resume music--\n";
 
 	std::cout << "--How To Play--\n";
 	std::cout << "WASD to move character\n";
-	//std::cout << "Space to shoot\n";
+	std::cout << "Space to shoot\n";
 	std::cout << "Dpad to move secondPlayer\n";
-	//std::cout << "A to shoot\n";
+	std::cout << "A to shoot\n";
 
 
 	auto& startscene = dae::SceneManager::GetInstance().CreateScene("MainMenu");

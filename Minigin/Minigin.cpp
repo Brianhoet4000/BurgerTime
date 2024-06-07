@@ -86,11 +86,11 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = dae::InputManager::GetInstance();
+	auto& input = InputManager::GetInstance();
 
-	const float fixedTimeStepSec{ 0.02f };
-	const int desiredFPS{ 144 };
-	const int frameTimeMs{ 1000 / desiredFPS };
+	constexpr float fixedTimeStep{ 0.02f };
+	constexpr float wantedFps{ 60.f };
+	constexpr int frameTimeMs{ static_cast<int>(1000 / wantedFps) };
 
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
@@ -98,26 +98,25 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	while (doContinue)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
-		float deltaTimeSec = std::chrono::duration<float>(currentTime - lastTime).count();
+		float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
-		if (deltaTimeSec > 1) deltaTimeSec = 0.01f;
-		if (deltaTimeSec < 0.01) deltaTimeSec = 0.01f;
+		if (deltaTime > 1) deltaTime = 0.01f;
+		if (deltaTime < 0.01) deltaTime = 0.01f;
 
 		lastTime = currentTime;
-		lag += deltaTimeSec;
-
-		doContinue = input.ProcessInput(deltaTimeSec);
-		input.UpdateControllers();
-		while (lag >= fixedTimeStepSec)
+		lag += deltaTime;
+		doContinue = input.ProcessInput(deltaTime);
+		while (lag >= fixedTimeStep)
 		{
-			sceneManager.FixedUpdate(fixedTimeStepSec); //fixed update
-			lag -= fixedTimeStepSec;
+			sceneManager.FixedUpdate(fixedTimeStep);
+			lag -= fixedTimeStep;
 		}
 
-		sceneManager.Update(deltaTimeSec);
+		input.UpdateControllers();
+		sceneManager.Update(deltaTime);
 		renderer.Render();
 
-		const auto sleepTime = currentTime + std::chrono::milliseconds(frameTimeMs) - 
+		const auto sleepTime = currentTime + std::chrono::milliseconds(frameTimeMs) -
 			std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(sleepTime);
 	}

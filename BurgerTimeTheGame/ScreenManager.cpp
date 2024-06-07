@@ -122,11 +122,6 @@ namespace dae
 		CreateLevelZero(scene);
 		CreateLevelOne(scene);
 		CreateLevelTwo(scene);
-
-		//for (auto element : PlayerManager::GetInstance().GetPlayers())
-		//{
-		//	element->SetUpdate(true);
-		//}
 	}
 
 	void ScreenManager::CreateGameOverScreen(dae::Scene& scene)
@@ -206,7 +201,7 @@ namespace dae
 				
 				//const auto& pSpawner = std::make_shared<dae::EnemySpawner>(*dae::SceneManager::GetInstance().GetActiveScene(), pLevel->GetEnemySpawnPosition(), 3);
 
-				std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 }, "Egg");
+				//std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 }, "Egg");
 
 				CreateUI(scene, player, false);
 			}

@@ -22,7 +22,7 @@ namespace dae
 
         //Check which tag
         {
-        	if (owner->GetTag() == "Wall")
+            if (owner->GetTag() == "Wall")
             {
                 m_pWallBoxes.push_back(box);
             }
@@ -41,13 +41,13 @@ namespace dae
                 if (owner->GetTag() == "BunTop")
 
                     m_pBunTopBoxes.push_back(box);
-                
+
             }
             else if (owner->GetTag() == "Egg" || owner->GetTag() == "HotDog" || owner->GetTag() == "Pickle")
             {
                 m_pEnemies.push_back(box);
             }
-            else if(owner->GetTag() == "Plate")
+            else if (owner->GetTag() == "Plate")
             {
                 m_pPlates.push_back(box);
             }
@@ -59,7 +59,7 @@ namespace dae
             {
                 m_pSecondPlayer = box;
             }
-            else if(owner->GetTag() == "Bullet")
+            else if (owner->GetTag() == "Bullet")
             {
                 m_pBullet.push_back(box);
             }
@@ -181,7 +181,7 @@ namespace dae
     }
 
     GameCollisionComponent* GameCollisionMngr::CheckOverlapWithSecondPlayerVersus(const GameCollisionComponent* box) const
-	{
+    {
         for (const auto& player : PlayerManager::GetInstance().GetPlayers())
         {
             const auto& pPlayerCollision = player->GetComponent<dae::GameCollisionComponent>();
@@ -201,18 +201,18 @@ namespace dae
 
     GameCollisionComponent* GameCollisionMngr::CheckOverlapWithFirstPlayer(const GameCollisionComponent* box) const
     {
-    	const auto& player = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<GameCollisionComponent>();
-		if (player != nullptr)
-		{
-			if (box->GetCollisionRect().x < player->GetCollisionRect().x + player->GetCollisionRect().w &&
-               box->GetCollisionRect().x + box->GetCollisionRect().w > player->GetCollisionRect().x &&
-               box->GetCollisionRect().y < player->GetCollisionRect().y + player->GetCollisionRect().h &&
-               box->GetCollisionRect().y + box->GetCollisionRect().h > player->GetCollisionRect().y)
-			{
-				return player;
-			}
-		}
-        
+        const auto& player = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<GameCollisionComponent>();
+        if (player != nullptr)
+        {
+            if (box->GetCollisionRect().x < player->GetCollisionRect().x + player->GetCollisionRect().w &&
+                box->GetCollisionRect().x + box->GetCollisionRect().w > player->GetCollisionRect().x &&
+                box->GetCollisionRect().y < player->GetCollisionRect().y + player->GetCollisionRect().h &&
+                box->GetCollisionRect().y + box->GetCollisionRect().h > player->GetCollisionRect().y)
+            {
+                return player;
+            }
+        }
+
         return nullptr;
     }
 
@@ -221,6 +221,8 @@ namespace dae
         for (const auto& player : PlayerManager::GetInstance().GetPlayers())
         {
             if (player == nullptr) return nullptr;
+            if (player->GetComponent<GameCollisionComponent>()->GetIsVersus()) return nullptr;
+
             if (box->GetOwner()->GetComponent<AIMovementComponent>()->ReturnStunned())
             {
                 return nullptr;
@@ -236,7 +238,7 @@ namespace dae
                 return PlayerBox;
             }
         }
-       
+
         return nullptr;
     }
 
@@ -260,6 +262,30 @@ namespace dae
             }
         }
     }
+
+    void GameCollisionMngr::CheckIngredientOverlapWithSecondplayer(const GameCollisionComponent* box) const
+    {
+        bool m_DoOnce{ false };
+        if(m_pSecondPlayer == nullptr) return;
+        if (!m_pSecondPlayer->GetIsVersus()) return;
+
+        if (box->GetCollisionRect().x < m_pSecondPlayer->GetCollisionRect().x + m_pSecondPlayer->GetCollisionRect().w &&
+            box->GetCollisionRect().x + box->GetCollisionRect().w > m_pSecondPlayer->GetCollisionRect().x &&
+            box->GetCollisionRect().y < m_pSecondPlayer->GetCollisionRect().y + m_pSecondPlayer->GetCollisionRect().h &&
+            box->GetCollisionRect().y + box->GetCollisionRect().h > m_pSecondPlayer->GetCollisionRect().y)
+        {
+            if (box->GetOwner()->GetParent()->GetChildren()[0])
+            {
+                const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
+                dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
+                std::cout << "1\n";
+            }
+            if(!m_DoOnce)
+            ScreenManager::GetInstance().ProceedNextLevel();
+        }
+        
+    }
+
 
     GameCollisionComponent* GameCollisionMngr::GetCurrentFloor(const GameCollisionComponent* box) const
     {

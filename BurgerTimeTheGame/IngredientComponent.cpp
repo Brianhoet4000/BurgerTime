@@ -31,6 +31,9 @@ void dae::IngredientComponent::Update(float deltaTime)
 
 			GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
 
+			//std::cout << "implement secondplayer in versus\n";
+			//GameCollisionMngr::GetInstance().CheckIngredientOverlapWithSecondplayer(childCollider);
+
 			GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithOtherIngredients(childCollider);
 
 			if (dae::GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithFloors(childCollider))

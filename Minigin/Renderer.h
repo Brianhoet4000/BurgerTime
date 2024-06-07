@@ -26,18 +26,6 @@ namespace dae
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
-
-	private:
-		void DrawPlotTrashCache();
-		void DrawPlotGameObject3D();
-		std::vector<float> m_TrashCacheData{};
-		int m_TrashCacheDataSize{};
-		int m_IndexSteps{};
-		std::vector<float> m_TrashCacheDataObject3D{};
-		std::vector<float> m_TrashCacheDataObject3DAlt{};
-		int m_TrashCacheDataSizeObject3D{};
-		int m_SizeObject3DAlt{};
-		int m_IndexObject3D{};
 	};
 }
 
