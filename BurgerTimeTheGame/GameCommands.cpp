@@ -223,6 +223,9 @@ void GameCommands::ResetLevel::Execute(float)
     {
         player->GetComponent<dae::PointComponent>()->SetAmount(0);
         player->GetComponent<dae::HealthComponent>()->SetAmount(3);
+
+        if(!player->GetComponent<dae::GameCollisionComponent>()->GetIsVersus())
+        player->GetComponent<dae::CounterComponent>()->SetAmount(5);
     }
     
     dae::GameCollisionMngr::GetInstance().ClearAll();

@@ -481,45 +481,52 @@ namespace dae
 	{
 		switch (m_CurrentLevel)
 		{
-		case 0:
-		{
-			SceneManager::GetInstance().NextScene();
-			dae::GameCollisionMngr::GetInstance().ClearAll();
-			IncrementCurrentLevel();
+			case 0:
+			{
+				SceneManager::GetInstance().NextScene();
+				dae::GameCollisionMngr::GetInstance().ClearAll();
+				IncrementCurrentLevel();
 
-			SceneManager::GetInstance().NextScene();
-			IncrementCurrentLevel();
+				SceneManager::GetInstance().NextScene();
+				IncrementCurrentLevel();
 
-			SceneManager::GetInstance().NextScene();
-			IncrementCurrentLevel();
+				SceneManager::GetInstance().NextScene();
+				IncrementCurrentLevel();
 
-			break;
-		}
+				break;
+			}
 
-		case 1:
-		{
-			SceneManager::GetInstance().NextScene();
-			dae::GameCollisionMngr::GetInstance().ClearAll();
-			IncrementCurrentLevel();
+			case 1:
+			{
+				SceneManager::GetInstance().NextScene();
+				dae::GameCollisionMngr::GetInstance().ClearAll();
+				IncrementCurrentLevel();
 
-			SceneManager::GetInstance().NextScene();
-			dae::GameCollisionMngr::GetInstance().ClearAll();
-			IncrementCurrentLevel();
-			break;
-		}
-		case 2:
-		{
-			SceneManager::GetInstance().NextScene();
-			dae::GameCollisionMngr::GetInstance().ClearAll();
-			IncrementCurrentLevel();
-			break;
-		}
+				SceneManager::GetInstance().NextScene();
+				dae::GameCollisionMngr::GetInstance().ClearAll();
+				IncrementCurrentLevel();
+				break;
+			}
+			case 2:
+			{
+				SceneManager::GetInstance().NextScene();
+				dae::GameCollisionMngr::GetInstance().ClearAll();
+				IncrementCurrentLevel();
+				break;
+			}
 		}
 	}
 
 	void ScreenManager::ProceedNextLevel() const
 	{
 		dae::SceneManager::GetInstance().NextScene();
+
+		for (const auto& player : PlayerManager::GetInstance().GetPlayers())
+		{
+			if (player->GetComponent<GameCollisionComponent>()->GetIsVersus()) continue;
+
+			player->GetComponent<CounterComponent>()->SetAmount(5);
+		}
 
 		if (dae::SceneManager::GetInstance().GetActiveSceneName() != "GameOver")
 		{
