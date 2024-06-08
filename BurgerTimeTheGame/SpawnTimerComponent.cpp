@@ -2,48 +2,36 @@
 #include <iostream>
 
 #include "EnemyPrefab.h"
+#include "GameCollisionMngr.h"
 #include "GameObject.h"
 #include "TextureComponent.h"
 
-dae::SpawnTimerComponent::SpawnTimerComponent(dae::Scene* scene, dae::GameObject* owner,float startCountDownNumber, int maxNumberOfEnemies)
+dae::SpawnTimerComponent::SpawnTimerComponent(dae::Scene* scene, dae::GameObject* owner)
 	:BaseComponent(owner)
-	,m_StartCountDownValue{startCountDownNumber}
-	,m_MaxNumberOfEnemies{maxNumberOfEnemies}
-	,m_EnemyNumber{maxNumberOfEnemies}
 {
-	m_Start = false;
-	m_Counter = m_StartCountDownValue;
 	m_pScene = scene;
 }
 
-void dae::SpawnTimerComponent::Update(float deltaTime)
+void dae::SpawnTimerComponent::Update(float)
 {
-	if (!m_Start)
-	{
-		//auto enemy = std::make_shared<dae::EnemyPrefab>(*m_pScene, m_pOwner->GetRelativePosition(),);
-		//m_pScene->Add(enemy->returnGameObject());
-		--m_EnemyNumber;
-		m_Start = true;
+	if(dae::GameCollisionMngr::GetInstance().GetAllEnemies().size() >= 4)
+		return;
 
-		if(m_EnemyNumber == 0)
+	
+	// Step 2: Check if there is already a "Pickle" in the scene
+	bool hasPickle = false;
+	for (const auto& enemy : dae::GameCollisionMngr::GetInstance().GetAllEnemies())
+	{
+		if (enemy->GetOwner()->GetTag() == "Pickle")
 		{
-			auto pTexture = m_pOwner->GetComponent<dae::TextureComponent>();
-			pTexture->SetMustRender(true);
+			hasPickle = true;
+			break;
 		}
 	}
 
-
-	if (m_Start)
+	if (!hasPickle)
 	{
-		m_Counter -= 1 * deltaTime;
-
-		if (m_Counter <= 0)
-		{
-			if (m_EnemyNumber != 0)
-			{
-				m_Start = false;
-				m_Counter = m_StartCountDownValue;
-			}
-		}
+		//auto newPickle = std::make_shared<EnemyPrefab>(*m_pScene, , "Pickle");
 	}
+	
 }

@@ -23,6 +23,7 @@ void load()
 
 	std::cout << "--Tab to switch gamemode--\n";
 	std::cout << "--E To Accept--\n";
+	std::cout << "--F1 To skip the level--\n";
 	std::cout << "--F2 To pause and resume music--\n";
 
 	std::cout << "--How To Play--\n";

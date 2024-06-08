@@ -85,7 +85,7 @@ namespace dae
 
 			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, Switch);
 			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_E, Accept);
-			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_Q, SkipLevel);
+			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_F1, SkipLevel);
 			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, ResetLevel);
 		}
 
@@ -200,8 +200,7 @@ namespace dae
 				player[0]->SetRelativePosition(pLevel->GetSpawnPosition()[0]);
 				
 				//const auto& pSpawner = std::make_shared<dae::EnemySpawner>(*dae::SceneManager::GetInstance().GetActiveScene(), pLevel->GetEnemySpawnPosition(), 3);
-
-				//std::unique_ptr<EnemyPrefab> TestEnemy = std::make_unique<EnemyPrefab>(scene, glm::vec2{ 267, 422 }, "Egg");
+				//std::unique_ptr<EnemyPrefab> pEnemy = std::make_unique<EnemyPrefab>(*dae::SceneManager::GetInstance().GetActiveScene(), glm::vec2{ 255, 600 }, "Egg");
 
 				CreateUI(scene, player, false);
 			}
@@ -352,7 +351,7 @@ namespace dae
 		const auto& pPlayerLivesSecond = std::make_shared<dae::GameObject>("PlayerLivesSecond");
 		scene.Add(pPlayerLivesSecond);
 
-		for (auto element : players)
+		for (const auto& element : players)
 		{
 			if (element->GetTag() == "Player_01")
 			{

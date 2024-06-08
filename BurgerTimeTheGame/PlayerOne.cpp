@@ -9,7 +9,6 @@
 #include "PointComponent.h"
 #include "ResourceManager.h"
 #include "ShootingDirComponent.h"
-#include "SpriteRenderComponent.h"
 
 dae::PlayerOne::PlayerOne(dae::Scene& scene)
 {
@@ -26,7 +25,7 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene)
 	//m_pPlayerOne->AddComponent(pCollider);
 	//pCollider->SetCollisionRectOffset(2.f);
 	//pCollider->SetDebugColor("green");
-	//pCollider->SetRenderCollisionBox(true);
+	//pCollider->SetRenderCollisionBox(true)
 
 	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(),
 		pTexture->GetSize().x, 8.f, true, true, false);
@@ -34,6 +33,9 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene)
 	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
 	pFootCollider->SetDebugColor("red");
 	pFootCollider->SetRenderCollisionBox(true);
+
+	//const auto& pCounter = std::make_shared<CounterComponent>(m_pPlayerOne.get(), 3);
+	//m_pPlayerOne->AddComponent(pCounter);
 
 	//BulletTimer
 	const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerOne.get(), 3.f);

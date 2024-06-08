@@ -23,16 +23,20 @@ void dae::IngredientComponent::Update(float deltaTime)
 
 	if(m_IsFalling)
 	{
+		bool hasChecked = false;
+
 		for (size_t i = 0; i < m_pOwner->GetChildren().size(); ++i)
 		{
 			if (m_pOwner->GetChildren()[i] == nullptr) return;
 
 			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
 
-			//GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
-
-			//std::cout << "implement secondplayer in versus\n";
-			//GameCollisionMngr::GetInstance().CheckIngredientOverlapWithSecondplayer(childCollider);
+			if (!hasChecked)
+			{
+				GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
+				GameCollisionMngr::GetInstance().CheckIngredientOverlapWithSecondplayer(childCollider);
+				hasChecked = true;
+			}
 
 			GameCollisionMngr::GetInstance().CheckOverlapIngredientsWithOtherIngredients(childCollider);
 
@@ -41,6 +45,7 @@ void dae::IngredientComponent::Update(float deltaTime)
 				m_pOwner->GetChildren()[i]->GetComponent<IngredientPartComponent>()->SetPushedDown(false);
 				m_pOwner->GetChildren()[i]->GetComponent<IngredientPartComponent>()->SetCollided(false);
 				m_IsFalling = false;
+				hasChecked = false;
 			}
 
 			glm::vec2 pos = m_pOwner->GetChildren()[i]->GetRelativePosition();

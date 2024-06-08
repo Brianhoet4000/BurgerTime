@@ -16,6 +16,7 @@ namespace dae
 
 	void GameObject::Update(float deltaTime) const
 	{
+		if (ReturnDeleting()) return;
 		if (!m_Update) return;
 
 		// Update all components
@@ -31,9 +32,8 @@ namespace dae
 		// Update all children
 		for (const auto& pChild : m_pChildren)
 		{
-			if (pChild == nullptr) {
+			if (pChild == nullptr)
 				continue;
-			}
 		
 			pChild->Update(deltaTime);
 		}
@@ -201,6 +201,14 @@ namespace dae
 
 	void GameObject::MarkTrueForDeleting()
 	{
+		for (const auto& pchild : m_pChildren)
+		{
+			if (pchild->ReturnDeleting())
+				return;
+
+			pchild->MarkTrueForDeleting();
+		}
+
 		m_DeletParentFromScene = true;
 	}
 

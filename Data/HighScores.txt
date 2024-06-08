@@ -13,3 +13,6 @@ rbaerg, 800
 Gangster, 1775
 Toppie, 1400
 testing, 7100
+bribri, 300
+bribri, 1050
+BriBri, 1400

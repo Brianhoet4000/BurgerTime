@@ -1,6 +1,7 @@
 #include "EnemyPrefab.h"
 #include "AIMovementComponent.h"
 #include "GameCollisionComponent.h"
+#include "RandomSpawn.h"
 #include "TextureComponent.h"
 
 dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos, std::string typeOfenemy)

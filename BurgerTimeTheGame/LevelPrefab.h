@@ -23,13 +23,13 @@ namespace dae
 		void LevelParse(dae::Scene& scene, const std::string& LevelPath);
 
 		std::vector<glm::vec2> GetSpawnPosition() const { return m_SpawnPositions; }
-		glm::vec2 GetEnemySpawnPosition() const { return m_EnemySpawnPositions; }
+		std::vector<glm::vec2> GetEnemySpawnPosition() const { return m_EnemySpawnPositions; }
 
 		std::shared_ptr<GameObject> returnLevelObj() { return m_pLevelObj; }
 
 	private:
 		std::vector<glm::vec2> m_SpawnPositions{};
-		glm::vec2 m_EnemySpawnPositions{};
+		std::vector<glm::vec2> m_EnemySpawnPositions{};
 
 		std::shared_ptr<GameObject> m_pLevelObj;
 

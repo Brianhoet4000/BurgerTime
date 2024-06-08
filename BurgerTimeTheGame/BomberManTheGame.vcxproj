@@ -202,10 +202,10 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClCompile Include="PlayerTwo.cpp" />
     <ClCompile Include="GameCommands.cpp" />
     <ClCompile Include="PointComponent.cpp" />
+    <ClCompile Include="RandomSpawn.cpp" />
     <ClCompile Include="SpawnTimerComponent.cpp" />
     <ClCompile Include="LevelPrefab.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
-    <ClCompile Include="SpriteRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIMovementComponent.h" />
@@ -230,12 +230,12 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget)\*.dll $(Outp
     <ClInclude Include="GameCommands.h" />
     <ClInclude Include="PointComponent.h" />
     <ClInclude Include="PointObserver.h" />
+    <ClInclude Include="RandomSpawn.h" />
     <ClInclude Include="SpawnTimerComponent.h" />
     <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="PlayerOne.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="ShootingDirComponent.h" />
-    <ClInclude Include="SpriteRenderComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

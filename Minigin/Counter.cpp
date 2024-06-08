@@ -6,15 +6,12 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-
-
 using namespace dae;
 
 CounterComponent::CounterComponent(GameObject* owner, int startAmount)
 	: BaseComponent(owner),
 	m_Counter{ startAmount }
 {
-	
 }
 
 void CounterComponent::IncreaseAmount(int difference)

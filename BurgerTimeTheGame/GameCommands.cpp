@@ -40,9 +40,9 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
         }
 
 
-        if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithSecondPlayerVersus(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithSecondPlayerVersus(m_pCollision))
         {
-            dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(m_pGameObject->GetComponent<dae::GameCollisionComponent>());
+            dae::ScreenManager::GetInstance().PlayerKilledResetLevelAndStats(m_pCollision);
             return;
         }
     }
@@ -69,19 +69,19 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
     const float offset{ 2.0f };
     if (m_Dir.x > 0.2f || m_Dir.x < -0.2f)
     {
-        if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderLeftStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderLeftStairs(m_pCollision))
         {
             pos.x = m_pGameObject->GetRelativePosition().x + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderRightStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        else if(dae::GameCollisionMngr::GetInstance().MoveOutsideColliderRightStairs(m_pCollision))
         {
             pos.x = m_pGameObject->GetRelativePosition().x - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithFloors(m_pCollision))
         {
             pos.x += m_Dir.x * deltaTime;
             m_pGameObject->SetRelativePosition(pos);
@@ -92,19 +92,19 @@ void GameCommands::PlayerMovement::Execute(float deltaTime)
 
     if (m_Dir.y > 0.2f || m_Dir.y < -0.2f)
     {
-        if (dae::GameCollisionMngr::GetInstance().MoveOutsideColliderDownStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        if (dae::GameCollisionMngr::GetInstance().MoveOutsideColliderDownStairs(m_pCollision))
         {
             pos.y = m_pGameObject->GetRelativePosition().y - offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().MoveOutsideColliderUpStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        else if (dae::GameCollisionMngr::GetInstance().MoveOutsideColliderUpStairs(m_pCollision))
         {
             pos.y = m_pGameObject->GetRelativePosition().y + offset;
             m_pGameObject->SetRelativePosition(pos);
             return;
         }
-        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs(m_pGameObject->GetComponent<dae::GameCollisionComponent>()))
+        else if (dae::GameCollisionMngr::GetInstance().CheckOverlapWithStairs(m_pCollision))
         {
             pos.y += m_Dir.y * deltaTime;
             m_pGameObject->SetRelativePosition(pos);

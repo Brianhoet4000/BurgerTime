@@ -15,7 +15,7 @@
 
 dae::LevelPrefab::LevelPrefab(dae::Scene& scene, const std::string& LevelPath)
 {
-	m_pLevelObj = std::make_shared<dae::GameObject>();
+	m_pLevelObj = std::make_shared<dae::GameObject>(LevelPath);
 	m_pLevelObj->SetRelativePosition(43, 50);
 	scene.Add(m_pLevelObj);
 
@@ -105,14 +105,15 @@ void dae::LevelPrefab::LevelParse(dae::Scene& scene, const std::string& LevelPat
 		scene.Add(plate);
 	}
 
-	for (const auto& Enemies : document["enemy_spawnpoint"].GetArray())
-	{
-		float x = Enemies[0].GetFloat();
-		float y = Enemies[1].GetFloat();
-		std::string TypeEnemy = Enemies[2][0].GetString();
-	
-		std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
-	}
+	//for (const auto& Enemies : document["enemy_spawnpoint"].GetArray())
+	//{
+	//	float x = Enemies[0].GetFloat();
+	//	float y = Enemies[1].GetFloat();
+	//	std::string TypeEnemy = Enemies[2][0].GetString();
+	//	m_EnemySpawnPositions.emplace_back(glm::vec2{ x,y });
+	//
+	//	std::shared_ptr<EnemyPrefab> enemy = std::make_shared<EnemyPrefab>(scene, glm::vec2{ x,y }, TypeEnemy);
+	//}
 
 	// BUN_TOP
 	ParseIngredient(scene, document, "bun_top");

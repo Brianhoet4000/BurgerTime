@@ -32,7 +32,7 @@ void Scene::Remove(const std::shared_ptr<GameObject>& object)
 
 void Scene::RemoveAll()
 {
-	for (auto object : m_pObjects)
+	for (const auto& object : m_pObjects)
 	{
 		object->SetUpdate(false);
 	}
@@ -42,7 +42,7 @@ void Scene::RemoveAll()
 
 void Scene::Update(float deltaTime)
 {
-	for (auto& object : m_pObjects)
+	for (const auto& object : m_pObjects)
 	{
 		if (object.get() == nullptr) return;
 
@@ -58,7 +58,7 @@ void Scene::Update(float deltaTime)
 
 void Scene::FixedUpdate(float deltaTime) const
 {
-	for (auto& object : m_pObjects)
+	for (const auto& object : m_pObjects)
 	{
 		if (!object) return;
 

@@ -9,8 +9,10 @@
 #include "PlateComponent.h"
 #include "PlayerManager.h"
 #include "PointComponent.h"
+#include "RandomSpawn.h"
 #include "ScreenManager.h"
 #include "ServiceLocator.h"
+#include "TextureComponent.h"
 
 namespace dae
 {
@@ -242,8 +244,10 @@ namespace dae
         return nullptr;
     }
 
-    void GameCollisionMngr::CheckIngredientOverlapWithEnemies(const GameCollisionComponent* box) const
+    void GameCollisionMngr::CheckIngredientOverlapWithEnemies(const GameCollisionComponent* box)
     {
+        ScreenManager& ScreenManager = dae::ScreenManager::GetInstance();
+
         for (const auto& EnemyBox : m_pEnemies)
         {
             if (box->GetCollisionRect().x < EnemyBox->GetCollisionRect().x + EnemyBox->GetCollisionRect().w &&
@@ -252,8 +256,15 @@ namespace dae
                 box->GetCollisionRect().y + box->GetCollisionRect().h > EnemyBox->GetCollisionRect().y)
             {
             	const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
-            	dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
-            	std::cout << "1\n";
+            	
+                if(EnemyBox->GetOwner()->GetTag() == "HotDog")
+                    ScreenManager.IncreasePoint(player, 100);
+                else if (EnemyBox->GetOwner()->GetTag() == "Pickle")
+                    ScreenManager.IncreasePoint(player, 200);
+                else if (EnemyBox->GetOwner()->GetTag() == "Egg")
+                    ScreenManager.IncreasePoint(player, 300);
+
+                RemoveEnemyBox(EnemyBox);
                 EnemyBox->GetOwner()->MarkTrueForDeleting();
             }
         }
@@ -261,7 +272,6 @@ namespace dae
 
     void GameCollisionMngr::CheckIngredientOverlapWithSecondplayer(const GameCollisionComponent* box) const
     {
-        bool m_DoOnce{ false };
         if(m_pSecondPlayer == nullptr) return;
         if (!m_pSecondPlayer->GetIsVersus()) return;
 
@@ -271,14 +281,13 @@ namespace dae
             box->GetCollisionRect().y + box->GetCollisionRect().h > m_pSecondPlayer->GetCollisionRect().y)
         {
             const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
-            dae::ScreenManager::GetInstance().IncreasePoint(player, 500);
-            
-            if(!m_DoOnce)
-            ScreenManager::GetInstance().ProceedNextLevel();
-        }
-        
-    }
+            dae::ScreenManager::GetInstance().IncreasePoint(player, 250);
 
+            glm::vec2 pos = m_pSecondPlayer->GetOwner()->GetComponent<SpawnComponent>()->GetPosition();
+            pos.y -= m_pSecondPlayer->GetOwner()->GetComponent<TextureComponent>()->GetSize().y;
+            m_pSecondPlayer->GetOwner()->SetRelativePosition(pos);
+        }
+    }
 
     GameCollisionComponent* GameCollisionMngr::GetCurrentFloor(const GameCollisionComponent* box) const
     {
@@ -312,7 +321,6 @@ namespace dae
                 return true;
             }
         }
-
         return false;
     }
 
@@ -349,7 +357,6 @@ namespace dae
     {
         for (const auto& floor : m_pFloorBoxes)
         {
-
             if (box->GetCollisionRect().x < floor->GetCollisionRect().x + floor->GetCollisionRect().w &&
                 box->GetCollisionRect().x + box->GetCollisionRect().w > floor->GetCollisionRect().x &&
                 box->GetOwner()->GetRelativePosition().y < floor->GetCollisionRect().y + floor->GetCollisionRect().h &&
@@ -388,7 +395,7 @@ namespace dae
                 {
 					OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->SetCollided(true);
                     OtherIngredients->GetOwner()->GetComponent<IngredientPartComponent>()->
-            		SetPlayer(box->GetOwner()->GetComponent<IngredientPartComponent>()->GetPlayer());
+                        SetPlayer(box->GetOwner()->GetComponent<IngredientPartComponent>()->GetPlayer());
                 }
         }
     }

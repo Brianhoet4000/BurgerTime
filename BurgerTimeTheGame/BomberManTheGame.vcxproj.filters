@@ -101,14 +101,14 @@
     <ClCompile Include="IngredientComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRenderComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="PlateComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="BulletPrefab.cpp">
       <Filter>Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomSpawn.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,14 +187,14 @@
     <ClInclude Include="IngredientComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteRenderComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="PlateComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="BulletPrefab.h">
       <Filter>Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomSpawn.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

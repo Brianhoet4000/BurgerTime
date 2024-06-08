@@ -8,10 +8,11 @@
 #include "GameCommands.h"
 #include "HealthComponent.h"
 #include "PointComponent.h"
+#include "RandomSpawn.h"
 #include "ResourceManager.h"
 #include "ShootingDirComponent.h"
 
-dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
+dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab& level, bool Coop)
 {
 	m_pPlayerTwo = std::make_shared<dae::GameObject>("Player_02");
 
@@ -45,6 +46,9 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 		pFootCollider->SetDebugColor("red");
 		pFootCollider->SetRenderCollisionBox(true);
 
+		//const auto& pCounter = std::make_shared<CounterComponent>(m_pPlayerTwo.get(), 3);
+		//m_pPlayerTwo->AddComponent(pCounter);
+
 		//BulletTimer
 		const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get(), 3.f);
 		m_pPlayerTwo->AddComponent(pTimer);
@@ -77,6 +81,9 @@ dae::PlayerTwo::PlayerTwo(dae::Scene& scene, dae::LevelPrefab&, bool Coop)
 		pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
 		pFootCollider->SetDebugColor("red");
 		pFootCollider->SetRenderCollisionBox(true);
+
+		std::shared_ptr<SpawnComponent> pRandSpawm = std::make_shared<SpawnComponent>(m_pPlayerTwo.get(), level.GetSpawnPosition()[1]);
+		m_pPlayerTwo->AddComponent(pRandSpawm);
 
 		std::shared_ptr<BulletTimerComponent> pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerTwo.get(), 5.f);
 		m_pPlayerTwo->AddComponent(pTimer);
