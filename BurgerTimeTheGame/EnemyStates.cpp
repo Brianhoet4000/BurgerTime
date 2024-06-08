@@ -52,11 +52,6 @@ void EnemyMovement::Update(float deltaTime)
             {
                 m_Dir = m_DirDown; // Move down to align with player's position
             }
-            else
-            {
-                // If the player is at the same level, continue towards the player
-                m_Dir = directionToPlayer;
-            }
         }
         // If on floor
         else if (m_OnFloor)
@@ -69,11 +64,6 @@ void EnemyMovement::Update(float deltaTime)
             else if (playerPos.x + 0.5f > enemyPos.x)
             {
                 m_Dir = m_DirRight; // Move right towards the player
-            }
-            else
-            {
-                // If the player is at the same position horizontally, continue towards the player
-                m_Dir = directionToPlayer;
             }
         }
 

@@ -20,11 +20,11 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene)
 	m_pPlayerOne->AddComponent(pTexture);
 
 	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(),
-		pTexture->GetSize().x, 8.f, true, true, false);
+		pTexture->GetSize().x, 8.f, true, false, false);
 	m_pPlayerOne->AddComponent(pFootCollider);
 	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
-	pFootCollider->SetDebugColor("red");
-	pFootCollider->SetRenderCollisionBox(true);
+	//pFootCollider->SetDebugColor("red");
+	//pFootCollider->SetRenderCollisionBox(true);
 
 	//BulletCounter
 	const auto& pCounter = std::make_shared<CounterComponent>(m_pPlayerOne.get(), 5);
