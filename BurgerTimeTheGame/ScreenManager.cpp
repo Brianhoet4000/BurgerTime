@@ -23,7 +23,6 @@
 
 namespace dae
 {
-
 	void dae::ScreenManager::CreateMenuScreen(dae::Scene& scene)
 	{
 		m_pFont = dae::ResourceManager::GetInstance().LoadFont(m_FontPath.data(), 20);
@@ -199,9 +198,6 @@ namespace dae
 				auto player = PlayerManager::GetInstance().GetPlayers();
 				dae::SceneManager::GetInstance().GetActiveScene()->Add(player[0]);
 				player[0]->SetRelativePosition(pLevel->GetSpawnPosition()[0]);
-				
-				//const auto& pSpawner = std::make_shared<dae::EnemySpawner>(*dae::SceneManager::GetInstance().GetActiveScene(), pLevel->GetEnemySpawnPosition(), 3);
-				//std::unique_ptr<EnemyPrefab> pEnemy = std::make_unique<EnemyPrefab>(*dae::SceneManager::GetInstance().GetActiveScene(), glm::vec2{ 255, 600 }, "Egg");
 
 				CreateUI(scene, player, false);
 			}
@@ -296,7 +292,9 @@ namespace dae
 				CreateUI(scene, players, true);
 			}
 
+			const auto& pSpawner = std::make_shared<SpawnTimerComponent>(&scene, pLevel->GetEnemySpawnPosition(), pLevel->returnLevelObj().get());
 			const auto& pWinLose = std::make_shared<dae::ConditionComponent>(pLevel->returnLevelObj().get());
+			pLevel->returnLevelObj()->AddComponent(pSpawner);
 			pLevel->returnLevelObj()->AddComponent(pWinLose);
 		}
 	}
@@ -342,7 +340,9 @@ namespace dae
 				CreateUI(scene, players, true);
 			}
 
+			const auto& pSpawner = std::make_shared<SpawnTimerComponent>(&scene, pLevel->GetEnemySpawnPosition(), pLevel->returnLevelObj().get());
 			const auto& pWinLose = std::make_shared<dae::ConditionComponent>(pLevel->returnLevelObj().get());
+			pLevel->returnLevelObj()->AddComponent(pSpawner);
 			pLevel->returnLevelObj()->AddComponent(pWinLose);
 		}
 	}
@@ -369,6 +369,15 @@ namespace dae
 					scene.Add(pPlayerLives);
 					pPlayerLivesFirst->AddChild(pPlayerLives);
 				}
+
+				//Peppers
+				const auto& pPlayerPeppers = std::make_shared<dae::GameObject>("Player_01Pepper");
+				const auto& pPlayerPepperAmount = std::make_shared<TextComponent>
+				(std::to_string(element->GetComponent<CounterComponent>()->GetAmount()),
+					m_pFont, pPlayerPeppers.get());
+				pPlayerPeppers->AddComponent(pPlayerPepperAmount);
+				pPlayerPeppers->SetRelativePosition(glm::vec2{ 710 - pPlayerPepperAmount->GetTextWidth(), 6.f });
+				scene.Add(pPlayerPeppers);
 			}
 			else
 			{
@@ -386,6 +395,17 @@ namespace dae
 						pPlayerLivesSecond->AddChild(pPlayerLives2);
 					}
 
+					if(!players[1]->GetComponent<GameCollisionComponent>()->GetIsVersus())
+					{
+						//Peppers second player
+						const auto& pPlayer2Peppers = std::make_shared<dae::GameObject>("Player_02Pepper");
+						const auto& pPlayer2PepperAmount = std::make_shared<TextComponent>
+							(std::to_string(players[1]->GetComponent<CounterComponent>()->GetAmount()),
+								m_pFont, pPlayer2Peppers.get());
+						pPlayer2Peppers->AddComponent(pPlayer2PepperAmount);
+						pPlayer2Peppers->SetRelativePosition(glm::vec2{ 710 - pPlayer2PepperAmount->GetTextWidth(), 34.f });
+						scene.Add(pPlayer2Peppers);
+					}
 				}
 			}
 		}
@@ -405,6 +425,7 @@ namespace dae
 			pPlayerPoints2->AddComponent(pPlayerPointsText2);
 			pPlayerPoints2->SetRelativePosition((710.f / 2.f), 34.f);
 			scene.Add(pPlayerPoints2);
+
 		}
 	}
 
@@ -505,6 +526,21 @@ namespace dae
 			dae::GameCollisionMngr::GetInstance().ClearAll();
 			dae::ScreenManager::GetInstance().IncrementCurrentLevel();
 			dae::ScreenManager::GetInstance().CreateGameScreen(*dae::SceneManager::GetInstance().GetActiveScene());
+		}
+	}
+
+	void ScreenManager::DecreaseSpray(GameObject* player)
+	{
+		Scene* scene = dae::SceneManager::GetInstance().GetActiveScene();
+		if (player->GetTag() == "Player_01")
+		{
+			const auto& pointPlayerOnePoints = dae::ScreenManager::GetInstance().GetGameObjectInScene(*scene, "Player_01Pepper");
+			pointPlayerOnePoints->GetComponent<TextComponent>()->SetText(std::to_string(player->GetComponent<CounterComponent>()->GetAmount()));
+		}
+		else if (player->GetTag() == "Player_02")
+		{
+			const auto& pointPlayerTwoPoints = dae::ScreenManager::GetInstance().GetGameObjectInScene(*scene, "Player_02Pepper");
+			pointPlayerTwoPoints->GetComponent<TextComponent>()->SetText(std::to_string(player->GetComponent<CounterComponent>()->GetAmount()));
 		}
 	}
 

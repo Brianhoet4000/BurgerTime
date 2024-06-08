@@ -19,14 +19,6 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene)
 	pTexture->SetTexture("Characters/PeterPepper.png");
 	m_pPlayerOne->AddComponent(pTexture);
 
-	//Collision
-	//const auto& pCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(), pTexture->GetSize().x,
-	//	pTexture->GetSize().y, true, true, false);
-	//m_pPlayerOne->AddComponent(pCollider);
-	//pCollider->SetCollisionRectOffset(2.f);
-	//pCollider->SetDebugColor("green");
-	//pCollider->SetRenderCollisionBox(true)
-
 	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pPlayerOne.get(), m_pPlayerOne->GetRelativePosition(),
 		pTexture->GetSize().x, 8.f, true, true, false);
 	m_pPlayerOne->AddComponent(pFootCollider);
@@ -34,8 +26,9 @@ dae::PlayerOne::PlayerOne(dae::Scene& scene)
 	pFootCollider->SetDebugColor("red");
 	pFootCollider->SetRenderCollisionBox(true);
 
-	//const auto& pCounter = std::make_shared<CounterComponent>(m_pPlayerOne.get(), 3);
-	//m_pPlayerOne->AddComponent(pCounter);
+	//BulletCounter
+	const auto& pCounter = std::make_shared<CounterComponent>(m_pPlayerOne.get(), 5);
+	m_pPlayerOne->AddComponent(pCounter);
 
 	//BulletTimer
 	const auto& pTimer = std::make_shared<dae::BulletTimerComponent>(m_pPlayerOne.get(), 3.f);

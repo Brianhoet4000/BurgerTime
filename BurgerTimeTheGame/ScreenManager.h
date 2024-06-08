@@ -46,6 +46,7 @@ namespace dae
 		void SkipToGameOverLevel();
 		void ProceedNextLevel() const;
 		void IncreasePoint(GameObject* player, int points);
+		void DecreaseSpray(GameObject* player);
 
 	private:
 		friend class Singleton<ScreenManager>;

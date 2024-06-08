@@ -16,3 +16,4 @@ testing, 7100
 bribri, 300
 bribri, 1050
 BriBri, 1400
+Anja, 950

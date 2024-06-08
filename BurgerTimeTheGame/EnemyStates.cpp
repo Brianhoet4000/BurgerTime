@@ -44,11 +44,11 @@ void EnemyMovement::Update(float deltaTime)
         if (m_OnStairs)
         {
             // Check if the player is above or below the enemy
-            if (playerPos.y < enemyPos.y)
+            if (playerPos.y - 0.5f < enemyPos.y)
             {
                 m_Dir = m_DirUp; // Move up to align with player's position
             }
-            else if (playerPos.y > enemyPos.y)
+            else if (playerPos.y + 0.5f > enemyPos.y)
             {
                 m_Dir = m_DirDown; // Move down to align with player's position
             }
@@ -62,11 +62,11 @@ void EnemyMovement::Update(float deltaTime)
         else if (m_OnFloor)
         {
             // Check if the player is to the left or right of the enemy
-            if (playerPos.x < enemyPos.x)
+            if (playerPos.x - 0.5f < enemyPos.x)
             {
                 m_Dir = m_DirLeft; // Move left towards the player
             }
-            else if (playerPos.x > enemyPos.x)
+            else if (playerPos.x + 0.5f > enemyPos.x)
             {
                 m_Dir = m_DirRight; // Move right towards the player
             }
@@ -76,23 +76,41 @@ void EnemyMovement::Update(float deltaTime)
                 m_Dir = directionToPlayer;
             }
         }
-        // If neither on stairs nor floor, choose a random direction or continue towards the player
-        else
-        {
-            // Implement random direction logic if needed
-            m_Dir = directionToPlayer;
-        }
 
         // Step 5: Move AI based on the determined direction
         MoveAI(deltaTime, m_Dir);
     }
     else if (m_pOwner->GetTag() == "Pickle")
     {
-        // Handle behavior for Pickle enemy
+        if (m_OnStairs)
+        {
+            // Check if the player is above or below the enemy
+            if (playerPos.y + 0.5f < enemyPos.y)
+            {
+                m_Dir = m_DirUp; // Move up to align with player's position
+            }
+            else if (playerPos.y - 0.5f > enemyPos.y)
+            {
+                m_Dir = m_DirDown; // Move down to align with player's position
+            }
+        }
+        else if (m_OnFloor)
+        {
+            // Check if the player is to the left or right of the enemy
+            if (playerPos.x - 0.5f < enemyPos.x)
+            {
+                m_Dir = m_DirLeft;
+            }
+            else if (playerPos.x + 0.5f > enemyPos.x)
+            {
+                m_Dir = m_DirRight;
+            }
+        }
+
+        // Step 5: Move AI based on the determined direction
+        MoveAI(deltaTime, m_Dir);
     }
 }
-
-
 
 void EnemyMovement::GetClosestPlayer()
 {

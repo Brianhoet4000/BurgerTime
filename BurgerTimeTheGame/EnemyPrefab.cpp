@@ -18,7 +18,7 @@ dae::EnemyPrefab::EnemyPrefab(dae::Scene& scene, glm::vec2 StartPos, std::string
 	const auto& pFootCollider = std::make_shared<dae::GameCollisionComponent>(m_pEnemy.get(), m_pEnemy->GetRelativePosition(),
 		pTexture->GetSize().x, 6.f, true, false, false);
 	m_pEnemy->AddComponent(pFootCollider);
-	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 6.f, true);
+	pFootCollider->SetCollisionRectOffset(3.f, pTexture->GetSize().y - 5.f, true);
 	//pFootCollider->SetDebugColor("green");
 	//pFootCollider->SetRenderCollisionBox(true);
 

@@ -49,7 +49,6 @@ namespace dae
             }
             return players;
         }
-        void ResetPlayerVars();
 
     private:
         PlayerManager() = default;

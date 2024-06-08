@@ -123,15 +123,18 @@ void GameCommands::Stun::Execute(float)
 {
     if (GetKeyPressed()) return;
     if (m_pGameObject == nullptr) return;
+    if (m_pGameObject->GetComponent<dae::CounterComponent>()->GetAmount() <= 0) return;
     if (m_pGameObject->ReturnDeleting()) return;
     if (m_pBulletTimer->ReturnHasShot()) return;
 
-    auto shootingState = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
-
+    const auto& shootingState = m_pGameObject->GetComponent<dae::ShootingDirComponent>();
     if (!shootingState) return;
 
     std::unique_ptr<dae::BulletPrefab> bullet = std::make_unique<dae::BulletPrefab>(*dae::SceneManager::GetInstance().GetActiveScene(),
         m_pGameObject->GetRelativePosition(), shootingState->returnFaceState());
+
+    m_pGameObject->GetComponent<dae::CounterComponent>()->DecreaseAmount(1);
+    dae::ScreenManager::GetInstance().DecreaseSpray(m_pGameObject.get());
 
     bullet->returnGameObject()->GetComponent<dae::BulletTimerComponent>()->SetHasShot(true);
     m_pBulletTimer->SetHasShot(true);
@@ -225,6 +228,11 @@ void GameCommands::ResetLevel::Execute(float)
     dae::GameCollisionMngr::GetInstance().ClearAll();
     dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
     dae::ScreenManager::GetInstance().CreateGameScreen(*dae::SceneManager::GetInstance().GetActiveScene());
+
+    for (const auto& player : dae::PlayerManager::GetInstance().GetPlayers())
+    {
+        player->SetUpdate(true);
+    }
 }
 
 void GameCommands::MuteMusic::Execute(float)

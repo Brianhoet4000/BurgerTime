@@ -22,7 +22,8 @@ namespace dae
 		// Update all components
 		for (const auto& pComponent : m_pComponents)
 		{
-			if (pComponent == nullptr) {
+			if (pComponent == nullptr)
+			{
 				continue;
 			}
 

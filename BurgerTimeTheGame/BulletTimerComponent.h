@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Counter.h"
 
 namespace dae
 {
@@ -26,6 +27,7 @@ namespace dae
 		float m_CurrentTime;
 		bool m_HasShot = false;
 		bool m_Completed = false;
+		CounterComponent* m_pCounter;
 	};
 
 }

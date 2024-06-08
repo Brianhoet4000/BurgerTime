@@ -16,7 +16,6 @@
 
 namespace dae
 {
-    class GoldStateComponent;
 
     void dae::GameCollisionMngr::AddCollisionBox(dae::GameObject* owner, GameCollisionComponent* box)
     {

@@ -18,6 +18,7 @@ public:
 	}
 	void GetClosestPlayer();
 	void OnExit() override;
+	void ClampPositionToStairsOrFloor();
 
 private:
 	bool m_update = false;
