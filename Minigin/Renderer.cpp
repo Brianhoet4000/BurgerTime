@@ -7,10 +7,6 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_opengl2.h"
-#include "imgui/imgui_impl_sdl.h"
-#include "imgui/imgui_plot.h"
 #include <SDL.h>
 #include <SDL_image.h>
 
