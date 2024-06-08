@@ -1,7 +1,5 @@
 #include "EnemyStates.h"
-
 #include <random>
-
 #include "GameCollisionMngr.h"
 #include "PlayerManager.h"
 
@@ -119,7 +117,6 @@ void EnemyMovement::GetClosestPlayer()
 
 void EnemyMovement::OnExit()
 {
-	std::cout << "stopped update\n";
 	m_update = false;
 }
 
@@ -143,13 +140,9 @@ void EnemyStunned::Update(float deltaTime)
 
 	if (m_pStunTimer->ReturnHasShot()) return;
 
-	
-	std::cout << "Stunned\n";
-
 	if (m_pStunTimer->ReturnCompleted())
 	{
 		m_update = false;
-		std::cout << "Completed\n";
 	}
 }
 

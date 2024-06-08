@@ -42,10 +42,12 @@ void dae::BulletComponent::Update(float)
 	const auto enemy = dae::GameCollisionMngr::GetInstance().CheckOverlapWithEnemiesComponent(pColliderBullet);
 	if (enemy != nullptr)
 	{
-		enemy->GetOwner()->GetComponent<AIMovementComponent>()->Stunned();
-		//dae::GameCollisionMngr::GetInstance().RemoveEnemyBox(enemy->GetOwner()->GetComponent<dae::GameCollisionComponent>());
+		if (m_pOwner->GetComponent<BulletTimerComponent>()->ReturnCompleted())
+		{
+			m_pOwner->MarkTrueForDeleting();
+			dae::GameCollisionMngr::GetInstance().RemoveBulletBox(pColliderBullet);
+		}
 
-		m_pOwner->MarkTrueForDeleting();
-		dae::GameCollisionMngr::GetInstance().RemoveBulletBox(pColliderBullet);
+		enemy->GetOwner()->GetComponent<AIMovementComponent>()->Stunned();
 	}
 }

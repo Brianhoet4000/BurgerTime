@@ -19,6 +19,7 @@
 #include "PlayerOne.h"
 #include "PlayerTwo.h"
 #include "PointComponent.h"
+#include "SpawnTimerComponent.h"
 
 namespace dae
 {
@@ -248,7 +249,9 @@ namespace dae
 				CreateUI(scene, players, true);
 			}
 
+			const auto& pSpawner = std::make_shared<SpawnTimerComponent>(&scene, pLevel->GetEnemySpawnPosition(), pLevel->returnLevelObj().get());
 			const auto& pWinLose = std::make_shared<dae::ConditionComponent>(pLevel->returnLevelObj().get());
+			pLevel->returnLevelObj()->AddComponent(pSpawner);
 			pLevel->returnLevelObj()->AddComponent(pWinLose);
 		}
 	}

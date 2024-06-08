@@ -31,9 +31,11 @@ void dae::IngredientComponent::Update(float deltaTime)
 
 			const auto& childCollider = m_pOwner->GetChildren()[i]->GetComponent<GameCollisionComponent>();
 
+			
+			GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
+
 			if (!hasChecked)
 			{
-				GameCollisionMngr::GetInstance().CheckIngredientOverlapWithEnemies(childCollider);
 				GameCollisionMngr::GetInstance().CheckIngredientOverlapWithSecondplayer(childCollider);
 				hasChecked = true;
 			}

@@ -264,8 +264,8 @@ namespace dae
                 else if (EnemyBox->GetOwner()->GetTag() == "Egg")
                     ScreenManager.IncreasePoint(player, 300);
 
-                RemoveEnemyBox(EnemyBox);
                 EnemyBox->GetOwner()->MarkTrueForDeleting();
+                RemoveEnemyBox(EnemyBox);
             }
         }
     }
@@ -281,7 +281,7 @@ namespace dae
             box->GetCollisionRect().y + box->GetCollisionRect().h > m_pSecondPlayer->GetCollisionRect().y)
         {
             const auto& player = box->GetOwner()->GetParent()->GetChildren()[0]->GetComponent<IngredientPartComponent>()->GetPlayer();
-            dae::ScreenManager::GetInstance().IncreasePoint(player, 250);
+            dae::ScreenManager::GetInstance().IncreasePoint(player, 100);
 
             glm::vec2 pos = m_pSecondPlayer->GetOwner()->GetComponent<SpawnComponent>()->GetPosition();
             pos.y -= m_pSecondPlayer->GetOwner()->GetComponent<TextureComponent>()->GetSize().y;
